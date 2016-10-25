@@ -10,7 +10,7 @@ import android.view.ViewGroup
 
 abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
-    abstract var presenter: Presenter
+    lateinit var presenter: Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +20,11 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(layoutId, container, false)
-        initViews(view)
-        return view
+        return inflater!!.inflate(layoutId, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        initViews()
     }
 
     override fun onResume() {
@@ -68,11 +70,11 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
     protected abstract val layoutId: Int
 
-    protected abstract fun initViews(view: View)
+    protected abstract fun initViews()
 
-    protected fun onActivityResultOk(requestCode: Int, data: Intent) {
+    protected open fun onActivityResultOk(requestCode: Int, data: Intent) {
     }
 
-    protected fun onActivityResultCanceled(requestCode: Int, data: Intent) {
+    protected open fun onActivityResultCanceled(requestCode: Int, data: Intent) {
     }
 }

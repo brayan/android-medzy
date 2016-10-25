@@ -3,7 +3,7 @@ package br.com.sailboat.elseapp.base
 import android.content.Intent
 import android.os.Bundle
 
-abstract class BasePresenter {
+open class BasePresenter {
 
     var isFirstSession = true
 
@@ -21,13 +21,13 @@ abstract class BasePresenter {
         }
     }
 
-    protected fun onResumeFirstSession() {
+    protected open fun onResumeFirstSession() {
     }
 
-    protected fun onResumeAfterRestart() {
+    protected open fun onResumeAfterRestart() {
     }
 
-    protected fun postResume() {
+    protected open fun postResume() {
     }
 
     fun onSaveInstanceState(outState: Bundle) {
