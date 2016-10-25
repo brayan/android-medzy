@@ -14,9 +14,7 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
-        setHasOptionsMenu(true)
-        presenter = newPresenterInstance()
+        initFragmentComponents()
         checkStateAndRestoreViewModel(savedInstanceState)
         extractExtrasFromIntent(activity.intent)
     }
@@ -48,6 +46,12 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         presenter.onSaveInstanceState(outState)
+    }
+
+    private fun initFragmentComponents() {
+        retainInstance = true
+        setHasOptionsMenu(true)
+        presenter = newPresenterInstance()
     }
 
     private fun checkStateAndRestoreViewModel(savedInstanceState: Bundle?) {
