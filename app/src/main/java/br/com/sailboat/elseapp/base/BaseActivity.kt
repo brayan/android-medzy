@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-
 import br.com.sailboat.elseapp.R
 
 abstract class BaseActivity<T : Fragment> : AppCompatActivity() {
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.frame_layout)
         checkStateAndAddFragment(savedInstanceState)
