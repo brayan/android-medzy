@@ -80,7 +80,7 @@ class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresen
         recyclerView!!.adapter.notifyItemRemoved(position)
     }
 
-    fun onClickDrug(position: Int) {
+    override fun onClickDrug(position: Int) {
         presenter.onClickWorkout(position)
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import br.com.sailboat.elseapp.R;
 import br.com.sailboat.elseapp.model.Drug;
 import br.com.sailboat.elseapp.view.adapter.view_holder.DrugViewHolder;
 
@@ -23,7 +24,7 @@ public class DrugListAdapter extends RecyclerView.Adapter<DrugViewHolder> {
 
     @Override
     public DrugViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, DrugViewHolder.LAYOUT_ID);
+        View view = inflateLayout(parent, R.layout.holder_drug);
         return new DrugViewHolder(view, getCallback());
     }
 
