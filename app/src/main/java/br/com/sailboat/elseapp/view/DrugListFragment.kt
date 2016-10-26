@@ -9,19 +9,19 @@ import android.view.View
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.model.Workout
-import br.com.sailboat.elseapp.view.adapter.WorkoutListAdapter
+import br.com.sailboat.elseapp.model.Drug
+import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
 import br.com.sailboat.elseapp.view.presenter.WorkoutListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
 import kotlinx.android.synthetic.main.recyclerview.*
 
 
-class WorkoutListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresenter.View, WorkoutListAdapter.Callback {
+class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresenter.View, DrugListAdapter.Callback {
 
     private val REQUEST_NEW_WORKOUT = 0
     private val REQUEST_DETAILS = 1
 
-    override val layoutId: Int get() = R.layout.frame_recycler
+    override val layoutId: Int get() = R.layout.frag_drug_list
     override val activityContext: Context get() = activity
 
     override fun newPresenterInstance(): WorkoutListPresenter {
@@ -52,7 +52,7 @@ class WorkoutListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPre
 
     override fun initViews() {
         initRecyclerView()
-        initEmptyView()
+        initEmptyListView()
     }
 
     override fun updateContentViews() {
@@ -68,19 +68,19 @@ class WorkoutListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPre
         //        InsertOrEditWorkoutActivity.start(this, REQUEST_NEW_WORKOUT);
     }
 
-    override fun startWorkoutDetailsActivity(workout: Workout) {
+    override fun startWorkoutDetailsActivity(drug: Drug) {
         //        WorkoutDetailsActivity.start(this, workout, REQUEST_DETAILS);
     }
 
-    override fun startWorkoutDetailsActivityWithAnimation(workout: Workout) {
-        startWorkoutDetailsActivity(workout)
+    override fun startWorkoutDetailsActivityWithAnimation(drug: Drug) {
+        startWorkoutDetailsActivity(drug)
     }
 
     override fun updateWorkoutRemoved(position: Int) {
         recyclerView!!.adapter.notifyItemRemoved(position)
     }
 
-    override fun onClickWorkout(position: Int) {
+    fun onClickDrug(position: Int) {
         presenter.onClickWorkout(position)
     }
 
@@ -90,19 +90,19 @@ class WorkoutListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPre
 
     private fun initRecyclerView() {
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        val adapter = WorkoutListAdapter(presenter.workouts, this)
+        val adapter = DrugListAdapter(presenter.drugs, this)
         recyclerView!!.adapter = adapter
     }
 
-    private fun initEmptyView() {
-        imgEmpty.setColorFilter(ContextCompat.getColor(activity, R.color.orange_300), PorterDuff.Mode.SRC_ATOP)
-        tvTitle.text = "No workouts"
-        tvMessage.text = "Create a new workout plan by tapping the + button"
+    private fun initEmptyListView() {
+        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.teal_300), PorterDuff.Mode.SRC_ATOP)
+        tvEmptyListTitle.text = "No drugs"
+        tvEmptyListMessage.text = "Add a new drug  by tapping the + button"
         emptyList.visibility = View.GONE
     }
 
     private fun updateVisibilityOfViews() {
-        val emptyList = presenter.workouts.isEmpty()
+        val emptyList = presenter.drugs.isEmpty()
 
         if (emptyList) {
             recyclerView!!.visibility = View.GONE

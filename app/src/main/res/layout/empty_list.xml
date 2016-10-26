@@ -19,7 +19,7 @@
         android:paddingTop="64dp">
 
         <ImageView
-            android:id="@+id/imgEmpty"
+            android:id="@+id/imgEmptyList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/ic_format_list_bulleted_white_24dp" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvEmptyListTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -37,7 +37,7 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/tvMessage"
+            android:id="@+id/tvEmptyListMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

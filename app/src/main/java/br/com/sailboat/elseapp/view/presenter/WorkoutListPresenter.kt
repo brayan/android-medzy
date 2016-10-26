@@ -5,8 +5,7 @@ import android.content.Intent
 import android.os.Build
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.helper.ApiLevelHelper
-import br.com.sailboat.elseapp.model.Exercise
-import br.com.sailboat.elseapp.model.Workout
+import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.view_model.WorkoutListViewModel
 
 
@@ -33,7 +32,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
     }
 
     fun onClickWorkout(position: Int) {
-        val workout = workouts[position]
+        val workout = drugs[position]
 
         if (ApiLevelHelper.isLowerThan(Build.VERSION_CODES.LOLLIPOP)) {
             view.startWorkoutDetailsActivity(workout)
@@ -62,13 +61,13 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
 //        }
     }
 
-    private fun removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete: Workout) {
-        val workoutList = viewModel.getWorkoutList()
+    private fun removeWorkoutFromListAndDeleteFromDatabase(drugToDelete: Drug) {
+        val workoutList = viewModel.getDrugList()
 
         var position = -1
 
         for (i in workoutList.indices) {
-            if (workoutList[i].getId() == workoutToDelete.id) {
+            if (workoutList[i].getId() == drugToDelete.id) {
                 position = i
                 break
             }
@@ -77,7 +76,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
         if (position != -1) {
             workoutList.removeAt(position)
             view.updateWorkoutRemoved(position)
-            deleteWorkout(workoutToDelete)
+            deleteWorkout(drugToDelete)
         } else {
             view.showToast("Workout not found to delete")
         }
@@ -98,7 +97,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
 //        }).execute()
     }
 
-    private fun deleteWorkout(workoutToDelete: Workout) {
+    private fun deleteWorkout(drugToDelete: Drug) {
 //        DeleteWorkoutAsyncTask(context, workoutToDelete, object : DeleteWorkoutAsyncTask.Callback {
 //            override fun onSuccess() {
 //            }
@@ -110,7 +109,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
 //        }).execute()
     }
 
-    private fun saveWorkout(workout: Workout, exercises: List<Exercise>) {
+    private fun saveWorkout(drug: Drug) {
 //        SaveWorkoutAsyncTask(context, workout, exercises, object : SaveWorkoutAsyncTask.Callback {
 //
 //            override fun onSuccess() {
@@ -127,8 +126,8 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
     private val context: Context
         get() = view.activityContext
 
-    val workouts: List<Workout>
-        get() = viewModel.getWorkoutList()
+    val drugs: List<Drug>
+        get() = viewModel.getDrugList()
 
 
     interface View {
@@ -136,9 +135,9 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
         fun updateContentViews()
         fun showToast(message: String)
         fun startNewWorkoutActivity()
-        fun startWorkoutDetailsActivity(workout: Workout)
+        fun startWorkoutDetailsActivity(drug: Drug)
         fun updateWorkoutRemoved(position: Int)
-        fun startWorkoutDetailsActivityWithAnimation(workout: Workout)
+        fun startWorkoutDetailsActivityWithAnimation(drug: Drug)
     }
 
 }

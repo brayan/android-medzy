@@ -1,12 +1,12 @@
 package br.com.sailboat.elseapp
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import br.com.sailboat.elseapp.base.BaseActivity
+import br.com.sailboat.elseapp.view.DrugListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<DrugListFragment>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun newFragmentInstance(): DrugListFragment {
+        return DrugListFragment()
     }
+
 }

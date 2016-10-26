@@ -2,7 +2,7 @@ package br.com.sailboat.elseapp.model;
 
 import java.io.Serializable;
 
-public class Workout implements Serializable {
+public class Drug implements Serializable {
 
     private long id;
     private String name;

@@ -2,25 +2,20 @@ package br.com.sailboat.elseapp.view.async_tasks;
 
 import android.content.Context;
 
-import java.util.List;
-
 import br.com.sailboat.elseapp.base.BaseAsyncTask;
-import br.com.sailboat.elseapp.model.Exercise;
-import br.com.sailboat.elseapp.model.Workout;
+import br.com.sailboat.elseapp.model.Drug;
 
 
 public class SaveWorkoutAsyncTask extends BaseAsyncTask {
 
-    private Workout workout;
-    private List<Exercise> exercises;
+    private Drug drug;
     private Context context;
 
     private SaveWorkoutAsyncTask.Callback callback;
 
-    public SaveWorkoutAsyncTask(Context context, Workout workout, List<Exercise> exercises, Callback callback) {
+    public SaveWorkoutAsyncTask(Context context, Drug drug, Callback callback) {
         setContext(context.getApplicationContext());
-        setWorkout(workout);
-        setExercises(exercises);
+        setDrug(drug);
         setCallback(callback);
     }
 
@@ -71,23 +66,15 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
     }
 
     private boolean isWorkoutNew() {
-        return getWorkout().getId() == -1;
+        return getDrug().getId() == -1;
     }
 
-    public Workout getWorkout() {
-        return workout;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setWorkout(Workout workout) {
-        this.workout = workout;
-    }
-
-    public List<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public void setExercises(List<Exercise> exercises) {
-        this.exercises = exercises;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
     }
 
     public Callback getCallback() {

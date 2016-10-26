@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="vertical"
+        android:layout_height="72dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp">
 
         <TextView
-            android:id="@+id/holder_workout__tv__name"
+            android:id="@+id/tvHolderDrugAlarmTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Workout"
+            android:text="15:00"
+            android:textColor="@color/blue_500"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/tvHolderDrugName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tvHolderDrugAlarmTime"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Drug"
             android:textColor="@color/primary_text"
             android:textSize="16sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/divider" />
 

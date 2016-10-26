@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.elseapp.base.BaseViewModel;
-import br.com.sailboat.elseapp.model.Workout;
+import br.com.sailboat.elseapp.model.Drug;
 
 public class WorkoutListViewModel extends BaseViewModel {
 
-    private transient final List<Workout> workoutList;
+    private transient final List<Drug> drugList;
 
     public WorkoutListViewModel() {
-        this.workoutList = new ArrayList<>();
+        this.drugList = new ArrayList<>();
     }
 
-    public List<Workout> getWorkoutList() {
-        return workoutList;
+    public List<Drug> getDrugList() {
+        return drugList;
     }
 
 }
