@@ -6,11 +6,11 @@ import java.util.List;
 import br.com.sailboat.elseapp.base.BaseViewModel;
 import br.com.sailboat.elseapp.model.Drug;
 
-public class WorkoutListViewModel extends BaseViewModel {
+public class DrugListViewModel extends BaseViewModel {
 
     private transient final List<Drug> drugList;
 
-    public WorkoutListViewModel() {
+    public DrugListViewModel() {
         this.drugList = new ArrayList<>();
     }
 

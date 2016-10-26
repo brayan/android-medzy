@@ -11,12 +11,12 @@ import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
-import br.com.sailboat.elseapp.view.presenter.WorkoutListPresenter
+import br.com.sailboat.elseapp.view.presenter.DrugListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
 import kotlinx.android.synthetic.main.recyclerview.*
+import kotlinx.android.synthetic.main.toolbar.*
 
-
-class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresenter.View, DrugListAdapter.Callback {
+class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.View, DrugListAdapter.Callback {
 
     private val REQUEST_NEW_WORKOUT = 0
     private val REQUEST_DETAILS = 1
@@ -24,8 +24,8 @@ class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresen
     override val layoutId: Int get() = R.layout.frag_drug_list
     override val activityContext: Context get() = activity
 
-    override fun newPresenterInstance(): WorkoutListPresenter {
-        return WorkoutListPresenter(this)
+    override fun newPresenterInstance(): DrugListPresenter {
+        return DrugListPresenter(this)
     }
 
     override fun onActivityResultOk(requestCode: Int, data: Intent) {
@@ -50,9 +50,14 @@ class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresen
         }
     }
 
+    override fun onClickDrug(position: Int) {
+        presenter.onClickWorkout(position)
+    }
+
     override fun initViews() {
         initRecyclerView()
         initEmptyListView()
+        initToolbar()
     }
 
     override fun updateContentViews() {
@@ -80,10 +85,6 @@ class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresen
         recyclerView!!.adapter.notifyItemRemoved(position)
     }
 
-    override fun onClickDrug(position: Int) {
-        presenter.onClickWorkout(position)
-    }
-
     fun onClickFab() {
         presenter.onClickNewWorkout()
     }
@@ -99,6 +100,10 @@ class DrugListFragment : BaseFragment<WorkoutListPresenter>(), WorkoutListPresen
         tvEmptyListTitle.text = "No drugs"
         tvEmptyListMessage.text = "Add a new drug  by tapping the + button"
         emptyList.visibility = View.GONE
+    }
+
+    private fun initToolbar() {
+        toolbar.setTitle(R.string.app_name)
     }
 
     private fun updateVisibilityOfViews() {

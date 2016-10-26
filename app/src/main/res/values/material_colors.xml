@@ -63,6 +63,7 @@
     <color name="amber_500">#FFC107</color>
     <color name="amber_700">#FFA000</color>
 
+   <color name="orange_a_200">#FFAB40</color>
    <color name="orange_300">#FFB74D</color>
    <color name="orange_400">#FFA726</color>
    <color name="orange_500">#FF9800</color>

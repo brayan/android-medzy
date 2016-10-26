@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/teal_500</color>
     <color name="colorPrimaryDark">@color/teal_700</color>
-    <color name="colorAccent">@color/blue_a_200</color>
+    <color name="colorAccent">@color/orange_a_200</color>
     <color name="primary_text">#E1000000</color>
     <color name="secondary_text">#54000000</color>
     <color name="divider_color">#12000000</color>

@@ -3,24 +3,27 @@ package br.com.sailboat.elseapp.view.presenter
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.helper.ApiLevelHelper
+import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.view_model.WorkoutListViewModel
+import br.com.sailboat.elseapp.view.view_model.DrugListViewModel
+import java.util.*
 
 
-class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
+class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
-    var view: View
-    var viewModel: WorkoutListViewModel
+    val view: View
+    val viewModel: DrugListViewModel
 
     init {
         this.view = view
-        this.viewModel = WorkoutListViewModel()
+        this.viewModel = DrugListViewModel()
     }
 
     override fun onResumeFirstSession() {
-        loadWorkouts()
+        loadDrugs()
     }
 
     override fun onResumeAfterRestart() {
@@ -42,7 +45,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
     }
 
     fun onResultCanceledWorkoutDetails() {
-        loadWorkouts()
+        loadDrugs()
     }
 
     fun onActivityResultOkInsertOrEditWorkout(data: Intent) {
@@ -82,19 +85,36 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
         }
     }
 
-    private fun loadWorkouts() {
-//        LoadWorkoutsAsyncTask(context, object : LoadWorkoutsAsyncTask.Callback {
-//
-//            fun onSuccess(workoutList: List<Workout>) {
-//                ListHelper.clearAndAdd(workoutList, viewModel.getWorkoutList())
-//                view.updateContentViews()
-//            }
-//
-//            override fun onFail(e: Exception) {
-//                LogHelper.printExceptionLog(e)
-//            }
-//
-//        }).execute()
+    private fun loadDrugs() {
+
+        object: BaseAsyncTask(){
+
+            var list = ArrayList<Drug>()
+
+            override fun onDoInBackground() {
+                list.add(Drug(1, "Drug 1"))
+                list.add(Drug(2, "Drug 2"))
+                list.add(Drug(3, "Drug 3"))
+                list.add(Drug(4, "Drug 4"))
+                list.add(Drug(5, "Drug 5"))
+                list.add(Drug(6, "Drug 6"))
+            }
+
+            override fun onSuccess() {
+                viewModel.drugList.clear()
+                viewModel.drugList.addAll(list)
+
+                view.updateContentViews()
+            }
+
+            override fun onFail(e: Exception) {
+                LogHelper.printExceptionLog(e)
+            }
+
+        }.execute()
+
+        view.updateContentViews()
+
     }
 
     private fun deleteWorkout(drugToDelete: Drug) {
