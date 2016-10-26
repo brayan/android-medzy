@@ -7,11 +7,11 @@ import kotlinx.android.synthetic.main.holder_drug.view.*
 
 class DrugViewHolder(itemView: View, callback: DrugViewHolder.Callback) : RecyclerView.ViewHolder(itemView) {
 
-    private val callback: Callback
+    private val callback: Callback?
 
     init {
         this.callback = callback
-        bindListeners()
+        bindCallback()
     }
 
     fun onBindViewHolder(drug: Drug) {
@@ -19,10 +19,14 @@ class DrugViewHolder(itemView: View, callback: DrugViewHolder.Callback) : Recycl
         itemView.tvHolderDrugAlarmTime.text = "15:00"
     }
 
-    private fun bindListeners() {
-        itemView.setOnClickListener {
-            callback.onClickDrug(adapterPosition)
+    private fun bindCallback() {
+
+        callback?.let {
+            itemView.setOnClickListener {
+                callback.onClickDrug(adapterPosition)
+            }
         }
+
     }
 
 

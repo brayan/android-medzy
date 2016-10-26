@@ -67,7 +67,7 @@ class WorkoutListPresenter(view: WorkoutListPresenter.View) : BasePresenter() {
         var position = -1
 
         for (i in workoutList.indices) {
-            if (workoutList[i].getId() == drugToDelete.id) {
+            if (workoutList[i].id == drugToDelete.id) {
                 position = i
                 break
             }
