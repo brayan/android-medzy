@@ -6,7 +6,7 @@ import java.util.*
 
 class LoadDrugsAsyncTask(callback: LoadDrugsAsyncTask.Callback) : BaseAsyncTask() {
 
-    var list = ArrayList<Drug>()
+    val list = ArrayList<Drug>()
     val callback: LoadDrugsAsyncTask.Callback
 
     init {
