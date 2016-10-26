@@ -3,13 +3,12 @@ package br.com.sailboat.elseapp.view.presenter
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
+import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
 import br.com.sailboat.elseapp.view.view_model.DrugListViewModel
-import java.util.*
 
 
 class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
@@ -87,20 +86,9 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
     private fun loadDrugs() {
 
-        object: BaseAsyncTask(){
+        LoadDrugsAsyncTask(object : LoadDrugsAsyncTask.Callback {
 
-            var list = ArrayList<Drug>()
-
-            override fun onDoInBackground() {
-                list.add(Drug(1, "Drug 1"))
-                list.add(Drug(2, "Drug 2"))
-                list.add(Drug(3, "Drug 3"))
-                list.add(Drug(4, "Drug 4"))
-                list.add(Drug(5, "Drug 5"))
-                list.add(Drug(6, "Drug 6"))
-            }
-
-            override fun onSuccess() {
+            override fun onSucess(list: List<Drug>) {
                 viewModel.drugList.clear()
                 viewModel.drugList.addAll(list)
 
@@ -111,9 +99,7 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
                 LogHelper.printExceptionLog(e)
             }
 
-        }.execute()
-
-        view.updateContentViews()
+        }).execute()
 
     }
 
