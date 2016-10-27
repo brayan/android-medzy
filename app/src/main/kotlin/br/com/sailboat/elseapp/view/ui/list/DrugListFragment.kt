@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui
+package br.com.sailboat.elseapp.view.ui.list
 
 import android.content.Context
 import android.content.Intent
@@ -11,14 +11,17 @@ import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
-import br.com.sailboat.elseapp.view.ui.presenter.DrugListPresenter
+import br.com.sailboat.elseapp.view.ui.detail.DrugDetailActivity
+import br.com.sailboat.elseapp.view.ui.insert_or_edit.InsertOrEditDrugActivity
+import br.com.sailboat.elseapp.view.ui.list.presenter.DrugListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
+import kotlinx.android.synthetic.main.fab.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.View, DrugListAdapter.Callback {
 
-    private val REQUEST_NEW_WORKOUT = 0
+    private val REQUEST_NEW_DRUG = 0
     private val REQUEST_DETAILS = 1
 
     override val layoutId: Int get() = R.layout.frag_drug_list
@@ -30,7 +33,7 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
 
     override fun onActivityResultOk(requestCode: Int, data: Intent) {
         when (requestCode) {
-            REQUEST_NEW_WORKOUT -> {
+            REQUEST_NEW_DRUG -> {
                 presenter.onActivityResultOkInsertOrEditWorkout(data)
                 return
             }
@@ -51,17 +54,24 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     override fun onClickDrug(position: Int) {
-        presenter.onClickWorkout(position)
+        presenter.onClickDrug(position)
     }
 
     override fun initViews() {
         initRecyclerView()
         initEmptyListView()
         initToolbar()
+        initFab()
+    }
+
+    private fun initFab() {
+        fab.setOnClickListener {
+            presenter.onClickNewDrug()
+        }
     }
 
     override fun updateContentViews() {
-        recyclerView!!.adapter.notifyDataSetChanged()
+        recyclerView.adapter.notifyDataSetChanged()
         updateVisibilityOfViews()
     }
 
@@ -69,30 +79,26 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun startNewWorkoutActivity() {
-        //        InsertOrEditWorkoutActivity.start(this, REQUEST_NEW_WORKOUT);
+    override fun startInsertOrEditDrugActivity() {
+        InsertOrEditDrugActivity.start(this, REQUEST_NEW_DRUG);
     }
 
-    override fun startWorkoutDetailsActivity(drug: Drug) {
-        //        WorkoutDetailsActivity.start(this, workout, REQUEST_DETAILS);
+    override fun startDrugDetailActivity(drug: Drug) {
+        DrugDetailActivity.start(this, drug);
     }
 
-    override fun startWorkoutDetailsActivityWithAnimation(drug: Drug) {
-        startWorkoutDetailsActivity(drug)
+    override fun startDrugDetailActivityWithAnimation(drug: Drug) {
+        startDrugDetailActivity(drug)
     }
 
     override fun updateWorkoutRemoved(position: Int) {
-        recyclerView!!.adapter.notifyItemRemoved(position)
-    }
-
-    fun onClickFab() {
-        presenter.onClickNewWorkout()
+        recyclerView.adapter.notifyItemRemoved(position)
     }
 
     private fun initRecyclerView() {
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = DrugListAdapter(presenter.drugs, this)
-        recyclerView!!.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     private fun initEmptyListView() {
@@ -107,17 +113,10 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     private fun updateVisibilityOfViews() {
-        val emptyList = presenter.drugs.isEmpty()
+        val isEmpty = presenter.drugs.isEmpty()
 
-        if (emptyList) {
-            recyclerView!!.visibility = View.GONE
-            this.emptyList!!.visibility = View.VISIBLE
-
-        } else {
-            this.emptyList!!.visibility = View.GONE
-            recyclerView!!.visibility = View.VISIBLE
-        }
-
+        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        emptyList.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
 }

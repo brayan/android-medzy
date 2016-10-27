@@ -39,7 +39,7 @@ class LoadDrugsAsyncTask(context: Context, callback: LoadDrugsAsyncTask.Callback
 
 
     interface Callback {
-        fun onSucess(list: List<Drug>)
+        fun onSucess(list: MutableList<Drug>)
         fun onFail(e: Exception)
     }
 

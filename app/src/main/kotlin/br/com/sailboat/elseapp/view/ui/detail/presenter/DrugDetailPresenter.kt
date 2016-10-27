@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.presenter
+package br.com.sailboat.elseapp.view.ui.detail.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -8,17 +8,17 @@ import br.com.sailboat.elseapp.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
-import br.com.sailboat.elseapp.view.ui.view_model.DrugListViewModel
+import br.com.sailboat.elseapp.view.ui.detail.view_model.DrugDetailViewModel
 
 
-class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
+class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
 
-    val view: DrugListPresenter.View
-    val viewModel: DrugListViewModel
+    val view: DrugDetailPresenter.View
+    val viewModel: DrugDetailViewModel
 
     init {
         this.view = view
-        this.viewModel = DrugListViewModel()
+        this.viewModel = DrugDetailViewModel()
     }
 
     override fun onResumeFirstSession() {
@@ -64,7 +64,7 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
     }
 
     private fun removeWorkoutFromListAndDeleteFromDatabase(drugToDelete: Drug) {
-        val workoutList = viewModel.getDrugList()
+        val workoutList = viewModel.drugList
 
         var position = -1
 
@@ -88,9 +88,9 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
         LoadDrugsAsyncTask(context, object : LoadDrugsAsyncTask.Callback {
 
-            override fun onSucess(list: List<Drug>) {
-                viewModel.drugList.clear()
-                viewModel.drugList.addAll(list)
+            override fun onSucess(list: MutableList<Drug>) {
+                drugs.clear()
+                drugs.addAll(list)
 
                 view.updateContentViews()
             }
@@ -129,11 +129,9 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 //        }).execute()
     }
 
-    private val context: Context
-        get() = view.activityContext
+    private val context: Context get() = view.activityContext
 
-    val drugs: List<Drug>
-        get() = viewModel.getDrugList()
+    val drugs: MutableList<Drug> get() = viewModel.drugList
 
 
     interface View {

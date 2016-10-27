@@ -1,8 +1,8 @@
-package br.com.sailboat.elseapp.view.ui
+package br.com.sailboat.elseapp.view.ui.list
 
 import br.com.sailboat.elseapp.base.BaseActivity
 
-class MainActivity : BaseActivity<DrugListFragment>() {
+class DrugListActivity : BaseActivity<DrugListFragment>() {
 
     override fun newFragmentInstance(): DrugListFragment {
         return DrugListFragment()
