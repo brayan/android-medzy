@@ -20,7 +20,7 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
             return sb.toString()
         }
 
-    val all: List<Drug>
+    val all: MutableList<Drug>
         @Throws(Exception::class)
         get() {
             val sb = StringBuilder()
@@ -67,7 +67,7 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
         executeUpdateOrDelete(statement)
     }
 
-    private fun getDrugList(query: StringBuilder): List<Drug> {
+    private fun getDrugList(query: StringBuilder): MutableList<Drug> {
         val cursor = performQuery(query.toString())
         val drugs = ArrayList<Drug>()
 

@@ -86,7 +86,7 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
     private fun loadDrugs() {
 
-        LoadDrugsAsyncTask(object : LoadDrugsAsyncTask.Callback {
+        LoadDrugsAsyncTask(context, object : LoadDrugsAsyncTask.Callback {
 
             override fun onSucess(list: List<Drug>) {
                 viewModel.drugList.clear()

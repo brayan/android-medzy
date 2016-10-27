@@ -3,14 +3,13 @@ package br.com.sailboat.elseapp.persistence
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-
 import br.com.sailboat.elseapp.helper.CreateTablesHelper
 
 
 class DatabaseOpenHelper private constructor(context: Context) :
-        SQLiteOpenHelper(context, DatabaseOpenHelper.DATABASE_NAME, null, DatabaseOpenHelper.DATABASE_VERSION) {
+        SQLiteOpenHelper(context, DatabaseOpenHelper.NAME, null, DatabaseOpenHelper.VERSION) {
 
-    var context: Context? = null
+    var context: Context
 
     init {
         this.context = context
@@ -26,8 +25,8 @@ class DatabaseOpenHelper private constructor(context: Context) :
 
     companion object {
 
-        private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "database.db"
+        private val VERSION = 1
+        private val NAME = "database.db"
         private var instance: DatabaseOpenHelper? = null
 
         fun getInstance(context: Context): DatabaseOpenHelper {

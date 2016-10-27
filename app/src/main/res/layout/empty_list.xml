@@ -1,52 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/emptyList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="64dp"
+    android:paddingTop="64dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/default_background"
+    <ImageView
+        android:id="@+id/imgEmptyList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_format_list_bulleted_white_24dp" />
+
+    <TextView
+        android:id="@+id/tvEmptyListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="64dp"
-        android:paddingTop="64dp">
+        android:padding="@dimen/abc_list_item_padding_horizontal_material"
+        android:text="Title"
+        android:textColor="@color/primary_text"
+        android:textSize="22sp" />
 
-        <ImageView
-            android:id="@+id/imgEmptyList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
-            android:padding="8dp"
-            app:srcCompat="@drawable/ic_format_list_bulleted_white_24dp" />
+    <TextView
+        android:id="@+id/tvEmptyListMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="Message"
+        android:textColor="@color/secondary_text"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tvEmptyListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/abc_list_item_padding_horizontal_material"
-            android:text="Title"
-            android:textColor="@color/primary_text"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/tvEmptyListMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Message"
-            android:textColor="@color/secondary_text"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
