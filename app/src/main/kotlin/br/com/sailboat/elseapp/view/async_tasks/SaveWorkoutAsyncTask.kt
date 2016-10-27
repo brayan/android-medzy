@@ -8,10 +8,11 @@ import br.com.sailboat.elseapp.model.Drug
 
 class SaveWorkoutAsyncTask(context: Context, drug: Drug, callback: SaveWorkoutAsyncTask.Callback) : BaseAsyncTask() {
 
-    var drug: Drug
-    var context: Context
+    val drug: Drug
+    val context: Context
+    val callback: Callback
 
-    var callback: Callback
+    private val isWorkoutNew: Boolean get() = drug.id.equals(-1)
 
     init {
         this.context = context.applicationContext
@@ -67,9 +68,6 @@ class SaveWorkoutAsyncTask(context: Context, drug: Drug, callback: SaveWorkoutAs
         //            dao.saveAndGetId(getWorkout().getId(), exercise.getId());
         //        }
     }
-
-    private val isWorkoutNew: Boolean
-        get() = drug.id.equals(-1)
 
 
     interface Callback {

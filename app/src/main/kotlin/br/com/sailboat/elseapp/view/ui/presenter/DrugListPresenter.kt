@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.presenter
+package br.com.sailboat.elseapp.view.ui.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,12 @@ import br.com.sailboat.elseapp.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
-import br.com.sailboat.elseapp.view.view_model.DrugListViewModel
+import br.com.sailboat.elseapp.view.ui.view_model.DrugListViewModel
 
 
 class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
-    val view: View
+    val view: DrugListPresenter.View
     val viewModel: DrugListViewModel
 
     init {

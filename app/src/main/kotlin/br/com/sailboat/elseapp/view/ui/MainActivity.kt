@@ -1,7 +1,6 @@
-package br.com.sailboat.elseapp
+package br.com.sailboat.elseapp.view.ui
 
 import br.com.sailboat.elseapp.base.BaseActivity
-import br.com.sailboat.elseapp.view.DrugListFragment
 
 class MainActivity : BaseActivity<DrugListFragment>() {
 

@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.view_model;
+package br.com.sailboat.elseapp.view.ui.view_model;
 
 import java.util.ArrayList;
 import java.util.List;

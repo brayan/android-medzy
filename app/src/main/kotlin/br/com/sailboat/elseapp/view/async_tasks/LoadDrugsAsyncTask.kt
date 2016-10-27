@@ -6,11 +6,12 @@ import java.util.*
 
 class LoadDrugsAsyncTask(callback: LoadDrugsAsyncTask.Callback) : BaseAsyncTask() {
 
-    val list = ArrayList<Drug>()
-    val callback: LoadDrugsAsyncTask.Callback
+    private val callback: LoadDrugsAsyncTask.Callback
+    private val list: MutableList<Drug>
 
     init {
         this.callback = callback
+        this.list = ArrayList<Drug>()
     }
 
     override fun onDoInBackground() {
