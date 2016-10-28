@@ -13,15 +13,12 @@ abstract class BaseSQLite(context: Context) {
     private val context: Context
     private val databaseOpenHelper: DatabaseOpenHelper
 
+    abstract val queryCreateTable: String
+
     init {
         this.context = context.applicationContext
         this.databaseOpenHelper = DatabaseOpenHelper.getInstance(context)
     }
-
-    val readableDatabase: SQLiteDatabase get() = databaseOpenHelper.getReadableDatabase()
-    val writableDatabase: SQLiteDatabase get() = databaseOpenHelper.getWritableDatabase()
-
-    abstract val queryCreateTable: String
 
     protected fun executeInsert(statement: SQLiteStatement): Long {
         try {
@@ -47,12 +44,15 @@ abstract class BaseSQLite(context: Context) {
         }
     }
 
-    fun performQuery(query: String): Cursor {
+    protected fun performQuery(query: String): Cursor {
         return readableDatabase.rawQuery(query, null)
     }
 
-    fun compileStatement(statement: String): SQLiteStatement {
+    protected fun compileStatement(statement: String): SQLiteStatement {
         return writableDatabase.compileStatement(statement)
     }
+
+    private val readableDatabase: SQLiteDatabase get() = databaseOpenHelper.getReadableDatabase()
+    private val writableDatabase: SQLiteDatabase get() = databaseOpenHelper.getWritableDatabase()
 
 }

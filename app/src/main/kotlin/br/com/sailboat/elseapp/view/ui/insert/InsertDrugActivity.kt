@@ -12,9 +12,9 @@ class InsertDrugActivity : BaseActivity<InsertDrugFragment>() {
 
     companion object {
 
-        fun start(fragment: Fragment, requestCode: Int) {
-            val starter = Intent(fragment.activity, InsertDrugActivity::class.java)
-            fragment.startActivityForResult(starter, requestCode)
+        fun start(fromFragment: Fragment, requestCode: Int) {
+            val starter = Intent(fromFragment.activity, InsertDrugActivity::class.java)
+            fromFragment.startActivityForResult(starter, requestCode)
         }
 
     }

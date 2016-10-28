@@ -19,13 +19,6 @@ class LoadDrugsAsyncTask(context: Context, callback: LoadDrugsAsyncTask.Callback
     }
 
     override fun onDoInBackground() {
-//        list.add(Drug(1, "Drug 1"))
-//        list.add(Drug(2, "Drug 2"))
-//        list.add(Drug(3, "Drug 3"))
-//        list.add(Drug(4, "Drug 4"))
-//        list.add(Drug(5, "Drug 5"))
-//        list.add(Drug(6, "Drug 6"))
-
         list = DrugSQLite(context).all
     }
 

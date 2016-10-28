@@ -30,13 +30,13 @@ open class BasePresenter {
     protected open fun postResume() {
     }
 
-    fun onSaveInstanceState(outState: Bundle) {
+    open fun onSaveInstanceState(outState: Bundle?) {
     }
 
-    fun restoreViewModel(savedInstanceState: Bundle) {
+    open fun restoreViewModel(savedInstanceState: Bundle) {
     }
 
-    fun extractExtrasFromIntent(intent: Intent) {
+    open fun extractExtrasFromIntent(intent: Intent) {
     }
 
 }

@@ -28,7 +28,7 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
         return DrugDetailPresenter(this)
     }
 
-    override fun onActivityResultOk(requestCode: Int, data: Intent) {
+    override fun onActivityResultOk(requestCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_NEW_WORKOUT -> {
                 presenter.onActivityResultOkInsertOrEditWorkout(data)
@@ -41,7 +41,7 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
         }
     }
 
-    override fun onActivityResultCanceled(requestCode: Int, data: Intent) {
+    override fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_DETAILS -> {
                 presenter.onResultCanceledWorkoutDetails()

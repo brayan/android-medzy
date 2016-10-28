@@ -32,7 +32,7 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
         presenter.onResume()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             Activity.RESULT_OK -> {
                 onActivityResultOk(requestCode, data)
@@ -45,7 +45,8 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+
+    override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         presenter.onSaveInstanceState(outState)
     }
@@ -72,9 +73,9 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
     protected abstract fun initViews()
 
-    protected open fun onActivityResultOk(requestCode: Int, data: Intent) {
+    protected open fun onActivityResultOk(requestCode: Int, data: Intent?) {
     }
 
-    protected open fun onActivityResultCanceled(requestCode: Int, data: Intent) {
+    protected open fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
     }
 }

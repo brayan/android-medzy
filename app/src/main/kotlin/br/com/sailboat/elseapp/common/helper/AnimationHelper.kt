@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View

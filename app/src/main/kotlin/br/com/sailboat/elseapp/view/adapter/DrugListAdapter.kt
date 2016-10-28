@@ -12,8 +12,8 @@ import br.com.sailboat.elseapp.view.adapter.view_holder.DrugViewHolder
 
 class DrugListAdapter(items: List<Drug>, callback: DrugListAdapter.Callback) : RecyclerView.Adapter<DrugViewHolder>() {
 
-    var drugList: List<Drug>
-    var callback: Callback
+    private var drugList: List<Drug>
+    private var callback: Callback
 
     init {
         this.drugList = items

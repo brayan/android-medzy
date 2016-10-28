@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
 import android.content.Intent
 
@@ -13,8 +13,8 @@ object ExtrasHelper {
         intent.putExtra(DRUG, drug)
     }
 
-    fun getDrug(intent: Intent): Drug {
-        return intent.getSerializableExtra(DRUG) as Drug
+    fun getDrug(intent: Intent): Drug? {
+        return intent.getSerializableExtra(DRUG) as? Drug
     }
 
     fun deleteDrug(intent: Intent) {

@@ -2,12 +2,12 @@ package br.com.sailboat.elseapp.view.ui.insert.presenter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import br.com.sailboat.elseapp.base.BasePresenter
-import br.com.sailboat.elseapp.helper.ApiLevelHelper
-import br.com.sailboat.elseapp.helper.LogHelper
+import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
+import br.com.sailboat.elseapp.common.helper.ExtrasHelper
+import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
+import br.com.sailboat.elseapp.view.async_tasks.SaveDrugAsyncTask
 import br.com.sailboat.elseapp.view.ui.insert.view_model.InsertDrugViewModel
 
 
@@ -21,16 +21,17 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         this.viewModel = InsertDrugViewModel()
     }
 
+    override fun extractExtrasFromIntent(intent: Intent) {
+        val drugToEdit = ExtrasHelper.getDrug(intent)
+        viewModel.drug = drugToEdit
+    }
+
     override fun onResumeFirstSession() {
-        loadDrugs()
+        checkIfIsEditingAndSetViews()
     }
 
-    override fun onResumeAfterRestart() {
-        view.updateContentViews()
-    }
-
-    fun onResultCanceledWorkoutDetails() {
-        loadDrugs()
+    override fun postResume() {
+        updateToolbarTitle()
     }
 
     fun onClickTime() {
@@ -42,63 +43,85 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     }
 
     fun onClickMenuSave() {
-        view.showToast("SAVING!!!!!!")
+
+        try {
+            val newDrug = collectDataFromFieldsAndCreateDrug()
+            checkRequiredFields(newDrug)
+            save(newDrug)
+
+        } catch (e: RequiredFieldNotFilledException) {
+            view.showDialog(e?.message ?: "")
+
+        } catch (e: Exception) {
+            LogHelper.printExceptionLog(e)
+        }
+
     }
 
-    private fun loadDrugs() {
+    private fun checkIfIsEditingAndSetViews() {
 
-        LoadDrugsAsyncTask(context, object : LoadDrugsAsyncTask.Callback {
+        if (isEditingDrug()) {
+            view.setDrugName(drug?.name ?: "-")
+        }
 
-            override fun onSucess(list: MutableList<Drug>) {
-                drugs.clear()
-                drugs.addAll(list)
+    }
 
-                view.updateContentViews()
+    private fun updateToolbarTitle() {
+
+        if (isInsertingDrug()) {
+            view.setToolbarTitle("New Drug")
+        } else {
+            view.setToolbarTitle("Edit Toolbar")
+        }
+
+    }
+
+    private fun isInsertingDrug() = viewModel.drug == null
+    private fun isEditingDrug() = viewModel.drug != null
+
+    private fun collectDataFromFieldsAndCreateDrug(): Drug {
+        val drug = Drug(-1, view.getNameFromView())
+
+        return drug
+    }
+
+    private fun checkRequiredFields(newDrug: Drug) {
+
+        if (newDrug.name.trim().isNullOrEmpty()) {
+            throw RequiredFieldNotFilledException("You must enter a name for the drug")
+        }
+
+    }
+
+    private fun save(newDrug: Drug) {
+
+        SaveDrugAsyncTask(context, newDrug, object : SaveDrugAsyncTask.Callback {
+
+            override fun onSuccess() {
+                view.showDialog("Success!! ${newDrug.name}")
             }
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
+                view.showDialog("An error occurred while saving the drug :/")
+                throw e
             }
 
         }).execute()
 
     }
 
-    private fun deleteWorkout(drugToDelete: Drug) {
-//        DeleteWorkoutAsyncTask(context, workoutToDelete, object : DeleteWorkoutAsyncTask.Callback {
-//            override fun onSuccess() {
-//            }
-//
-//            override fun onFail(e: Exception) {
-//                LogHelper.printExceptionLog(e)
-//                view.showToast(e.message)
-//            }
-//        }).execute()
-    }
-
-    private fun saveWorkout(drug: Drug) {
-//        SaveWorkoutAsyncTask(context, workout, exercises, object : SaveWorkoutAsyncTask.Callback {
-//
-//            override fun onSuccess() {
-//            }
-//
-//            override fun onFail(e: Exception) {
-//                LogHelper.printExceptionLog(e)
-//                view.showToast(e.message)
-//            }
-//
-//        }).execute()
-    }
-
     private val context: Context get() = view.activityContext
-
-    val drugs: MutableList<Drug> get() = viewModel.drugList
+    private val drug: Drug? get() = viewModel.drug
 
 
     interface View {
         val activityContext: Context
-        fun updateContentViews()
+        fun getNameFromView(): String
+        fun setToolbarTitle(title: String)
+        fun setDrugName(name: String)
         fun showToast(message: String)
+        fun showDialog(message: String)
     }
 
 }

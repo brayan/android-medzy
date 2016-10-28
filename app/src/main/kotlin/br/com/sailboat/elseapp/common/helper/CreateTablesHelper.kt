@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -9,9 +9,9 @@ import java.util.*
 
 class CreateTablesHelper private constructor(context: Context, database: SQLiteDatabase) {
 
-    var context: Context
-    var database: SQLiteDatabase
-    lateinit var tableList: MutableList<BaseSQLite>
+    private var context: Context
+    private var database: SQLiteDatabase
+    private lateinit var tableList: MutableList<BaseSQLite>
 
     companion object {
 

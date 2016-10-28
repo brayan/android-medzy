@@ -1,26 +1,19 @@
 package br.com.sailboat.elseapp.view.ui.insert
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.model.Drug
+import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.view.ui.insert.presenter.InsertDrugPresenter
-import kotlinx.android.synthetic.main.empty_list.*
 import kotlinx.android.synthetic.main.frag_insert_drug.*
-import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresenter.View {
-
-    private val REQUEST_NEW_WORKOUT = 0
-    private val REQUEST_DETAILS = 1
 
     override val layoutId: Int get() = R.layout.frag_insert_drug
     override val activityContext: Context get() = activity
@@ -49,7 +42,34 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
     override fun initViews() {
         initToolbar()
+        bindListeners()
+    }
 
+    override fun setToolbarTitle(title: String) {
+        toolbar.setTitle(title)
+    }
+
+    override fun setDrugName(name: String) {
+        etInsertDrugName.setText(name)
+    }
+
+    override fun getNameFromView(): String {
+        return etInsertDrugName.text.toString()
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showDialog(message: String) {
+        DialogHelper.showErrorMessage(fragmentManager, message)
+    }
+
+    private fun initToolbar() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+    }
+
+    private fun bindListeners() {
         tvInsertDrugTime.setOnClickListener {
             presenter.onClickTime()
         }
@@ -57,19 +77,7 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
         tvInsertDrugFrequency.setOnClickListener {
             presenter.onClickFrequency()
         }
-    }
 
-    override fun updateContentViews() {
     }
-
-    override fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun initToolbar() {
-        toolbar.setTitle("New Drug")
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-    }
-
 
 }

@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
 import android.app.Activity
 import android.content.Context

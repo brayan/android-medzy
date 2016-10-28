@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import br.com.sailboat.elseapp.base.BasePresenter
-import br.com.sailboat.elseapp.helper.ApiLevelHelper
-import br.com.sailboat.elseapp.helper.LogHelper
+import br.com.sailboat.elseapp.common.helper.ApiLevelHelper
+import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
 import br.com.sailboat.elseapp.view.ui.detail.view_model.DrugDetailViewModel
@@ -47,7 +47,7 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
         loadDrugs()
     }
 
-    fun onActivityResultOkInsertOrEditWorkout(data: Intent) {
+    fun onActivityResultOkInsertOrEditWorkout(data: Intent?) {
 //        val workout = ExtrasHelper.getWorkout(data)
 //        val exercises = ExtrasHelper.getExercises(data)
 //
@@ -56,7 +56,7 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
 //        saveWorkout(workout, exercises)
     }
 
-    fun onActivityResultOkWorkoutDetails(data: Intent) {
+    fun onActivityResultOkWorkoutDetails(data: Intent?) {
 //        if (ExtrasHelper.hasWorkoutToDelete(data)) {
 //            val workoutToDelete = ExtrasHelper.getWorkout(data)
 //            removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete)

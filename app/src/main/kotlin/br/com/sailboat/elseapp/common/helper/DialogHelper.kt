@@ -1,5 +1,6 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
+import android.R
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -11,6 +12,29 @@ class DialogHelper : DialogFragment() {
     var message: String? = null
     var title: String? = null
 
+
+    companion object {
+
+        private val TAG = "TAG_DIALOG_HELPER"
+
+        fun showErrorMessage(manager: FragmentManager, message: String?) {
+            showMessage(manager, message, null)
+        }
+
+        fun showMessage(manager: FragmentManager, message: String?) {
+            showMessage(manager, message, null)
+        }
+
+        fun showMessage(manager: FragmentManager, msg: String?, title: String?) {
+            val dialog = DialogHelper()
+            dialog.title = title
+            dialog.message = msg
+
+            dialog.show(manager, TAG)
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
@@ -20,7 +44,7 @@ class DialogHelper : DialogFragment() {
         val dialog = AlertDialog.Builder(activity)
         dialog.setTitle(title)
         dialog.setMessage(message)
-        dialog.setPositiveButton(android.R.string.ok, null)
+        dialog.setPositiveButton(R.string.ok, null)
 
         return dialog.create()
     }
@@ -32,20 +56,5 @@ class DialogHelper : DialogFragment() {
         super.onDestroyView()
     }
 
-    companion object {
 
-        private val TAG = "TAG_DIALOG_HELPER"
-
-        fun showMessage(manager: FragmentManager, message: String) {
-            showMessage(manager, message, null)
-        }
-
-        fun showMessage(manager: FragmentManager, msg: String, title: String?) {
-            val dialog = DialogHelper()
-            dialog.title = title
-            dialog.message = msg
-
-            dialog.show(manager, TAG)
-        }
-    }
 }

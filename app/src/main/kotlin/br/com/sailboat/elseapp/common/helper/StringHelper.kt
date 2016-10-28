@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.helper
+package br.com.sailboat.elseapp.common.helper
 
 object StringHelper {
 
