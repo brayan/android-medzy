@@ -1,10 +1,10 @@
-package br.com.sailboat.elseapp.view.ui.insert_or_edit.view_model
+package br.com.sailboat.elseapp.view.ui.insert.view_model
 
 import br.com.sailboat.elseapp.base.BaseViewModel
 import br.com.sailboat.elseapp.model.Drug
 import java.util.*
 
-class InsertOrEditDrugViewModel : BaseViewModel() {
+class InsertDrugViewModel : BaseViewModel() {
 
     @Transient val drugList: MutableList<Drug>
 

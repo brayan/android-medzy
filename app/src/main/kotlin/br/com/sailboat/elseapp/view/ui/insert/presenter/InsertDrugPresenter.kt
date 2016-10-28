@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.insert_or_edit.presenter
+package br.com.sailboat.elseapp.view.ui.insert.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -8,17 +8,17 @@ import br.com.sailboat.elseapp.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
-import br.com.sailboat.elseapp.view.ui.insert_or_edit.view_model.InsertOrEditDrugViewModel
+import br.com.sailboat.elseapp.view.ui.insert.view_model.InsertDrugViewModel
 
 
-class InsertOrEditDrugPresenter(view: InsertOrEditDrugPresenter.View) : BasePresenter() {
+class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
-    val view: InsertOrEditDrugPresenter.View
-    val viewModel: InsertOrEditDrugViewModel
+    val view: InsertDrugPresenter.View
+    val viewModel: InsertDrugViewModel
 
     init {
         this.view = view
-        this.viewModel = InsertOrEditDrugViewModel()
+        this.viewModel = InsertDrugViewModel()
     }
 
     override fun onResumeFirstSession() {
@@ -29,59 +29,20 @@ class InsertOrEditDrugPresenter(view: InsertOrEditDrugPresenter.View) : BasePres
         view.updateContentViews()
     }
 
-    fun onClickNewWorkout() {
-        view.startNewWorkoutActivity()
-    }
-
-    fun onClickWorkout(position: Int) {
-        val workout = drugs[position]
-
-        if (ApiLevelHelper.isLowerThan(Build.VERSION_CODES.LOLLIPOP)) {
-            view.startWorkoutDetailsActivity(workout)
-        } else {
-            view.startWorkoutDetailsActivityWithAnimation(workout)
-        }
-    }
-
     fun onResultCanceledWorkoutDetails() {
         loadDrugs()
     }
 
-    fun onActivityResultOkInsertOrEditWorkout(data: Intent) {
-//        val workout = ExtrasHelper.getWorkout(data)
-//        val exercises = ExtrasHelper.getExercises(data)
-//
-//        viewModel.getWorkoutList().add(workout)
-//        view.updateContentViews()
-//        saveWorkout(workout, exercises)
+    fun onClickTime() {
+
     }
 
-    fun onActivityResultOkWorkoutDetails(data: Intent) {
-//        if (ExtrasHelper.hasWorkoutToDelete(data)) {
-//            val workoutToDelete = ExtrasHelper.getWorkout(data)
-//            removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete)
-//        }
+    fun onClickFrequency() {
+
     }
 
-    private fun removeWorkoutFromListAndDeleteFromDatabase(drugToDelete: Drug) {
-        val workoutList = viewModel.drugList
-
-        var position = -1
-
-        for (i in workoutList.indices) {
-            if (workoutList[i].id == drugToDelete.id) {
-                position = i
-                break
-            }
-        }
-
-        if (position != -1) {
-            workoutList.removeAt(position)
-            view.updateWorkoutRemoved(position)
-            deleteWorkout(drugToDelete)
-        } else {
-            view.showToast("Workout not found to delete")
-        }
+    fun onClickMenuSave() {
+        view.showToast("SAVING!!!!!!")
     }
 
     private fun loadDrugs() {
@@ -138,10 +99,6 @@ class InsertOrEditDrugPresenter(view: InsertOrEditDrugPresenter.View) : BasePres
         val activityContext: Context
         fun updateContentViews()
         fun showToast(message: String)
-        fun startNewWorkoutActivity()
-        fun startWorkoutDetailsActivity(drug: Drug)
-        fun updateWorkoutRemoved(position: Int)
-        fun startWorkoutDetailsActivityWithAnimation(drug: Drug)
     }
 
 }

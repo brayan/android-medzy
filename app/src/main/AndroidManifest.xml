@@ -19,7 +19,7 @@
 
         <activity android:name=".view.ui.detail.DrugDetailActivity" />
 
-        <activity android:name=".view.ui.insert_or_edit.InsertOrEditDrugActivity" />
+        <activity android:name=".view.ui.insert.InsertDrugActivity" />
 
     </application>
 

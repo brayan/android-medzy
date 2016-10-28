@@ -12,7 +12,7 @@ import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
 import br.com.sailboat.elseapp.view.ui.detail.DrugDetailActivity
-import br.com.sailboat.elseapp.view.ui.insert_or_edit.InsertOrEditDrugActivity
+import br.com.sailboat.elseapp.view.ui.insert.InsertDrugActivity
 import br.com.sailboat.elseapp.view.ui.list.presenter.DrugListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
 import kotlinx.android.synthetic.main.fab.*
@@ -80,11 +80,11 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     override fun startInsertOrEditDrugActivity() {
-        InsertOrEditDrugActivity.start(this, REQUEST_NEW_DRUG);
+        InsertDrugActivity.start(this, REQUEST_NEW_DRUG);
     }
 
     override fun startDrugDetailActivity(drug: Drug) {
-        DrugDetailActivity.start(this, drug);
+//        DrugDetailActivity.start(this, drug);
     }
 
     override fun startDrugDetailActivityWithAnimation(drug: Drug) {
