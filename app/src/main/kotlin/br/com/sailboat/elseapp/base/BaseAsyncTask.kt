@@ -22,7 +22,6 @@ abstract class BaseAsyncTask : AsyncTask<Void, Void, Exception>() {
         }
     }
 
-    @Throws(Exception::class)
     protected abstract fun onDoInBackground()
 
     protected abstract fun onSuccess()
