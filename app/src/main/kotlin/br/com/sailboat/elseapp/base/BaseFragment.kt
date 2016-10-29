@@ -33,7 +33,8 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
+
+        when (resultCode) {
             Activity.RESULT_OK -> {
                 onActivityResultOk(requestCode, data)
                 return
@@ -43,6 +44,7 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
                 return
             }
         }
+
     }
 
 

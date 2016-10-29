@@ -29,7 +29,6 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
             return getDrugList(sb)
         }
 
-    @Throws(Exception::class)
     fun saveAndGetId(drug: Drug): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Drug ")
@@ -44,7 +43,6 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
         return id
     }
 
-    @Throws(Exception::class)
     fun update(drug: Drug) {
         val sb = StringBuilder()
         sb.append(" UPDATE Drug SET ")
@@ -58,7 +56,6 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
         executeUpdateOrDelete(statement)
     }
 
-    @Throws(Exception::class)
     fun delete(drugId: Long) {
         val query = "DELETE FROM Drug WHERE Drug.id = ?"
         val statement = compileStatement(query)

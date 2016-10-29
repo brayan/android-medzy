@@ -12,14 +12,14 @@ class DrugDetailActivity : BaseActivity<DrugDetailFragment>() {
         return DrugDetailFragment()
     }
 
-//    companion object {
-//
-//        fun start(fragment: Fragment, drug: Drug) {
-//            val starter = Intent(fragment.activity, DrugDetailActivity.javaClass)
-//            ExtrasHelper.putDrug(drug, starter)
-//            fragment.startActivity(starter)
-//        }
-//
-//    }
+    companion object {
+
+        fun start(fromFragment: Fragment, drug: Drug, requestCode: Int) {
+            val starter = Intent(fromFragment.activity, DrugDetailActivity::class.java)
+            ExtrasHelper.putDrug(drug, starter)
+            fromFragment.startActivityForResult(starter, requestCode)
+        }
+
+    }
 
 }

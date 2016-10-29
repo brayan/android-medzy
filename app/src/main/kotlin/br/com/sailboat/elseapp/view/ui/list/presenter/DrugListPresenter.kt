@@ -47,20 +47,12 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
         loadDrugs()
     }
 
-    fun onActivityResultOkInsertOrEditWorkout(data: Intent?) {
-//        val workout = ExtrasHelper.getWorkout(data)
-//        val exercises = ExtrasHelper.getExercises(data)
-//
-//        viewModel.getWorkoutList().add(workout)
-//        view.updateContentViews()
-//        saveWorkout(workout, exercises)
+    fun onActivityResultOkInsertDrug(data: Intent?) {
+        loadDrugs()
     }
 
-    fun onActivityResultOkWorkoutDetails(data: Intent?) {
-//        if (ExtrasHelper.hasWorkoutToDelete(data)) {
-//            val workoutToDelete = ExtrasHelper.getWorkout(data)
-//            removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete)
-//        }
+    fun onActivityResultOkDrugDetail(data: Intent?) {
+        loadDrugs()
     }
 
     private fun removeWorkoutFromListAndDeleteFromDatabase(drugToDelete: Drug) {

@@ -1,5 +1,6 @@
 package br.com.sailboat.elseapp.view.ui.insert
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -63,6 +64,11 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
     override fun showDialog(message: String) {
         DialogHelper.showErrorMessage(fragmentManager, message)
+    }
+
+    override fun closeActivityResultOk() {
+        activity.setResult(Activity.RESULT_OK)
+        activity.finish()
     }
 
     private fun initToolbar() {

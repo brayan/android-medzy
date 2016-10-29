@@ -6,10 +6,6 @@ import java.util.*
 
 class DrugDetailViewModel : BaseViewModel() {
 
-    @Transient val drugList: MutableList<Drug>
-
-    init {
-        this.drugList = ArrayList<Drug>()
-    }
+    var drug: Drug? = null
 
 }

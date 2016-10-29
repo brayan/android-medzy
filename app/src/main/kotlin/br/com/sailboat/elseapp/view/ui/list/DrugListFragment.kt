@@ -11,6 +11,7 @@ import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
+import br.com.sailboat.elseapp.view.ui.detail.DrugDetailActivity
 import br.com.sailboat.elseapp.view.ui.insert.InsertDrugActivity
 import br.com.sailboat.elseapp.view.ui.list.presenter.DrugListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
@@ -33,11 +34,11 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     override fun onActivityResultOk(requestCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_NEW_DRUG -> {
-                presenter.onActivityResultOkInsertOrEditWorkout(data)
+                presenter.onActivityResultOkInsertDrug(data)
                 return
             }
             REQUEST_DETAILS -> {
-                presenter.onActivityResultOkWorkoutDetails(data)
+                presenter.onActivityResultOkDrugDetail(data)
                 return
             }
         }
@@ -79,11 +80,11 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     override fun startInsertOrEditDrugActivity() {
-        InsertDrugActivity.start(this, REQUEST_NEW_DRUG);
+        InsertDrugActivity.start(this, REQUEST_NEW_DRUG)
     }
 
     override fun startDrugDetailActivity(drug: Drug) {
-//        DrugDetailActivity.start(this, drug);
+        DrugDetailActivity.start(this, drug, REQUEST_DETAILS)
     }
 
     override fun startDrugDetailActivityWithAnimation(drug: Drug) {

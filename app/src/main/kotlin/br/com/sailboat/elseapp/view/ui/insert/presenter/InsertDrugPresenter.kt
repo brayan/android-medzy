@@ -8,6 +8,7 @@ import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.SaveDrugAsyncTask
+import br.com.sailboat.elseapp.view.ui.insert.presenter.checker.InsertDrugChecker
 import br.com.sailboat.elseapp.view.ui.insert.view_model.InsertDrugViewModel
 
 
@@ -86,11 +87,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     }
 
     private fun checkRequiredFields(newDrug: Drug) {
-
-        if (newDrug.name.trim().isNullOrEmpty()) {
-            throw RequiredFieldNotFilledException("You must enter a name for the drug")
-        }
-
+        InsertDrugChecker().check(newDrug)
     }
 
     private fun save(newDrug: Drug) {
@@ -98,13 +95,12 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         SaveDrugAsyncTask(context, newDrug, object : SaveDrugAsyncTask.Callback {
 
             override fun onSuccess() {
-                view.showDialog("Success!! ${newDrug.name}")
+                view.closeActivityResultOk();
             }
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
                 view.showDialog("An error occurred while saving the drug :/")
-                throw e
             }
 
         }).execute()
@@ -117,6 +113,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     interface View {
         val activityContext: Context
+        fun closeActivityResultOk()
         fun getNameFromView(): String
         fun setToolbarTitle(title: String)
         fun setDrugName(name: String)
