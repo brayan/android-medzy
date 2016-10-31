@@ -38,12 +38,8 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
     }
 
     fun onActivityResultOkEditDrug(data: Intent?) {
-//        val workout = ExtrasHelper.getWorkout(data)
-//        val exercises = ExtrasHelper.getExercises(data)
-//
-//        viewModel.getWorkoutList().add(workout)
-//        view.updateContentViews()
-//        saveWorkout(workout, exercises)
+        viewModel.drug = ExtrasHelper.getDrug(data!!)
+        updateContentViews()
     }
 
     private fun deleteWorkout() {

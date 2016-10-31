@@ -51,7 +51,7 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, drug.name)
-        statement.bindLong(2, drug.id)
+        statement.bindLong(2, drug.id!!)
 
         executeUpdateOrDelete(statement)
     }

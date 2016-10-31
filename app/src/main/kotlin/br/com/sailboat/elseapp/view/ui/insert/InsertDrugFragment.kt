@@ -2,6 +2,7 @@ package br.com.sailboat.elseapp.view.ui.insert
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
@@ -10,6 +11,8 @@ import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.common.helper.DialogHelper
+import br.com.sailboat.elseapp.common.helper.ExtrasHelper
+import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.ui.insert.presenter.InsertDrugPresenter
 import kotlinx.android.synthetic.main.frag_insert_drug.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -66,8 +69,12 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
         DialogHelper.showErrorMessage(fragmentManager, message)
     }
 
-    override fun closeActivityResultOk() {
-        activity.setResult(Activity.RESULT_OK)
+    override fun closeActivityResultOk(drug: Drug) {
+        val intent = Intent()
+
+        ExtrasHelper.putDrug(drug, intent)
+
+        activity.setResult(Activity.RESULT_OK, intent)
         activity.finish()
     }
 

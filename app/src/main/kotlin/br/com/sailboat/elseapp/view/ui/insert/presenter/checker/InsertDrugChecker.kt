@@ -11,7 +11,7 @@ class InsertDrugChecker {
 
     private fun checkName(drug: Drug) {
 
-        if (drug.name.trim().isNullOrEmpty()) {
+        if (drug.name?.trim().isNullOrEmpty()) {
             throw RequiredFieldNotFilledException("You must enter a name for the drug")
         }
 

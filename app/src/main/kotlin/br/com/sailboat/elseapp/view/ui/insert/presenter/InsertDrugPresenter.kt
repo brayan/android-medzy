@@ -46,10 +46,9 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     fun onClickMenuSave() {
 
         try {
-            val newDrug: Drug = collectDataFromFieldsAndBindToDrug()
-
-            checkRequiredFields(newDrug)
-            save(newDrug)
+            collectDataFromFieldsAndBindToDrug()
+            checkRequiredFields()
+            save()
 
         } catch (e: RequiredFieldNotFilledException) {
             view.showDialog(e?.message ?: "")
@@ -81,26 +80,25 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     private fun isInsertingDrug() = viewModel.drug == null
     private fun isEditingDrug() = viewModel.drug != null
 
-    private fun collectDataFromFieldsAndBindToDrug(): Drug {
+    private fun collectDataFromFieldsAndBindToDrug() {
 
         if (isInsertingDrug()) {
-            return Drug(-1, view.getNameFromView())
-        } else {
-            drug!!.name = view.getNameFromView()
-            return drug!!
+            viewModel.drug = Drug(-1, null)
         }
+
+        viewModel.drug!!.name = view.getNameFromView()
     }
 
-    private fun checkRequiredFields(newDrug: Drug) {
-        InsertDrugChecker().check(newDrug)
+    private fun checkRequiredFields() {
+        InsertDrugChecker().check(drug!!)
     }
 
-    private fun save(newDrug: Drug) {
+    private fun save() {
 
-        SaveDrugAsyncTask(context, newDrug, object : SaveDrugAsyncTask.Callback {
+        SaveDrugAsyncTask(context, drug!!, object : SaveDrugAsyncTask.Callback {
 
             override fun onSuccess() {
-                view.closeActivityResultOk();
+                view.closeActivityResultOk(drug!!);
             }
 
             override fun onFail(e: Exception) {
@@ -118,7 +116,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     interface View {
         val activityContext: Context
-        fun closeActivityResultOk()
+        fun closeActivityResultOk(drug: Drug)
         fun getNameFromView(): String
         fun setToolbarTitle(title: String)
         fun setDrugName(name: String)

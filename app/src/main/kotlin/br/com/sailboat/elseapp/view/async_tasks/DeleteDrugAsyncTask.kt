@@ -18,7 +18,7 @@ class DeleteDrugAsyncTask (context: Context, drug: Drug, callback: DeleteDrugAsy
     }
 
     override fun onDoInBackground() {
-        DrugSQLite(context).delete(drug.id)
+        DrugSQLite(context).delete(drug.id!!)
     }
 
     override fun onSuccess() {
