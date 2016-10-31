@@ -10,7 +10,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
+import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.ui.detail.presenter.DrugDetailPresenter
+import br.com.sailboat.elseapp.view.ui.insert.InsertDrugActivity
 import kotlinx.android.synthetic.main.frag_drug_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -32,6 +34,10 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
+            R.id.menu_item_edit -> {
+                presenter.onClickMenuEdit()
+                return true
+            }
             R.id.menu_item_delete -> {
                 presenter.onClickMenuDelete()
                 return true
@@ -61,6 +67,10 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
     override fun closeActivityResultOk() {
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
+    }
+
+    override fun startInsertDrugActivity(drug: Drug) {
+        InsertDrugActivity.start(this, drug, REQUEST_EDIT_DRUG)
     }
 
     override fun initViews() {

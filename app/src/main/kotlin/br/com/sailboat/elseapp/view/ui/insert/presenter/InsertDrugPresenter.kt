@@ -46,7 +46,8 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     fun onClickMenuSave() {
 
         try {
-            val newDrug = collectDataFromFieldsAndCreateDrug()
+            val newDrug: Drug = collectDataFromFieldsAndBindToDrug()
+
             checkRequiredFields(newDrug)
             save(newDrug)
 
@@ -80,10 +81,14 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     private fun isInsertingDrug() = viewModel.drug == null
     private fun isEditingDrug() = viewModel.drug != null
 
-    private fun collectDataFromFieldsAndCreateDrug(): Drug {
-        val drug = Drug(-1, view.getNameFromView())
+    private fun collectDataFromFieldsAndBindToDrug(): Drug {
 
-        return drug
+        if (isInsertingDrug()) {
+            return Drug(-1, view.getNameFromView())
+        } else {
+            drug!!.name = view.getNameFromView()
+            return drug!!
+        }
     }
 
     private fun checkRequiredFields(newDrug: Drug) {

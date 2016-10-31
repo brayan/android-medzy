@@ -2,14 +2,11 @@ package br.com.sailboat.elseapp.view.ui.detail.presenter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import br.com.sailboat.elseapp.base.BasePresenter
-import br.com.sailboat.elseapp.common.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_tasks.DeleteDrugAsyncTask
-import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
 import br.com.sailboat.elseapp.view.ui.detail.view_model.DrugDetailViewModel
 
 
@@ -30,6 +27,10 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
 
     override fun postResume() {
         updateContentViews()
+    }
+
+    fun onClickMenuEdit() {
+        view.startInsertDrugActivity(drug!!);
     }
 
     fun onClickMenuDelete() {
@@ -74,6 +75,7 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
         fun showToast(message: String)
         fun setDrugName(name: String)
         fun closeActivityResultOk()
+        fun startInsertDrugActivity(drug: Drug)
     }
 
 }
