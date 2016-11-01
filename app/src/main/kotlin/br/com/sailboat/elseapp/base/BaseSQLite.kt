@@ -10,8 +10,9 @@ import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 
 abstract class BaseSQLite(context: Context) {
 
-    private val context: Context
     private val databaseOpenHelper: DatabaseOpenHelper
+
+    val context: Context
 
     abstract val queryCreateTable: String
 

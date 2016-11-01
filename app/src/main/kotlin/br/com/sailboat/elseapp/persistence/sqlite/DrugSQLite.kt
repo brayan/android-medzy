@@ -3,6 +3,7 @@ package br.com.sailboat.elseapp.persistence.sqlite
 import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.elseapp.base.BaseSQLite
+import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.model.Drug
 import java.util.*
 
@@ -14,7 +15,8 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
             val sb = StringBuilder()
             sb.append(" CREATE TABLE Drug ( ")
             sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-            sb.append(" name TEXT NOT NULL ")
+            sb.append(" name TEXT NOT NULL, ")
+            sb.append(" alarm TEXT NOT NULL ")
             sb.append(" ); ")
 
             return sb.toString()
@@ -32,11 +34,12 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
     fun saveAndGetId(drug: Drug): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Drug ")
-        sb.append(" (name) ")
-        sb.append(" VALUES (?); ")
+        sb.append(" (name, alarm) ")
+        sb.append(" VALUES (?, ?); ")
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, drug.name)
+        statement.bindString(2, formatTimeFromDate(drug.alarm))
 
         val id = executeInsert(statement)
 
@@ -46,12 +49,14 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
     fun update(drug: Drug) {
         val sb = StringBuilder()
         sb.append(" UPDATE Drug SET ")
-        sb.append(" name = ? ")
+        sb.append(" name = ?, ")
+        sb.append(" alarm = ? ")
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, drug.name)
-        statement.bindLong(2, drug.id!!)
+        statement.bindString(2, formatTimeFromDate(drug.alarm))
+        statement.bindLong(3, drug.id)
 
         executeUpdateOrDelete(statement)
     }
@@ -81,9 +86,12 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
     private fun getDrugFromCursor(cursor: Cursor): Drug {
         val id = cursor.getLong(cursor.getColumnIndexOrThrow("id"))
         val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+        val alarm = cursor.getString(cursor.getColumnIndexOrThrow("alarm"))
 
-        val drug = Drug(id, name)
-
-        return drug
+        return Drug(id, name, formatTimeFromString(alarm))
     }
+
+    private fun formatTimeFromDate(date: Date) = AlarmHelper.formatTimeWithDatabaseFormat(date)
+    private fun formatTimeFromString(date: String) = AlarmHelper.formatTimeFromDatabaseFormat(date)
+
 }

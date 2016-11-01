@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
+import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
@@ -28,15 +29,24 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     }
 
     override fun onResumeFirstSession() {
-        checkIfIsEditingAndSetViews()
+
+        if (isInsertingDrug()) {
+            val currentTime = AlarmHelper.getTimeInitialAlarm()
+            viewModel.drug = Drug(-1, "", currentTime)
+        }
+
+        updateDrugNameView()
+
     }
 
     override fun postResume() {
         updateToolbarTitle()
+        updateDrugAlarmView()
     }
 
     fun onClickTime() {
-
+//        var alarm = drug!!.alarm
+//        view.startAlarmChooserDialog(alarm)
     }
 
     fun onClickFrequency() {
@@ -59,12 +69,12 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     }
 
-    private fun checkIfIsEditingAndSetViews() {
+    private fun updateDrugAlarmView() {
+        view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(drug!!.alarm, context))
+    }
 
-        if (isEditingDrug()) {
-            view.setDrugName(drug?.name ?: "-")
-        }
-
+    private fun updateDrugNameView() {
+        view.setDrugName(drug?.name ?: "-")
     }
 
     private fun updateToolbarTitle() {
@@ -81,11 +91,6 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     private fun isEditingDrug() = viewModel.drug != null
 
     private fun collectDataFromFieldsAndBindToDrug() {
-
-        if (isInsertingDrug()) {
-            viewModel.drug = Drug(-1, null)
-        }
-
         viewModel.drug!!.name = view.getNameFromView()
     }
 
@@ -120,6 +125,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         fun getNameFromView(): String
         fun setToolbarTitle(title: String)
         fun setDrugName(name: String)
+        fun setDrugAlarm(name: String)
         fun showToast(message: String)
         fun showDialog(message: String)
     }

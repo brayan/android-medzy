@@ -57,6 +57,10 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
         etInsertDrugName.setText(name)
     }
 
+    override fun setDrugAlarm(time: String) {
+        tvInsertDrugTime.setText(time)
+    }
+
     override fun getNameFromView(): String {
         return etInsertDrugName.text.toString()
     }
