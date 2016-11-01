@@ -1,15 +1,19 @@
-package br.com.sailboat.elseapp.view.async_tasks
+package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
+
 import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.persistence.sqlite.DrugSQLite
 
-class DeleteDrugAsyncTask (context: Context, drug: Drug, callback: DeleteDrugAsyncTask.Callback) : BaseAsyncTask() {
+
+class SaveDrugAsyncTask(context: Context, drug: Drug, callback: SaveDrugAsyncTask.Callback) : BaseAsyncTask() {
 
     private val drug: Drug
     private val context: Context
     private val callback: Callback
+
+    private val isNewDrug: Boolean get() = drug.id == -1L
 
     init {
         this.context = context.applicationContext
@@ -17,8 +21,15 @@ class DeleteDrugAsyncTask (context: Context, drug: Drug, callback: DeleteDrugAsy
         this.callback = callback
     }
 
+    @Throws(Exception::class)
     override fun onDoInBackground() {
-        DrugSQLite(context).delete(drug.id!!)
+
+        if (isNewDrug) {
+            saveNewDrug()
+        } else {
+            updateDrug()
+        }
+
     }
 
     override fun onSuccess() {
@@ -27,6 +38,15 @@ class DeleteDrugAsyncTask (context: Context, drug: Drug, callback: DeleteDrugAsy
 
     override fun onFail(e: Exception) {
         callback.onFail(e)
+    }
+
+    private fun updateDrug() {
+        DrugSQLite(context).update(drug)
+    }
+
+    private fun saveNewDrug() {
+        val id = DrugSQLite(context).saveAndGetId(drug)
+        drug.id = id
     }
 
 

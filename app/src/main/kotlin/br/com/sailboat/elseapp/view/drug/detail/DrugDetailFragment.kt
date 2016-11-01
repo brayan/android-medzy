@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.detail
+package br.com.sailboat.elseapp.view.drug.detail
 
 import android.app.Activity
 import android.content.Context
@@ -11,8 +11,8 @@ import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.ui.detail.presenter.DrugDetailPresenter
-import br.com.sailboat.elseapp.view.ui.insert.InsertDrugActivity
+import br.com.sailboat.elseapp.view.drug.detail.presenter.DrugDetailPresenter
+import br.com.sailboat.elseapp.view.drug.insert.InsertDrugActivity
 import kotlinx.android.synthetic.main.frag_drug_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 

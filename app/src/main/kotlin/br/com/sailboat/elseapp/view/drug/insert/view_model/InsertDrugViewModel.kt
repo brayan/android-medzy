@@ -1,10 +1,9 @@
-package br.com.sailboat.elseapp.view.ui.detail.view_model
+package br.com.sailboat.elseapp.view.drug.insert.view_model
 
 import br.com.sailboat.elseapp.base.BaseViewModel
 import br.com.sailboat.elseapp.model.Drug
-import java.util.*
 
-class DrugDetailViewModel : BaseViewModel() {
+class InsertDrugViewModel : BaseViewModel() {
 
     var drug: Drug? = null
 

@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.list
+package br.com.sailboat.elseapp.view.drug.list
 
 import br.com.sailboat.elseapp.base.BaseActivity
 

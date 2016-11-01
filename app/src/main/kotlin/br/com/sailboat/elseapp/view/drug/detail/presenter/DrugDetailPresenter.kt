@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.detail.presenter
+package br.com.sailboat.elseapp.view.drug.detail.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -6,8 +6,8 @@ import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.async_tasks.DeleteDrugAsyncTask
-import br.com.sailboat.elseapp.view.ui.detail.view_model.DrugDetailViewModel
+import br.com.sailboat.elseapp.view.async_task.DeleteDrugAsyncTask
+import br.com.sailboat.elseapp.view.drug.detail.view_model.DrugDetailViewModel
 
 
 class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {

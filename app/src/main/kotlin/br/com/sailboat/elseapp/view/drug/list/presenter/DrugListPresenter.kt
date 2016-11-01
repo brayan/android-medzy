@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.list.presenter
+package br.com.sailboat.elseapp.view.drug.list.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.helper.ApiLevelHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.async_tasks.LoadDrugsAsyncTask
-import br.com.sailboat.elseapp.view.ui.list.view_model.DrugListViewModel
+import br.com.sailboat.elseapp.view.async_task.LoadDrugsAsyncTask
+import br.com.sailboat.elseapp.view.drug.list.view_model.DrugListViewModel
 
 
 class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {

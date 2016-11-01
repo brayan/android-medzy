@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.list
+package br.com.sailboat.elseapp.view.drug.list
 
 import android.content.Context
 import android.content.Intent
@@ -11,9 +11,9 @@ import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.adapter.DrugListAdapter
-import br.com.sailboat.elseapp.view.ui.detail.DrugDetailActivity
-import br.com.sailboat.elseapp.view.ui.insert.InsertDrugActivity
-import br.com.sailboat.elseapp.view.ui.list.presenter.DrugListPresenter
+import br.com.sailboat.elseapp.view.drug.detail.DrugDetailActivity
+import br.com.sailboat.elseapp.view.drug.insert.InsertDrugActivity
+import br.com.sailboat.elseapp.view.drug.list.presenter.DrugListPresenter
 import kotlinx.android.synthetic.main.empty_list.*
 import kotlinx.android.synthetic.main.fab.*
 import kotlinx.android.synthetic.main.recyclerview.*

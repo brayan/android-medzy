@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.ui.list.DrugListActivity">
+        <activity android:name=".view.drug.list.DrugListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +17,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.ui.detail.DrugDetailActivity" />
+        <activity android:name=".view.drug.detail.DrugDetailActivity" />
 
-        <activity android:name=".view.ui.insert.InsertDrugActivity" />
+        <activity android:name=".view.drug.insert.InsertDrugActivity" />
 
     </application>
 

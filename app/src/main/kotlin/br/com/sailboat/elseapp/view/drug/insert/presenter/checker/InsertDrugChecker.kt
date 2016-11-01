@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.insert.presenter.checker
+package br.com.sailboat.elseapp.view.drug.insert.presenter.checker
 
 import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
 import br.com.sailboat.elseapp.model.Drug

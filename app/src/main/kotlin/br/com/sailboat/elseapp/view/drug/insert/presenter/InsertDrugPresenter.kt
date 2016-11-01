@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.insert.presenter
+package br.com.sailboat.elseapp.view.drug.insert.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,9 @@ import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Drug
-import br.com.sailboat.elseapp.view.async_tasks.SaveDrugAsyncTask
-import br.com.sailboat.elseapp.view.ui.insert.presenter.checker.InsertDrugChecker
-import br.com.sailboat.elseapp.view.ui.insert.view_model.InsertDrugViewModel
+import br.com.sailboat.elseapp.view.async_task.SaveDrugAsyncTask
+import br.com.sailboat.elseapp.view.drug.insert.presenter.checker.InsertDrugChecker
+import br.com.sailboat.elseapp.view.drug.insert.view_model.InsertDrugViewModel
 
 
 class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {

@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.view.ui.list.view_model
+package br.com.sailboat.elseapp.view.drug.list.view_model
 
 import br.com.sailboat.elseapp.base.BaseViewModel
 import br.com.sailboat.elseapp.model.Drug
