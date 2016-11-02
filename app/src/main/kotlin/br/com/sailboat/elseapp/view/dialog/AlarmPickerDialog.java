@@ -2,54 +2,62 @@ package br.com.sailboat.elseapp.view.dialog;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.format.DateFormat;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-public class AlarmPickerDialog extends DialogFragment implements android.app.TimePickerDialog.OnTimeSetListener {
+public class AlarmPickerDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     private Calendar currentTime;
-
     private Callback callback;
-
-    private boolean shouldSetTime = false;
 
     public static void show(FragmentManager fragmentManager, AlarmPickerDialog.Callback callback) {
         show(fragmentManager, null, callback);
     }
 
     public static void show(FragmentManager fragmentManager, Calendar currentTime, AlarmPickerDialog.Callback callback) {
-        AlarmPickerDialog alarmPickerDialog = new AlarmPickerDialog();
-        alarmPickerDialog.setCurrentTime(currentTime);
-        alarmPickerDialog.setCallback(callback);
+        AlarmPickerDialog dialog = new AlarmPickerDialog();
+        dialog.setCurrentTime(currentTime);
+        dialog.setCallback(callback);
 
-        alarmPickerDialog.show(fragmentManager, AlarmPickerDialog.class.getName());
+        dialog.show(fragmentManager, AlarmPickerDialog.class.getName());
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        checkAndInitTime();
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        inicializarHorarioInicial();
-
         TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, getHour(), getMinute(),
                 DateFormat.is24HourFormat(getActivity()));
-
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
 
         return dialog;
     }
 
-    private void inicializarHorarioInicial() {
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (view.isShown()) {
+            callback.onClickOk(hourOfDay, minute);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance()) {
+            getDialog().setDismissMessage(null);
+        }
+        super.onDestroyView();
+    }
+
+    private void checkAndInitTime() {
         if (currentTime == null) {
             this.currentTime = Calendar.getInstance();
         }
@@ -71,29 +79,9 @@ public class AlarmPickerDialog extends DialogFragment implements android.app.Tim
         this.currentTime = currentTime;
     }
 
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        callback.onClickCancelTimePicker();
-    }
-
-    @Override
-    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-        callback.onClickOkAlarmTimePicker(hourOfDay, minute);
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (getDialog() != null && getRetainInstance()) {
-            getDialog().setDismissMessage(null);
-        }
-        super.onDestroyView();
-    }
-
 
     public interface Callback {
-        void onClickOkAlarmTimePicker(int horaDoDia, int minutos);
-        void onClickCancelTimePicker();
+        void onClickOk(int hourOfDay, int minute);
     }
 
 }

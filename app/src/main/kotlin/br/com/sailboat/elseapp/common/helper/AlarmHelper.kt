@@ -30,7 +30,7 @@ object AlarmHelper {
         }
     }
 
-    fun getTimeInitialAlarm(): Date {
+    fun getTimeInitialAlarm(): Calendar {
 
         val currentTime = Calendar.getInstance()
 
@@ -56,7 +56,7 @@ object AlarmHelper {
 
         }
 
-        return currentTime.time
+        return currentTime
     }
 
 }

@@ -31,7 +31,7 @@ class DrugViewHolder(itemView: View, callback: DrugViewHolder.Callback) : Recycl
     }
 
     private fun formatTime(drug: Drug) : String {
-        return AlarmHelper.formatTimeWithAndroidFormat(drug.alarm, itemView.context)
+        return AlarmHelper.formatTimeWithAndroidFormat(drug.alarm.time, itemView.context)
     }
 
 

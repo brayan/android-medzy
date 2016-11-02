@@ -13,9 +13,11 @@ import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.model.Drug
+import br.com.sailboat.elseapp.view.dialog.AlarmPickerDialog
 import br.com.sailboat.elseapp.view.drug.insert.presenter.InsertDrugPresenter
 import kotlinx.android.synthetic.main.frag_insert_drug.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresenter.View {
 
@@ -80,6 +82,17 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
         activity.setResult(Activity.RESULT_OK, intent)
         activity.finish()
+    }
+
+    override fun startAlarmChooserDialog(alarm: Calendar) {
+
+        AlarmPickerDialog.show(fragmentManager, alarm, object : AlarmPickerDialog.Callback {
+
+            override fun onClickOk(hourOfDay: Int, minute: Int) {
+                presenter.onClickOkAlarmChooserDialog(hourOfDay, minute)
+            }
+
+        })
     }
 
     private fun initToolbar() {

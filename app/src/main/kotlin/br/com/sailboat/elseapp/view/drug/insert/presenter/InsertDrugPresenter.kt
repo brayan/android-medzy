@@ -11,6 +11,7 @@ import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.async_task.SaveDrugAsyncTask
 import br.com.sailboat.elseapp.view.drug.insert.presenter.checker.InsertDrugChecker
 import br.com.sailboat.elseapp.view.drug.insert.view_model.InsertDrugViewModel
+import java.util.*
 
 
 class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
@@ -45,8 +46,8 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
     }
 
     fun onClickTime() {
-//        var alarm = drug!!.alarm
-//        view.startAlarmChooserDialog(alarm)
+        var alarm = drug!!.alarm
+        view.startAlarmChooserDialog(alarm)
     }
 
     fun onClickFrequency() {
@@ -69,8 +70,16 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     }
 
+    fun onClickOkAlarmChooserDialog(hourOfDay: Int, minute: Int) {
+        val alarm = drug!!.alarm
+        alarm.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        alarm.set(Calendar.MINUTE, minute)
+
+        updateDrugAlarmView()
+    }
+
     private fun updateDrugAlarmView() {
-        view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(drug!!.alarm, context))
+        view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(drug!!.alarm.time, context))
     }
 
     private fun updateDrugNameView() {
@@ -82,12 +91,14 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         if (isInsertingDrug()) {
             view.setToolbarTitle("New Drug")
         } else {
-            view.setToolbarTitle("Edit Toolbar")
+            view.setToolbarTitle("Edit Drug")
         }
 
     }
 
-    private fun isInsertingDrug() = viewModel.drug == null
+    private fun isInsertingDrug() : Boolean {
+        return viewModel.drug == null || viewModel.drug?.id == -1L
+    }
     private fun isEditingDrug() = viewModel.drug != null
 
     private fun collectDataFromFieldsAndBindToDrug() {
@@ -128,6 +139,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         fun setDrugAlarm(name: String)
         fun showToast(message: String)
         fun showDialog(message: String)
+        fun startAlarmChooserDialog(alarm: Calendar)
     }
 
 }

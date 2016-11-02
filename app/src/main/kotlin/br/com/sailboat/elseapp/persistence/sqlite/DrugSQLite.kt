@@ -91,7 +91,15 @@ class DrugSQLite(context: Context) : BaseSQLite(context) {
         return Drug(id, name, formatTimeFromString(alarm))
     }
 
-    private fun formatTimeFromDate(date: Date) = AlarmHelper.formatTimeWithDatabaseFormat(date)
-    private fun formatTimeFromString(date: String) = AlarmHelper.formatTimeFromDatabaseFormat(date)
+    private fun formatTimeFromDate(date: Calendar) : String {
+        return AlarmHelper.formatTimeWithDatabaseFormat(date.time)
+    }
+
+    private fun formatTimeFromString(date: String) : Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.time = AlarmHelper.formatTimeFromDatabaseFormat(date)
+
+        return calendar
+    }
 
 }
