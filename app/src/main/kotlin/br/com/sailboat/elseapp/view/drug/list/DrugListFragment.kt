@@ -32,25 +32,7 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     override fun onActivityResultOk(requestCode: Int, data: Intent?) {
-        when (requestCode) {
-            REQUEST_NEW_DRUG -> {
-                presenter.onActivityResultOkInsertDrug(data)
-                return
-            }
-            REQUEST_DETAILS -> {
-                presenter.onActivityResultOkDrugDetail(data)
-                return
-            }
-        }
-    }
-
-    override fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
-        when (requestCode) {
-            REQUEST_DETAILS -> {
-                presenter.onResultCanceledWorkoutDetails()
-                return
-            }
-        }
+        presenter.onActivityResultOk(data)
     }
 
     override fun onClickDrug(position: Int) {

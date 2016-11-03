@@ -43,37 +43,8 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
         }
     }
 
-    fun onResultCanceledWorkoutDetails() {
+    fun onActivityResultOk(data: Intent?) {
         loadDrugs()
-    }
-
-    fun onActivityResultOkInsertDrug(data: Intent?) {
-        loadDrugs()
-    }
-
-    fun onActivityResultOkDrugDetail(data: Intent?) {
-        loadDrugs()
-    }
-
-    private fun removeWorkoutFromListAndDeleteFromDatabase(drugToDelete: Drug) {
-        val workoutList = viewModel.drugList
-
-        var position = -1
-
-        for (i in workoutList.indices) {
-            if (workoutList[i].id == drugToDelete.id) {
-                position = i
-                break
-            }
-        }
-
-        if (position != -1) {
-            workoutList.removeAt(position)
-            view.updateWorkoutRemoved(position)
-            deleteWorkout(drugToDelete)
-        } else {
-            view.showToast("Workout not found to delete")
-        }
     }
 
     private fun loadDrugs() {
@@ -93,32 +64,6 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
 
         }).execute()
 
-    }
-
-    private fun deleteWorkout(drugToDelete: Drug) {
-//        DeleteWorkoutAsyncTask(context, workoutToDelete, object : DeleteWorkoutAsyncTask.Callback {
-//            override fun onSuccess() {
-//            }
-//
-//            override fun onFail(e: Exception) {
-//                LogHelper.printExceptionLog(e)
-//                view.showToast(e.message)
-//            }
-//        }).execute()
-    }
-
-    private fun saveWorkout(drug: Drug) {
-//        SaveWorkoutAsyncTask(context, workout, exercises, object : SaveWorkoutAsyncTask.Callback {
-//
-//            override fun onSuccess() {
-//            }
-//
-//            override fun onFail(e: Exception) {
-//                LogHelper.printExceptionLog(e)
-//                view.showToast(e.message)
-//            }
-//
-//        }).execute()
     }
 
     private val context: Context get() = view.activityContext
