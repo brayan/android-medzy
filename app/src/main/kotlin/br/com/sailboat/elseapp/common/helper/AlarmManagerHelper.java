@@ -4,36 +4,42 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+
+import java.text.ParseException;
+
+import br.com.sailboat.elseapp.model.Alarm;
+import br.com.sailboat.elseapp.receiver.AlarmReceiver;
 
 public class AlarmManagerHelper {
 
-//    private Context appContext;
-//    private Intent intentAlarme;
-//    private PendingIntent pendingIntentAlarme;
-//    private AlarmManager alarmManager;
-//
-//    private AlarmManagerHelper(Context context) {
-//        this.appContext = context.getApplicationContext();
-//    }
-//
-//    public static void setAlarm(Context ctx, Task task, Alarm alarm) throws ParseException {
-//        new AlarmManagerHelper(ctx).setAlarm(task, alarm);
-//    }
-//
-//    private void setAlarm(Task task, Alarm alarm) throws ParseException {
-//        inicializarComponentes(task);
-//        definirAlarme(alarm);
-//    }
-//
-//    private void inicializarComponentes(Task task) {
-//        inicializarIntentAlarme(task);
-//        inicializarPendingIntent(task);
-//        inicializarAlarmManager();
-//    }
-//
-//    private void definirAlarme(Alarm alarm) throws ParseException {
-//
+    private Context context;
+    private Intent intent;
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
+
+    private AlarmManagerHelper(Context context) {
+        this.context = context.getApplicationContext();
+    }
+
+    public static void setAlarm(Context ctx, Alarm alarm) throws ParseException {
+        new AlarmManagerHelper(ctx).setAlarm(alarm);
+    }
+
+    private void setAlarm(Alarm alarm) throws ParseException {
+        initComponents(alarm);
+        defineAlarme(alarm);
+    }
+
+    private void initComponents(Alarm alarm) {
+        intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra("ALARM_ID", alarm.getId());
+        pendingIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+    }
+
+    private void defineAlarme(Alarm alarm) throws ParseException {
+
 //        Date dataAlarmeInicial = DateHelper.getDate(alarm.getInitialAlarmDate());
 //        DateTime dataInicial = new DateTime(dataAlarmeInicial.getTime());
 //        DateTime dataProximoAlarme = new DateTime(DateHelper.getDate(alarm.getNextAlarmDate()));
@@ -57,25 +63,10 @@ public class AlarmManagerHelper {
 //
 //            }
 //        }
-//    }
-//
-//    private void inicializarAlarmManager() {
-//        alarmManager = (AlarmManager) appContext.getSystemService(appContext.ALARM_SERVICE);
-//    }
-//
-//    private void inicializarPendingIntent(Task task) {
-//        pendingIntentAlarme = PendingIntent.getBroadcast(appContext, (int) task.getId(), intentAlarme, PendingIntent.FLAG_UPDATE_CURRENT);
-//    }
-//
-//    private void inicializarIntentAlarme(Task task) {
-//        intentAlarme = new Intent(appContext, AlarmReceiver.class);
-//        intentAlarme.putExtra("NOME_TAREFA", task.getName());
-//        intentAlarme.putExtra("ID_TAREFA", task.getId());
-//        intentAlarme.putExtra("EXTRA_TASK", task);
-//    }
-//
+    }
+
 //    private void setAlarmeNaoRepetitivo(DateTime dataInicial) {
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), pendingIntentAlarme);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), pendingIntent);
 //    }
 //
 //    private boolean deveSetarAlarmeNaoRepetitivo(AlarmRepeatType repeatType, DateTime dataInicial) {
@@ -99,11 +90,11 @@ public class AlarmManagerHelper {
 //    }
 //
 //    private void setAlarmeTodasAsSemanas(DateTime dataInicial) {
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), AlarmManager.INTERVAL_DAY * 7, pendingIntentAlarme);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
 //    }
 //
 //    private void setAlarmeTodosOsDias(DateTime dataInicial) {
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), AlarmManager.INTERVAL_DAY, pendingIntentAlarme);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), AlarmManager.INTERVAL_DAY, pendingIntent);
 //    }
 //
 //    private boolean deveSetarNovoAlarme(DateTime dataInicial, DateTime dataProximoAlarme) {

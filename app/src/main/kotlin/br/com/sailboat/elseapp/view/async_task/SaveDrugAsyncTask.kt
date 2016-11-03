@@ -1,6 +1,7 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
+import android.util.Log
 
 import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.model.Drug
@@ -21,13 +22,28 @@ class SaveDrugAsyncTask(context: Context, drug: Drug, callback: SaveDrugAsyncTas
         this.callback = callback
     }
 
-    @Throws(Exception::class)
     override fun onDoInBackground() {
+
+        val startTime = System.currentTimeMillis()
+
+        Log.e("ELSE", "startTime " + startTime)
 
         if (isNewDrug) {
             saveNewDrug()
         } else {
             updateDrug()
+        }
+
+        val stopTime = System.currentTimeMillis()
+
+        Log.e("ELSE", "stopTime " + stopTime)
+
+        val elapsedTime = stopTime - startTime
+
+        Log.e("ELSE", "elapsedTime " + elapsedTime)
+
+        if (elapsedTime < 1000) {
+            Thread.sleep(1000 - elapsedTime)
         }
 
     }
