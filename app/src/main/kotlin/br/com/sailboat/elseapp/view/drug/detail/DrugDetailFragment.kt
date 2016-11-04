@@ -13,6 +13,7 @@ import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.model.Drug
 import br.com.sailboat.elseapp.view.drug.detail.presenter.DrugDetailPresenter
 import br.com.sailboat.elseapp.view.drug.insert.InsertDrugActivity
+import kotlinx.android.synthetic.main.fab.*
 import kotlinx.android.synthetic.main.frag_drug_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -34,10 +35,6 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-            R.id.menu_item_edit -> {
-                presenter.onClickMenuEdit()
-                return true
-            }
             R.id.menu_item_delete -> {
                 presenter.onClickMenuDelete()
                 return true
@@ -75,6 +72,10 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
 
     override fun initViews() {
         initToolbar()
+        fab.setImageResource(R.drawable.ic_edit_white_24dp)
+        fab.setOnClickListener {
+            presenter.onClickEdit()
+        }
     }
 
     override fun showToast(message: String) {
@@ -84,6 +85,11 @@ class DrugDetailFragment : BaseFragment<DrugDetailPresenter>(), DrugDetailPresen
     private fun initToolbar() {
         toolbar.setTitle("Drug Detail")
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+
+        toolbar.setNavigationOnClickListener {
+            activity.onBackPressed()
+        }
     }
 
 

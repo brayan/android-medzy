@@ -35,6 +35,10 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
         presenter.onActivityResultOk(data)
     }
 
+    override fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
+        presenter.onActivityResultCanceled(data)
+    }
+
     override fun onClickDrug(position: Int) {
         presenter.onClickDrug(position)
     }

@@ -47,6 +47,10 @@ class DrugListPresenter(view: DrugListPresenter.View) : BasePresenter() {
         loadDrugs()
     }
 
+    fun onActivityResultCanceled(data: Intent?) {
+        loadDrugs()
+    }
+
     private fun loadDrugs() {
 
         LoadDrugsAsyncTask(context, object : LoadDrugsAsyncTask.Callback {

@@ -3,6 +3,7 @@ package br.com.sailboat.elseapp.common.helper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import br.com.sailboat.elseapp.base.BaseSQLite
+import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.DrugSQLite
 import java.util.*
 
@@ -29,13 +30,14 @@ class CreateTablesHelper private constructor(context: Context, database: SQLiteD
 
     private fun createTables() {
         for (table in tableList) {
-            database.execSQL(table.queryCreateTable)
+            database.execSQL(table.getQueryCreateTable())
         }
     }
 
     private fun initTableList() {
         tableList = ArrayList<BaseSQLite>()
         tableList.add(DrugSQLite(context))
+        tableList.add(AlarmSQLite(context))
     }
 
 

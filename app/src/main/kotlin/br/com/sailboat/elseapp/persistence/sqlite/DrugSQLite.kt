@@ -10,17 +10,16 @@ import java.util.*
 
 class DrugSQLite(context: Context) : BaseSQLite(context) {
 
-    override val queryCreateTable: String
-        get() {
-            val sb = StringBuilder()
-            sb.append(" CREATE TABLE Drug ( ")
-            sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-            sb.append(" name TEXT NOT NULL, ")
-            sb.append(" alarm TEXT NOT NULL ")
-            sb.append(" ); ")
+    override fun getQueryCreateTable(): String {
+        val sb = StringBuilder()
+        sb.append(" CREATE TABLE Drug ( ")
+        sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
+        sb.append(" name TEXT NOT NULL, ")
+        sb.append(" alarm TEXT NOT NULL ")
+        sb.append(" ); ")
 
-            return sb.toString()
-        }
+        return sb.toString()
+    }
 
     val all: MutableList<Drug>
         @Throws(Exception::class)

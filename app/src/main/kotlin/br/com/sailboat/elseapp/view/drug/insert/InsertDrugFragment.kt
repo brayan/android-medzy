@@ -39,6 +39,10 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
         etInsertDrugName.setText(name)
     }
 
+    override fun putCursorAtTheEnd() {
+        etInsertDrugName.setSelection(etInsertDrugName.length())
+    }
+
     override fun setDrugAlarm(time: String) {
         tvInsertDrugTime.setText(time)
     }

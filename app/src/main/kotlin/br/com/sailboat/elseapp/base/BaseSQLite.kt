@@ -14,12 +14,12 @@ abstract class BaseSQLite(context: Context) {
 
     val context: Context
 
-    abstract val queryCreateTable: String
-
     init {
         this.context = context.applicationContext
         this.databaseOpenHelper = DatabaseOpenHelper.getInstance(context)
     }
+
+    abstract fun getQueryCreateTable(): String
 
     protected fun executeInsert(statement: SQLiteStatement): Long {
         try {

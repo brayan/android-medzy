@@ -89,6 +89,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     private fun updateDrugNameView() {
         view.setDrugName(drug?.name ?: "-")
+        view.putCursorAtTheEnd()
     }
 
     private fun updateToolbarTitle() {
@@ -146,6 +147,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         fun showDialog(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
         fun openKeyboard()
+        fun putCursorAtTheEnd()
     }
 
 }

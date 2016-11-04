@@ -29,7 +29,7 @@ class DrugDetailPresenter(view: DrugDetailPresenter.View) : BasePresenter() {
         updateContentViews()
     }
 
-    fun onClickMenuEdit() {
+    fun onClickEdit() {
         view.startInsertDrugActivity(drug!!);
     }
 
