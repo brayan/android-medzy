@@ -34,9 +34,14 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         if (isInsertingDrug()) {
             val currentTime = AlarmHelper.getTimeInitialAlarm()
             viewModel.drug = Drug(-1, "", currentTime)
+
+            view.openKeyboard();
+
+        } else {
+            updateDrugNameView()
+
         }
 
-        updateDrugNameView()
 
     }
 
@@ -140,6 +145,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
         fun showToast(message: String)
         fun showDialog(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
+        fun openKeyboard()
     }
 
 }

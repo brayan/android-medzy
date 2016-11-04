@@ -3,10 +3,13 @@ package br.com.sailboat.elseapp.view.drug.insert
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
@@ -48,6 +51,7 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
     override fun initViews() {
         initToolbar()
+//        etInsertDrugName.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity, android.R.color.white), PorterDuff.Mode.SRC_ATOP);
         bindListeners()
     }
 
@@ -93,6 +97,13 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
             }
 
         })
+    }
+
+    override fun openKeyboard() {
+        etInsertDrugName.requestFocus()
+
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(etInsertDrugName, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun initToolbar() {

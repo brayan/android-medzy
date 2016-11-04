@@ -91,7 +91,7 @@ class DrugListFragment : BaseFragment<DrugListPresenter>(), DrugListPresenter.Vi
     }
 
     private fun initToolbar() {
-        toolbar.setTitle(R.string.app_name)
+        toolbar.setTitle("Pill Time")
     }
 
     private fun updateVisibilityOfViews() {
