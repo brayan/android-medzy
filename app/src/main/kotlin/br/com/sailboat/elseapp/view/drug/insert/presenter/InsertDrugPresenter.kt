@@ -59,7 +59,7 @@ class InsertDrugPresenter(view: InsertDrugPresenter.View) : BasePresenter() {
 
     }
 
-    fun onClickMenuSave() {
+    fun onClickSave() {
 
         try {
             collectDataFromFieldsAndBindToDrug()

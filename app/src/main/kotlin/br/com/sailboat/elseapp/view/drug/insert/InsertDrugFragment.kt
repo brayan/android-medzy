@@ -3,12 +3,7 @@ package br.com.sailboat.elseapp.view.drug.insert
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
@@ -31,27 +26,8 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
         return InsertDrugPresenter(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_insert_drug, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
-        when (item?.itemId) {
-            R.id.menu_insert_save -> {
-                presenter.onClickMenuSave()
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-
-    }
-
     override fun initViews() {
         initToolbar()
-//        etInsertDrugName.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity, android.R.color.white), PorterDuff.Mode.SRC_ATOP);
         bindListeners()
     }
 
@@ -108,6 +84,7 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
     }
 
     private fun bindListeners() {
@@ -117,6 +94,14 @@ class InsertDrugFragment : BaseFragment<InsertDrugPresenter>(), InsertDrugPresen
 
         tvInsertDrugFrequency.setOnClickListener {
             presenter.onClickFrequency()
+        }
+
+        btInsertDrugSave.setOnClickListener {
+            presenter.onClickSave()
+        }
+
+        toolbar.setNavigationOnClickListener {
+            activity.onBackPressed()
         }
 
     }

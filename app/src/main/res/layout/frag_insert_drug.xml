@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@color/default_background">
 
     <android.support.design.widget.AppBarLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,34 +19,69 @@
             android:layout_margin="16dp">
 
             <EditText
-                android:textSize="28sp"
+                android:maxLines="1"
                 android:id="@+id/etInsertDrugName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Drug" />
+                android:hint="Drug"
+                android:textSize="28sp" />
 
         </android.support.design.widget.TextInputLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <TextView
-        android:id="@+id/tvInsertDrugTime"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="16dp"
-        android:text="15:00"
-        android:textSize="36sp" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/tvInsertDrugFrequency"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvInsertDrugTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="16dp"
+                android:text="15:00"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/tvInsertDrugFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="16dp"
+                android:text="3 em 3 horas"
+                android:textSize="36sp" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/btInsertDrugSave"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="16dp"
-        android:text="3 em 3 horas"
-        android:textSize="36sp" />
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@color/amber_500">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="SAVE"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
-</LinearLayout>
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
