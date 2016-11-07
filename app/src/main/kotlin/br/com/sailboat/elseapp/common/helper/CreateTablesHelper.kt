@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import br.com.sailboat.elseapp.base.BaseSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
-import br.com.sailboat.elseapp.persistence.sqlite.DrugSQLite
+import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 import java.util.*
 
 
@@ -36,7 +36,7 @@ class CreateTablesHelper private constructor(context: Context, database: SQLiteD
 
     private fun initTableList() {
         tableList = ArrayList<BaseSQLite>()
-        tableList.add(DrugSQLite(context))
+        tableList.add(MedicineSQLite(context))
         tableList.add(AlarmSQLite(context))
     }
 

@@ -4,6 +4,6 @@ import java.io.Serializable
 import java.util.*
 
 data class Alarm(var id: Long,
-                 var drugId: Long,
+                 var medicineId: Long,
                  var time: Calendar,
                  var repeatType: Int) : Serializable

@@ -13,20 +13,20 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Alarm ( ")
         sb.append(" id INTEGER, ")
-        sb.append(" drugId INTEGER, ")
+        sb.append(" medicineId INTEGER, ")
         sb.append(" time TEXT NOT NULL, ")
         sb.append(" repeatType INTEGER, ")
-        sb.append(" PRIMARY KEY(id, drugId), ")
-        sb.append(" FOREIGN KEY(drugId) REFERENCES Drug(id) ")
+        sb.append(" PRIMARY KEY(id, medicineId), ")
+        sb.append(" FOREIGN KEY(medicineId) REFERENCES Medicine(id) ")
         sb.append(" ); ")
 
         return sb.toString()
     }
 
-    fun getAlarmsByDrug(drugId: Long): MutableList<Alarm> {
+    fun getAlarmsByMedicine(medicineId: Long): MutableList<Alarm> {
         val sb = StringBuilder()
         sb.append(" SELECT Alarm.* FROM Alarm ")
-        sb.append(" WHERE Alarm.drugId = " + drugId)
+        sb.append(" WHERE Alarm.medicineId = " + medicineId)
 
         return getAlarmList(sb)
     }
@@ -34,11 +34,11 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
     fun saveAndGetId(alarm: Alarm): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Alarm ")
-        sb.append(" (drugId, time, repeatType) ")
+        sb.append(" (medicineId, time, repeatType) ")
         sb.append(" VALUES (?, ?, ?); ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindLong(1, alarm.drugId)
+        statement.bindLong(1, alarm.medicineId)
         statement.bindString(2, formatTimeFromDate(alarm.time))
         statement.bindLong(3, alarm.repeatType as Long)
 
@@ -70,6 +70,14 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
         executeUpdateOrDelete(statement)
     }
 
+    fun deleteAllByMedicine(medicineId: Long) {
+        val query = "DELETE FROM Alarm WHERE Alarm.medicineId = ?"
+        val statement = compileStatement(query)
+        statement.bindLong(1, medicineId)
+
+        executeUpdateOrDelete(statement)
+    }
+
     private fun getAlarmList(query: StringBuilder): MutableList<Alarm> {
         val cursor = performQuery(query.toString())
         val alarms = ArrayList<Alarm>()
@@ -86,11 +94,11 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
 
     private fun getAlarmFromCursor(cursor: Cursor): Alarm {
         val id = cursor.getLong(cursor.getColumnIndexOrThrow("id"))
-        val drugId = cursor.getLong(cursor.getColumnIndexOrThrow("drugId"))
+        val medicineId = cursor.getLong(cursor.getColumnIndexOrThrow("medicineId"))
         val time = cursor.getString(cursor.getColumnIndexOrThrow("time"))
         val repeatType = cursor.getInt(cursor.getColumnIndexOrThrow("repeatType"))
 
-        return Alarm(id, drugId, formatTimeFromString(time), repeatType)
+        return Alarm(id, medicineId, formatTimeFromString(time), repeatType)
     }
 
     private fun formatTimeFromDate(date: Calendar) : String {

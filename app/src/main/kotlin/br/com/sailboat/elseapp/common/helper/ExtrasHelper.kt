@@ -1,28 +1,18 @@
 package br.com.sailboat.elseapp.common.helper
 
 import android.content.Intent
-
-import br.com.sailboat.elseapp.model.Drug
+import br.com.sailboat.elseapp.model.Medicine
 
 object ExtrasHelper {
 
-    private val DRUG = "DRUG"
-    private val DELETE_DRUG = "DELETE_DRUG"
+    private val MEDICINE = "MEDICINE"
 
-    fun putDrug(drug: Drug, intent: Intent) {
-        intent.putExtra(DRUG, drug)
+    fun putMedicine(medicine: Medicine, intent: Intent) {
+        intent.putExtra(MEDICINE, medicine)
     }
 
-    fun getDrug(intent: Intent): Drug? {
-        return intent.getSerializableExtra(DRUG) as? Drug
-    }
-
-    fun deleteDrug(intent: Intent) {
-        intent.putExtra(DELETE_DRUG, true)
-    }
-
-    fun hasDrugToDelete(intent: Intent): Boolean {
-        return intent.hasExtra(DELETE_DRUG)
+    fun getMedicine(intent: Intent): Medicine? {
+        return intent.getSerializableExtra(MEDICINE) as? Medicine
     }
 
 }

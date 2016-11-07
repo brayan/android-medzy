@@ -19,7 +19,9 @@ abstract class BaseSQLite(context: Context) {
         this.databaseOpenHelper = DatabaseOpenHelper.getInstance(context)
     }
 
-    abstract fun getQueryCreateTable(): String
+    open fun getQueryCreateTable(): String {
+        return "";
+    }
 
     protected fun executeInsert(statement: SQLiteStatement): Long {
         try {
