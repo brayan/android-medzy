@@ -7,14 +7,14 @@ import java.util.*
 
 object AlarmHelper {
 
-    val DATABASE_TIME_FORMAT = "HH:mm"
+    val DATABASE_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm"
 
-    fun formatTimeFromDatabaseFormat(date: String): Date {
-        return SimpleDateFormat(DATABASE_TIME_FORMAT).parse(date)
+    fun formatDateTimeFromDatabaseFormat(date: String): Date {
+        return SimpleDateFormat(DATABASE_DATE_TIME_FORMAT).parse(date)
     }
 
-    fun formatTimeWithDatabaseFormat(date: Date): String {
-        return SimpleDateFormat(DATABASE_TIME_FORMAT).format(date)
+    fun formatDateTimeWithDatabaseFormat(date: Date): String {
+        return SimpleDateFormat(DATABASE_DATE_TIME_FORMAT).format(date)
     }
 
     fun formatTimeWithAndroidFormat(date: Date, ctx: Context): String {

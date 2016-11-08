@@ -46,7 +46,7 @@ class MedicineViewHolderSQLite(context: Context) : BaseSQLite(context) {
 
     private fun formatTimeFromString(date: String) : Calendar {
         val calendar = Calendar.getInstance()
-        calendar.time = AlarmHelper.formatTimeFromDatabaseFormat(date)
+        calendar.time = AlarmHelper.formatDateTimeFromDatabaseFormat(date)
 
         return calendar
     }

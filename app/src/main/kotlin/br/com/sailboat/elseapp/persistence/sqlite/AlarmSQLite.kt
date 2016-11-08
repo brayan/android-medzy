@@ -31,6 +31,23 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
         return getAlarmList(sb)
     }
 
+    fun getAlarmById(alarmId: Long): Alarm? {
+        val sb = StringBuilder()
+        sb.append(" SELECT Alarm.* FROM Alarm ")
+        sb.append(" WHERE Alarm.id = " + alarmId)
+
+        val cursor = performQuery(sb.toString())
+        var alarm: Alarm? = null
+
+        if (cursor.moveToNext()) {
+            alarm = getAlarmFromCursor(cursor)
+        }
+
+        cursor.close()
+
+        return alarm
+    }
+
     fun saveAndGetId(alarm: Alarm): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Alarm ")
@@ -102,12 +119,12 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
     }
 
     private fun formatTimeFromDate(date: Calendar) : String {
-        return AlarmHelper.formatTimeWithDatabaseFormat(date.time)
+        return AlarmHelper.formatDateTimeWithDatabaseFormat(date.time)
     }
 
     private fun formatTimeFromString(date: String) : Calendar {
         val calendar = Calendar.getInstance()
-        calendar.time = AlarmHelper.formatTimeFromDatabaseFormat(date)
+        calendar.time = AlarmHelper.formatDateTimeFromDatabaseFormat(date)
 
         return calendar
     }

@@ -12,35 +12,40 @@ import br.com.sailboat.elseapp.receiver.AlarmReceiver;
 
 public class AlarmManagerHelper {
 
+    public static final String ALARM_ID = "ALARM_ID";
+
     private Context context;
     private Intent intent;
     private PendingIntent pendingIntent;
     private AlarmManager alarmManager;
 
+    private long alarmId;
+    private long timeInMillis;
+    private RepeatBy repeatBy;
+
     private AlarmManagerHelper(Context context) {
         this.context = context.getApplicationContext();
     }
 
-    public static void setAlarm(Context ctx, Alarm alarm) throws ParseException {
-        new AlarmManagerHelper(ctx).setAlarm(alarm);
+    public static void setAlarm(Context ctx, long alarmId, long timeInMillis) throws ParseException {
+        new AlarmManagerHelper(ctx).setAlarm(alarmId, timeInMillis);
     }
 
-    private void setAlarm(Alarm alarm) throws ParseException {
-        initComponents(alarm);
-        defineAlarme(alarm);
-    }
-
-    private void initComponents(Alarm alarm) {
+    private void setAlarm(long alarmId, long timeInMillis) throws ParseException {
         intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("ALARM_ID", alarm.getId());
-        pendingIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra(ALARM_ID, alarmId);
+        pendingIntent = PendingIntent.getBroadcast(context, (int) alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        getAlarmManager().setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
+    }
+
+    private AlarmManager getAlarmManager() {
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
     private void defineAlarme(Alarm alarm) throws ParseException {
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
+
 
 //        Date dataAlarmeInicial = DateHelper.getDate(alarm.getInitialAlarmDate());
 //        DateTime dataInicial = new DateTime(dataAlarmeInicial.getTime());
@@ -67,11 +72,11 @@ public class AlarmManagerHelper {
 //        }
     }
 
-    public static void cancelarAlarm(Context context, Alarm alarm) {
+    public static void cancelAlarm(Context context, long alarmId) {
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("ALARM_ID", alarm.getId());
+        intent.putExtra("ALARM_ID", alarmId);
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, (int) alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmIntent.cancel();
     }
@@ -153,4 +158,17 @@ public class AlarmManagerHelper {
 //
 //        return dateTime;
 //    }
+
+
+    public enum RepeatBy {
+
+        NOT_REPEAT(0), SECOND(1), MINUTE(2), HOUR(3), DAY(4), WEEK(5), MONTH(6), YEAR(7);
+
+        RepeatBy(int repeatType) {
+            this.repeatType = repeatType;
+        }
+
+        private final int repeatType;
+    }
+
 }
