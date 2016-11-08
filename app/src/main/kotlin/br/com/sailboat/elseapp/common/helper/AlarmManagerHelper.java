@@ -67,6 +67,15 @@ public class AlarmManagerHelper {
 //        }
     }
 
+    public static void cancelarAlarm(Context context, Alarm alarm) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra("ALARM_ID", alarm.getId());
+
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmIntent.cancel();
+    }
+
 //    private void setAlarmeNaoRepetitivo(DateTime dataInicial) {
 //        alarmManager.set(AlarmManager.RTC_WAKEUP, dataInicial.toDate().getTime(), pendingIntent);
 //    }
@@ -120,14 +129,7 @@ public class AlarmManagerHelper {
 //        }
 //    }
 //
-//    public static void cancelarAlarme(Context context, Task task) {
-//        Intent intent = new Intent(context, AlarmReceiver.class);
-//        intent.putExtra("NOME_TAREFA", task.getName());
-//        intent.putExtra("ID_TAREFA", task.getId());
-//
-//        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, (int) task.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        alarmIntent.cancel();
-//    }
+
 //
 //    @NonNull
 //    public static DateTime getDateTimeAlarmeIncrementado(AlarmRepeatType repeatType, Date dataAlarme, int quantidade) {

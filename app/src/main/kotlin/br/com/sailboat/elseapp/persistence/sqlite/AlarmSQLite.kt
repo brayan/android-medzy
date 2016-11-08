@@ -40,7 +40,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
         val statement = compileStatement(sb.toString())
         statement.bindLong(1, alarm.medicineId)
         statement.bindString(2, formatTimeFromDate(alarm.time))
-        statement.bindLong(3, alarm.repeatType as Long)
+        statement.bindLong(3, alarm.repeatType.toLong())
 
         val id = executeInsert(statement)
 

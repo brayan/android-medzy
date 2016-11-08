@@ -28,12 +28,13 @@
 
         <TextView
             android:id="@+id/tvHolderMedicineName"
+            android:paddingRight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/tvHolderMedicineAlarmTime"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Drug"
+            android:text="Medicine"
             android:textColor="@color/blue_grey_700"
             android:textSize="18sp" />
 

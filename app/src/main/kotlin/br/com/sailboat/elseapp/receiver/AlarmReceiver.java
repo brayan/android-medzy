@@ -1,17 +1,9 @@
 package br.com.sailboat.elseapp.receiver;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -23,6 +15,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 //
 //        NotificationCompat.Builder builder = buildNotification(intent);
 //        throwNotification(builder);
+
+        Toast.makeText(context, "AEEEEEEEE", Toast.LENGTH_LONG).show();
     }
 
 //    private void throwNotification(NotificationCompat.Builder builder) {

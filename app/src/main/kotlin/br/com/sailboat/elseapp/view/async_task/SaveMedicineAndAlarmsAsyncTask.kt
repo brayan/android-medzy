@@ -1,9 +1,8 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
-import android.util.Log
-
 import br.com.sailboat.elseapp.base.BaseAsyncTask
+import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
@@ -26,6 +25,14 @@ class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarm
         this.callback = callback
     }
 
+    override fun onPreExecute() {
+
+        for (alarm in alarms) {
+            AlarmManagerHelper.cancelarAlarm(context, alarm)
+        }
+
+    }
+
     override fun onDoInBackground() {
 
         if (isNewMedicine) {
@@ -39,6 +46,10 @@ class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarm
     }
 
     override fun onSuccess() {
+        for (alarm in alarms) {
+            AlarmManagerHelper.setAlarm(context, alarm)
+        }
+
         callback.onSuccess()
     }
 
@@ -60,6 +71,7 @@ class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarm
         alarmSQLite.deleteAllByMedicine(medicine.id)
 
         for (alarm in alarms) {
+            alarm.medicineId = medicine.id
             alarm.id = alarmSQLite.saveAndGetId(alarm)
         }
     }

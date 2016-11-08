@@ -4,8 +4,6 @@ import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.elseapp.base.BaseSQLite
 import br.com.sailboat.elseapp.common.helper.AlarmHelper
-import br.com.sailboat.elseapp.model.Alarm
-import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import java.util.*
 
@@ -13,12 +11,12 @@ class MedicineViewHolderSQLite(context: Context) : BaseSQLite(context) {
 
     fun getAll(): MutableList<MedicineVHModel> {
         val sb = StringBuilder()
-        sb.append(" SELECT Medicine.id as medicineId ")
-        sb.append(" Medicine.name as medicineName ")
-        sb.append(" Alarm.time as alarmTime ")
+        sb.append(" SELECT Medicine.id AS medicineId, ")
+        sb.append(" Medicine.name AS medicineName, ")
+        sb.append(" Alarm.time AS alarmTime ")
         sb.append(" FROM Medicine ")
-        sb.append(" LEFT JOIN JOIN Alarm ON Medicine.id = Alarm.medicineId ")
-        sb.append(" ORDER BY Alarm.time ")
+        sb.append(" LEFT JOIN Alarm ON Medicine.id = Alarm.medicineId ")
+        sb.append(" ORDER BY Alarm.time DESC")
 
         return getMedicineViewHolderModelList(sb)
     }

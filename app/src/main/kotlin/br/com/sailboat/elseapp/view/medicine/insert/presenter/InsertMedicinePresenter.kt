@@ -5,7 +5,6 @@ import android.content.Intent
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
 import br.com.sailboat.elseapp.common.helper.AlarmHelper
-import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Alarm
@@ -147,11 +146,6 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         SaveMedicineAndAlarmsAsyncTask(context, medicine!!, alarms, object : SaveMedicineAndAlarmsAsyncTask.Callback {
 
             override fun onSuccess() {
-
-                for (alarm in alarms) {
-                    AlarmManagerHelper.setAlarm(context, alarm)
-                }
-
                 view.closeActivityResultOk()
             }
 
