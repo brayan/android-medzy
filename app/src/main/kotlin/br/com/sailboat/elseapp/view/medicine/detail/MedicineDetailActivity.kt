@@ -17,7 +17,8 @@ class MedicineDetailActivity : BaseActivity<MedicineDetailFragment>() {
 
         fun start(fromFragment: Fragment, medicine: MedicineVHModel, requestCode: Int) {
             val starter = Intent(fromFragment.activity, MedicineDetailActivity::class.java)
-            ExtrasHelper.putMedicine(medicine, starter)
+            ExtrasHelper.putMedicineName(medicine.medicineName, starter)
+            ExtrasHelper.putMedicineId(medicine.medicineId, starter)
             fromFragment.startActivityForResult(starter, requestCode)
         }
 

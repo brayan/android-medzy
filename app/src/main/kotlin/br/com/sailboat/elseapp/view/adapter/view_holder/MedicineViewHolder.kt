@@ -17,8 +17,8 @@ class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) 
     }
 
     fun onBindViewHolder(medicine: MedicineVHModel) {
-        itemView.tvHolderMedicineName.text = medicine.name
-        itemView.tvHolderMedicineAlarmTime.text = formatTime(medicine.alarm.time)
+        itemView.tvHolderMedicineName.text = medicine.medicineName
+        itemView.tvHolderMedicineAlarmTime.text = formatTime(medicine.alarmTime.time)
     }
 
     private fun bindCallback() {

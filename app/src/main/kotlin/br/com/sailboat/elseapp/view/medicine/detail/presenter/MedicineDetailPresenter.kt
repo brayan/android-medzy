@@ -21,8 +21,8 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     override fun extractExtrasFromIntent(intent: Intent) {
-        val drug = ExtrasHelper.getMedicine(intent)
-        viewModel.medicine = drug
+        viewModel.medicineName = ExtrasHelper.getMedicineName(intent)
+        viewModel.medicineId = ExtrasHelper.getMedicineId(intent)
     }
 
     override fun postResume() {
@@ -30,7 +30,7 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     fun onClickEdit() {
-        view.startInsertDrugActivity(medicine!!);
+        view.startInsertDrugActivity(viewModel.medicineId!!);
     }
 
     fun onClickMenuDelete() {
@@ -38,13 +38,14 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     fun onActivityResultOkEditDrug(data: Intent?) {
-        viewModel.medicine = ExtrasHelper.getMedicine(data!!)
+        // TODO: START ANIMATION TO UPDATE THE SCREEN
+        // LOAD THE INFO AGAIN;
         updateContentViews()
     }
 
     private fun deleteWorkout() {
 
-        DeleteMedicineAsyncTask(context, medicine!!, object : DeleteMedicineAsyncTask.Callback {
+        DeleteMedicineAsyncTask(context, viewModel.medicineId!!, object : DeleteMedicineAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
@@ -59,11 +60,11 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     private fun updateContentViews() {
-        view.setDrugName(medicine?.name ?: "")
+        view.setDrugName(medicineName?: "")
     }
 
     private val context: Context get() = view.activityContext
-    private val medicine: Medicine? get() = viewModel.medicine
+    private val medicineName: String? get() = viewModel.medicineName
 
 
     interface View {
@@ -71,7 +72,7 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
         fun showToast(message: String)
         fun setDrugName(name: String)
         fun closeActivityResultOk()
-        fun startInsertDrugActivity(medicine: Medicine)
+        fun startInsertDrugActivity(medicineId: Long)
     }
 
 }

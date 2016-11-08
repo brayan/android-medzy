@@ -5,14 +5,23 @@ import br.com.sailboat.elseapp.model.Medicine
 
 object ExtrasHelper {
 
-    private val MEDICINE = "MEDICINE"
+    private val MEDICINE_NAME = "MEDICINE_NAME"
+    private val MEDICINE_ID = "MEDICINE_ID"
 
-    fun putMedicine(medicine: Medicine, intent: Intent) {
-        intent.putExtra(MEDICINE, medicine)
+    fun putMedicineName(name: String, intent: Intent) {
+        intent.putExtra(MEDICINE_NAME, name)
     }
 
-    fun getMedicine(intent: Intent): Medicine? {
-        return intent.getSerializableExtra(MEDICINE) as? Medicine
+    fun getMedicineName(intent: Intent): String? {
+        return intent.getStringExtra(MEDICINE_NAME)
+    }
+
+    fun putMedicineId(id: Long, intent: Intent) {
+        intent.putExtra(MEDICINE_ID, id)
+    }
+
+    fun getMedicineId(intent: Intent): Long? {
+        return intent.getLongExtra(MEDICINE_ID, -1L)
     }
 
 }

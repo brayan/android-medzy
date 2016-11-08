@@ -7,6 +7,7 @@ import java.util.*
 
 class InsertMedicineViewModel : BaseViewModel() {
 
+    var medicineId: Long? = -1
     var medicine: Medicine? = null
     @Transient var alarms: MutableList<Alarm>
 

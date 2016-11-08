@@ -5,12 +5,13 @@ import android.content.Intent
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
 import br.com.sailboat.elseapp.common.helper.AlarmHelper
+import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.view.async_task.LoadAlarmsAsyncTask
-import br.com.sailboat.elseapp.view.async_task.SaveMedicineAsyncTask
+import br.com.sailboat.elseapp.view.async_task.SaveMedicineAndAlarmsAsyncTask
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.checker.InsertMedicineChecker
 import br.com.sailboat.elseapp.view.medicine.insert.view_model.InsertMedicineViewModel
 import java.util.*
@@ -27,8 +28,8 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     override fun extractExtrasFromIntent(intent: Intent) {
-        val drugToEdit = ExtrasHelper.getMedicine(intent)
-        viewModel.medicine = drugToEdit
+        val medicineId = ExtrasHelper.getMedicineId(intent)
+        viewModel.medicineId = medicineId
     }
 
     override fun onResumeFirstSession() {
@@ -40,7 +41,8 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             view.openKeyboard()
 
         } else {
-            updateDrugNameView()
+//            updateMedicineNameView()
+            // TODO: LOAD MEDICINE
             loadAlarms()
         }
 
@@ -93,13 +95,13 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(viewModel.alarms[0].time.time, context))
     }
 
-    private fun updateDrugNameView() {
+    private fun updateMedicineNameView() {
         view.setDrugName(medicine?.name ?: "-")
         view.putCursorAtTheEnd()
     }
 
     private fun loadAlarms() {
-        LoadAlarmsAsyncTask(context, medicine!!.id, object : LoadAlarmsAsyncTask.Callback {
+        LoadAlarmsAsyncTask(context, viewModel.medicineId!!, object : LoadAlarmsAsyncTask.Callback {
 
             override fun onSucess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
@@ -142,9 +144,14 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun save() {
 
-        SaveMedicineAsyncTask(context, medicine!!, object : SaveMedicineAsyncTask.Callback {
+        SaveMedicineAndAlarmsAsyncTask(context, medicine!!, alarms, object : SaveMedicineAndAlarmsAsyncTask.Callback {
 
             override fun onSuccess() {
+
+                for (alarm in alarms) {
+                    AlarmManagerHelper.setAlarm(context, alarm)
+                }
+
                 view.closeActivityResultOk()
             }
 
@@ -159,6 +166,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private val context: Context get() = view.activityContext
     private val medicine: Medicine? get() = viewModel.medicine
+    private val alarms: MutableList<Alarm> get() = viewModel.alarms
 
 
     interface View {

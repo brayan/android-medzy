@@ -11,6 +11,7 @@ import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.common.helper.DialogHelper
+import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.view.dialog.AlarmPickerDialog
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.InsertMedicinePresenter
 import kotlinx.android.synthetic.main.frag_insert_medicine.*
@@ -65,6 +66,10 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         tvInsertMedicineTime.setText(time)
     }
 
+    override fun setAlarmsView(alarms: MutableList<Alarm>) {
+        // TODO: GENERATE ALARM VIEWS
+    }
+
     override fun getNameFromView(): String {
         return etInsertMedicineName.text.toString()
     }
@@ -87,7 +92,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         AlarmPickerDialog.show(fragmentManager, alarm, object : AlarmPickerDialog.Callback {
 
             override fun onClickOk(hourOfDay: Int, minute: Int) {
-                presenter.onClickOkAlarmChooserDialog(hourOfDay, minute)
+                presenter.onClickOkAlarmChooserDialog(-1L, hourOfDay, minute)
             }
 
         })

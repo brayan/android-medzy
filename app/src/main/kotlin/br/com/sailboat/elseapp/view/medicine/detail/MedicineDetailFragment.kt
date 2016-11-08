@@ -66,8 +66,8 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
         activity.finish()
     }
 
-    override fun startInsertDrugActivity(medicine: Medicine) {
-        InsertMedicineActivity.start(this, medicine, REQUEST_EDIT_DRUG)
+    override fun startInsertDrugActivity(medicineId: Long) {
+        InsertMedicineActivity.start(this, medicineId, REQUEST_EDIT_DRUG)
     }
 
     override fun initViews() {

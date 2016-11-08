@@ -40,6 +40,8 @@ public class AlarmManagerHelper {
 
     private void defineAlarme(Alarm alarm) throws ParseException {
 
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(), pendingIntent);
+
 //        Date dataAlarmeInicial = DateHelper.getDate(alarm.getInitialAlarmDate());
 //        DateTime dataInicial = new DateTime(dataAlarmeInicial.getTime());
 //        DateTime dataProximoAlarme = new DateTime(DateHelper.getDate(alarm.getNextAlarmDate()));

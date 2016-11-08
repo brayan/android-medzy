@@ -18,15 +18,15 @@ class InsertMedicineActivity : BaseActivity<InsertMedicineFragment>() {
             start(fromFragment, null, requestCode)
         }
 
-        fun start(fromFragment: Fragment, medicine: Medicine?, requestCode: Int) {
+        fun start(fromFragment: Fragment, medicineId: Long?, requestCode: Int) {
             val starter = Intent(fromFragment.activity, InsertMedicineActivity::class.java)
-            checkAndAddDrugToIntent(medicine, starter)
+            checkAndAddDrugToIntent(medicineId, starter)
             fromFragment.startActivityForResult(starter, requestCode)
         }
 
-        private fun checkAndAddDrugToIntent(medicine: Medicine?, starter: Intent) {
-            medicine?.let {
-                ExtrasHelper.putMedicine(medicine, starter)
+        private fun checkAndAddDrugToIntent(medicineId: Long?, starter: Intent) {
+            medicineId?.let {
+                ExtrasHelper.putMedicineId(medicineId, starter)
             }
         }
 
