@@ -3,9 +3,9 @@ package br.com.sailboat.elseapp.view.medicine.detail.presenter
 import android.content.Context
 import android.content.Intent
 import br.com.sailboat.elseapp.base.BasePresenter
+import br.com.sailboat.elseapp.base.SimpleAsyncTask
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
-import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.view.async_task.DeleteMedicineAsyncTask
 import br.com.sailboat.elseapp.view.medicine.detail.view_model.MedicineDetailViewModel
 
@@ -45,7 +45,7 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
 
     private fun deleteWorkout() {
 
-        DeleteMedicineAsyncTask(context, viewModel.medicineId!!, object : DeleteMedicineAsyncTask.Callback {
+        DeleteMedicineAsyncTask(context, viewModel.medicineId!!, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()

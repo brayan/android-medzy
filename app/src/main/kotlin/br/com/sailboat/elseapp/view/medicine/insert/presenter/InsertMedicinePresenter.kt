@@ -2,7 +2,9 @@ package br.com.sailboat.elseapp.view.medicine.insert.presenter
 
 import android.content.Context
 import android.content.Intent
+import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.base.BasePresenter
+import br.com.sailboat.elseapp.base.SimpleAsyncTask
 import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
 import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.common.helper.ExtrasHelper
@@ -101,11 +103,11 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadAlarms() {
-        LoadAlarmsAsyncTask(context, viewModel.medicineId!!, object : LoadAlarmsAsyncTask.Callback {
+        LoadAlarmsAsyncTask(context, viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
 
-            override fun onSucess(list: MutableList<Alarm>) {
+            override fun onSuccess(list: MutableList<Alarm>?) {
                 viewModel.alarms.clear()
-                viewModel.alarms.addAll(list)
+                viewModel.alarms.addAll(list!!)
 
                 view.setAlarmsView(viewModel.alarms)
             }
@@ -144,7 +146,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun save() {
 
-        SaveMedicineAndAlarmsAsyncTask(context, medicine!!, alarms, object : SaveMedicineAndAlarmsAsyncTask.Callback {
+        SaveMedicineAndAlarmsAsyncTask(context, medicine!!, alarms, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()

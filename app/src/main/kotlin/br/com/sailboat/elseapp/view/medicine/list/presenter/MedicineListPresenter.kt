@@ -2,6 +2,7 @@ package br.com.sailboat.elseapp.view.medicine.list.presenter
 
 import android.content.Context
 import android.content.Intent
+import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
@@ -46,11 +47,10 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter() 
 
     private fun loadDrugs() {
 
-        LoadMedicinesViewHolderAsyncTask(context, object : LoadMedicinesViewHolderAsyncTask.Callback {
-
-            override fun onSucess(list: MutableList<MedicineVHModel>) {
+        LoadMedicinesViewHolderAsyncTask(context, object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
+            override fun onSuccess(result: MutableList<MedicineVHModel>?) {
                 medicines.clear()
-                medicines.addAll(list)
+                medicines.addAll(result!!)
 
                 view.updateContentViews()
             }

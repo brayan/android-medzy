@@ -3,7 +3,7 @@ package br.com.sailboat.elseapp.base
 import android.content.Context
 import android.os.AsyncTask
 
-abstract class BaseAsyncTask(val context: Context) : AsyncTask<Void, Void, Exception>() {
+abstract class SimpleAsyncTask (val context: Context, val callback: Callback) : AsyncTask<Void, Void, Exception>(){
 
     override fun doInBackground(vararg params: Void): Exception? {
         try {
@@ -16,23 +16,18 @@ abstract class BaseAsyncTask(val context: Context) : AsyncTask<Void, Void, Excep
     }
 
     override fun onPostExecute(e: Exception?) {
-
         if (e == null) {
-            onSuccess()
+            callback.onSuccess()
         } else {
-            onFail(e)
+            callback.onFail(e)
         }
     }
 
     protected abstract fun onDoInBackground()
 
-    protected abstract fun onSuccess()
 
-    protected abstract fun onFail(e: Exception)
-
-
-    interface Callback<T> {
-        fun onSuccess(result: T?)
+    interface Callback {
+        fun onSuccess()
         fun onFail(e: Exception)
     }
 

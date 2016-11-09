@@ -6,14 +6,12 @@ import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineViewHolderSQLite
 import java.util.*
 
-class LoadMedicinesViewHolderAsyncTask(context: Context, callback: LoadMedicinesViewHolderAsyncTask.Callback) : BaseAsyncTask() {
+class LoadMedicinesViewHolderAsyncTask(context: Context, callback: Callback<MutableList<MedicineVHModel>>) : BaseAsyncTask(context) {
 
-    private val callback: LoadMedicinesViewHolderAsyncTask.Callback
-    private val context: Context
+    private val callback: Callback<MutableList<MedicineVHModel>>
     private var list: MutableList<MedicineVHModel>
 
     init {
-        this.context = context.applicationContext
         this.callback = callback
         this.list = ArrayList<MedicineVHModel>()
     }
@@ -23,17 +21,11 @@ class LoadMedicinesViewHolderAsyncTask(context: Context, callback: LoadMedicines
     }
 
     override fun onSuccess() {
-       callback.onSucess(list)
+       callback.onSuccess(list)
     }
 
     override fun onFail(e: Exception) {
         callback.onFail(e)
-    }
-
-
-    interface Callback {
-        fun onSucess(list: MutableList<MedicineVHModel>)
-        fun onFail(e: Exception)
     }
 
 }
