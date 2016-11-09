@@ -12,11 +12,10 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
     override fun getQueryCreateTable(): String {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Alarm ( ")
-        sb.append(" id INTEGER, ")
+        sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
         sb.append(" medicineId INTEGER, ")
         sb.append(" time TEXT NOT NULL, ")
         sb.append(" repeatType INTEGER, ")
-        sb.append(" PRIMARY KEY(id, medicineId), ")
         sb.append(" FOREIGN KEY(medicineId) REFERENCES Medicine(id) ")
         sb.append(" ); ")
 

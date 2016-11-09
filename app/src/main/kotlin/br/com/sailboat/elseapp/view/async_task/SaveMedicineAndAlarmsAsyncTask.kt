@@ -47,7 +47,7 @@ class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarm
 
     override fun onSuccess() {
         for (alarm in alarms) {
-            AlarmManagerHelper.setAlarm(context, alarm.time.timeInMillis, alarm.id)
+            AlarmManagerHelper.setAlarm(context, alarm.id, alarm.time.timeInMillis)
         }
 
         callback.onSuccess()
