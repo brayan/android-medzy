@@ -1,13 +1,26 @@
 package br.com.sailboat.elseapp.receiver
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
+import android.text.TextUtils
+import br.com.sailboat.elseapp.R
+import br.com.sailboat.elseapp.common.helper.LogHelper
+import br.com.sailboat.elseapp.common.helper.NotificationHelper
+import br.com.sailboat.elseapp.view.medicine.list.MedicineListActivity
+import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    var context: Context? = null
 
+    override fun onReceive(context: Context, intent: Intent) {
+        this.context = context
 
         // TODO: IMPLEMENT NOTIFICATION LIKE ANDROID ALARM
 
@@ -46,6 +59,53 @@ class AlarmReceiver : BroadcastReceiver() {
 //            Toast.makeText(context, "Error on set alarm: " + e.message, Toast.LENGTH_LONG).show()
 //        }
 
+        val builder = buildNotification(intent)
+        throwNotification(builder)
+    }
+
+    private fun throwNotification(builder: NotificationCompat.Builder) {
+        val notifyMgr = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notifyMgr.notify(NotificationHelper.NOTIFICATION_ID, builder.build())
+    }
+
+    private fun buildNotification(intent: Intent): NotificationCompat.Builder {
+        val resultIntent = Intent(context, MedicineListActivity::class.java)
+        val resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(context)
+        builder.setSmallIcon(R.drawable.notification_template_icon_bg)
+        builder.setCategory(NotificationCompat.CATEGORY_ALARM)
+        builder.priority = NotificationCompat.PRIORITY_HIGH
+        builder.setContentIntent(resultPendingIntent)
+        builder.setAutoCancel(true)
+        builder.color = ContextCompat.getColor(context, R.color.teal_500)
+        builder.setOngoing(true)
+        setTextAndTitleFromList(builder)
+        initVibrate(builder)
+        initSound(builder)
+
+        initNotificationActions(builder)
+
+        return builder
+    }
+
+    private fun setTextAndTitleFromList(builder: NotificationCompat.Builder) {
+        builder.setContentTitle("Nome do remédio")
+        builder.setContentText("1 capsula")
+    }
+
+    private fun initNotificationActions(builder: NotificationCompat.Builder) {
+        val dismissIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_CANCEL_CURRENT)
+        builder.addAction(android.R.drawable.ic_delete, "Mark alarm as taken", dismissIntent)
+    }
+
+    private fun initVibrate(builder: NotificationCompat.Builder) {
+        builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE or NotificationCompat.DEFAULT_LIGHTS)
+    }
+
+    private fun initSound(builder: NotificationCompat.Builder) {
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        builder.setSound(alarmSound)
     }
 
 }
