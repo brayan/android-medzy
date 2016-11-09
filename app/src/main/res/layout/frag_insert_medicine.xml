@@ -24,7 +24,7 @@
                 android:id="@+id/etInsertMedicineName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Drug"
+                android:hint="Medicine"
                 android:textSize="28sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                android:text="3 em 3 horas"
+                android:text="Every day"
                 android:textSize="36sp" />
 
             <Button

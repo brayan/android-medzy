@@ -21,7 +21,6 @@ public class AlarmManagerHelper {
 
     private long alarmId;
     private long timeInMillis;
-    private RepeatBy repeatBy;
 
     private AlarmManagerHelper(Context context) {
         this.context = context.getApplicationContext();
@@ -159,16 +158,5 @@ public class AlarmManagerHelper {
 //        return dateTime;
 //    }
 
-
-    public enum RepeatBy {
-
-        NOT_REPEAT(0), SECOND(1), MINUTE(2), HOUR(3), DAY(4), WEEK(5), MONTH(6), YEAR(7);
-
-        RepeatBy(int repeatType) {
-            this.repeatType = repeatType;
-        }
-
-        private final int repeatType;
-    }
 
 }

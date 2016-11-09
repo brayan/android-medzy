@@ -9,6 +9,7 @@ import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
+import br.com.sailboat.elseapp.model.RepeatType
 import br.com.sailboat.elseapp.view.async_task.LoadAlarmsAsyncTask
 import br.com.sailboat.elseapp.view.async_task.SaveMedicineAndAlarmsAsyncTask
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.checker.InsertMedicineChecker
@@ -36,7 +37,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         if (isInsertingDrug()) {
             viewModel.medicine = Medicine(-1, "")
             // TODO: JUST FOR TESTS
-            viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getTimeInitialAlarm(), 0))
+            viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getTimeInitialAlarm(), RepeatType.DAY))
             view.openKeyboard()
 
         } else {
