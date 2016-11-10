@@ -69,7 +69,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             save()
 
         } catch (e: RequiredFieldNotFilledException) {
-            view.showDialog(e?.message ?: "")
+            view.showInfoMessage(e?.message ?: "")
 
         } catch (e: Exception) {
             LogHelper.printExceptionLog(e)
@@ -109,7 +109,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
-                view.showDialog("An error occurred while loading the alarms :/")
+                view.showErrorMessage("An error occurred while loading the alarms :/")
             }
 
 
@@ -131,7 +131,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun collectDataFromFieldsAndBindToMedicine() {
-        viewModel.medicine!!.name = view.getNameFromView()
+        viewModel.medicine!!.name = view.getMedicineNameFromView()
     }
 
     private fun checkRequiredFields() {
@@ -148,7 +148,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
-                view.showDialog("An error occurred while saving the medicine :/")
+                view.showErrorMessage("An error occurred while saving the medicine :/")
             }
 
         }).execute()
@@ -159,13 +159,13 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     interface View {
         fun getContext() : Context
         fun closeActivityResultOk()
-        fun getNameFromView(): String
+        fun getMedicineNameFromView(): String
         fun setToolbarTitle(title: String)
         fun setMedicineName(name: String)
         fun setAlarm(name: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
-        fun showToast(message: String)
-        fun showDialog(message: String)
+        fun showInfoMessage(message: String)
+        fun showErrorMessage(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
         fun openKeyboard()
         fun putCursorAtTheEnd()

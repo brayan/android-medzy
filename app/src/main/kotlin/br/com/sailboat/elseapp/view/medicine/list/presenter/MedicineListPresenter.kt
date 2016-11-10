@@ -22,7 +22,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     }
 
     override fun onResumeAfterRestart() {
-        view.updateContentViews()
+        updateContentViews()
     }
 
     override fun onClickMedicine(position: Int) {
@@ -31,7 +31,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     }
 
     fun onClickNewMedicine() {
-        view.startInsertOrEditMedicineActivity()
+        view.startInsertMedicineActivity()
     }
 
     fun onActivityResult() {
@@ -41,29 +41,54 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     private fun loadMedicines() {
 
         LoadMedicinesViewHolderAsyncTask(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
+
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
                 medicines.clear()
                 medicines.addAll(result!!)
 
-                view.updateContentViews()
+                updateContentViews()
             }
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
+                view.showDialog("An error occurred while loading the medicines")
             }
 
         }).execute()
 
     }
 
+    private fun updateContentViews() {
+        updateMedicinesViews()
+        updateVisibilityOfMedicines()
+    }
+
+    private fun updateVisibilityOfMedicines() {
+        if (medicines.isEmpty()) {
+            view.showEmptyList()
+            view.hideMedicines()
+        } else {
+            view.showMedicines()
+            view.hideEmptyList()
+        }
+    }
+
+    private fun updateMedicinesViews() {
+        view.updateMedicines()
+    }
+
 
     interface View {
         fun getContext(): Context
-        fun updateContentViews()
-        fun showToast(message: String)
-        fun startInsertOrEditMedicineActivity()
+        fun updateMedicines()
+        fun showDialog(message: String)
+        fun startInsertMedicineActivity()
         fun startMedicineDetailActivity(medicine: MedicineVHModel)
         fun updateWorkoutRemoved(position: Int)
+        fun showMedicines()
+        fun hideEmptyList()
+        fun showEmptyList()
+        fun hideMedicines()
     }
 
 }

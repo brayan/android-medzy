@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
 import br.com.sailboat.elseapp.common.helper.DialogHelper
@@ -21,6 +20,10 @@ import java.util.*
 class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMedicinePresenter.View {
 
     override val LAYOUT_ID: Int get() = R.layout.frag_insert_medicine
+
+    override fun newPresenterInstance(): InsertMedicinePresenter {
+        return InsertMedicinePresenter(this)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_insert_medicine, menu)
@@ -38,10 +41,6 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
             }
         }
 
-    }
-
-    override fun newPresenterInstance(): InsertMedicinePresenter {
-        return InsertMedicinePresenter(this)
     }
 
     override fun initViews() {
@@ -69,15 +68,15 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         // TODO: GENERATE ALARM VIEWS
     }
 
-    override fun getNameFromView(): String {
+    override fun getMedicineNameFromView(): String {
         return etInsertMedicineName.text.toString()
     }
 
-    override fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    override fun showInfoMessage(message: String) {
+        DialogHelper.showMessage(fragmentManager, message)
     }
 
-    override fun showDialog(message: String) {
+    override fun showErrorMessage(message: String) {
         DialogHelper.showErrorMessage(fragmentManager, message)
     }
 

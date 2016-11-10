@@ -5,9 +5,9 @@ import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
+import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View {
-
 
     private val REQUEST_NEW_MEDICINE = 0
     private val REQUEST_DETAILS = 1
@@ -37,16 +36,15 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         initFab()
     }
 
-    override fun updateContentViews() {
+    override fun updateMedicines() {
         recyclerView.adapter.notifyDataSetChanged()
-        updateVisibilityOfViews()
     }
 
-    override fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    override fun showDialog(message: String) {
+        DialogHelper.showMessage(fragmentManager, message)
     }
 
-    override fun startInsertOrEditMedicineActivity() {
+    override fun startInsertMedicineActivity() {
         InsertMedicineActivity.start(this, REQUEST_NEW_MEDICINE)
     }
 
@@ -63,14 +61,29 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         presenter.onActivityResult()
     }
 
+    override fun hideEmptyList() {
+        emptyList.visibility = View.GONE
+    }
+
+    override fun showEmptyList() {
+        emptyList.visibility = View.VISIBLE
+    }
+
+    override fun hideMedicines() {
+        recyclerView.visibility = View.GONE
+    }
+
+    override fun showMedicines() {
+        recyclerView.visibility = View.VISIBLE
+    }
+
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = MedicineListAdapter(presenter)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = MedicineListAdapter(presenter)
     }
 
     private fun initEmptyListView() {
-        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.teal_300), PorterDuff.Mode.SRC_ATOP)
+        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.cyan_300), PorterDuff.Mode.SRC_ATOP)
         tvEmptyListTitle.text = "No medicines"
         tvEmptyListMessage.text = "Add a new medicine by tapping the + button"
         emptyList.visibility = View.GONE
@@ -84,13 +97,6 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         fab.setOnClickListener {
             presenter.onClickNewMedicine()
         }
-    }
-
-    private fun updateVisibilityOfViews() {
-        val isEmpty = presenter.medicines.isEmpty()
-
-        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
-        emptyList.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
 }
