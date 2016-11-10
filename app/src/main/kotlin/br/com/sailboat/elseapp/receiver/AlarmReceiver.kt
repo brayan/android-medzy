@@ -8,12 +8,9 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import br.com.sailboat.elseapp.R
-import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.common.helper.NotificationHelper
 import br.com.sailboat.elseapp.view.medicine.list.MedicineListActivity
-import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -79,10 +76,10 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
         builder.color = ContextCompat.getColor(context, R.color.teal_500)
-        builder.setOngoing(true)
+//        builder.setOngoing(true)
         setTextAndTitleFromList(builder)
         initVibrate(builder)
-        initSound(builder)
+//        initSound(builder)
 
         initNotificationActions(builder)
 
