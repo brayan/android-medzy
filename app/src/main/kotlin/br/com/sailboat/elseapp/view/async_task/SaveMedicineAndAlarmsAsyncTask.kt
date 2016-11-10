@@ -9,17 +9,13 @@ import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 
 
-class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: Callback) : SimpleAsyncTask(context.applicationContext, callback) {
+class SaveMedicineAndAlarmsAsyncTask(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: SimpleAsyncTask.Callback)
+    : SimpleAsyncTask(context.applicationContext, callback) {
 
-    private val medicine: Medicine
-    private val alarms: MutableList<Alarm>
+    private val medicine = medicine
+    private val alarms = alarms
 
     private val isNewMedicine: Boolean get() = medicine.id == -1L
-
-    init {
-        this.medicine = medicine
-        this.alarms = alarms
-    }
 
     override fun onDoInBackground() {
         cancelAlarms()

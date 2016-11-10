@@ -31,7 +31,7 @@ abstract class BaseAsyncTask(val context: Context) : AsyncTask<Void, Void, Excep
 
 
     interface Callback<T> {
-        fun onSuccess(result: T?)
+        fun onSuccess(result: T)
         fun onFail(e: Exception)
     }
 

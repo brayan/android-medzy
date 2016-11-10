@@ -10,14 +10,7 @@ import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 
 abstract class BaseSQLite(context: Context) {
 
-    private val databaseOpenHelper: DatabaseOpenHelper
-
-    val context: Context
-
-    init {
-        this.context = context.applicationContext
-        this.databaseOpenHelper = DatabaseOpenHelper.getInstance(context)
-    }
+    private val databaseOpenHelper = DatabaseOpenHelper.getInstance(context)
 
     open fun getQueryCreateTable(): String {
         return "";

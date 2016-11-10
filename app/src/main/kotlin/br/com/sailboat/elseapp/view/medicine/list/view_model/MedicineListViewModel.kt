@@ -6,10 +6,7 @@ import java.util.*
 
 class MedicineListViewModel : BaseViewModel() {
 
-    @Transient val medicines: MutableList<MedicineVHModel>
-
-    init {
-        this.medicines = ArrayList<MedicineVHModel>()
-    }
+    @Transient
+    val medicines: MutableList<MedicineVHModel>  = ArrayList<MedicineVHModel>()
 
 }

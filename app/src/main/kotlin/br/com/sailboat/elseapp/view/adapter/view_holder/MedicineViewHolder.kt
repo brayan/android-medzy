@@ -10,11 +10,7 @@ import java.util.*
 
 class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) : BaseViewHolder<MedicineVHModel>(itemView) {
 
-    private val callback: MedicineViewHolder.Callback
-
-    init {
-        this.callback = callback
-    }
+    private val callback = callback
 
     companion object {
         val LAYOUT_ID = R.layout.holder_medicine

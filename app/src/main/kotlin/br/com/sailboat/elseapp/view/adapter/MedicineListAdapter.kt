@@ -10,11 +10,7 @@ import br.com.sailboat.elseapp.view.adapter.view_holder.MedicineViewHolder
 
 class MedicineListAdapter(callback: MedicineListAdapter.Callback) : RecyclerView.Adapter<MedicineViewHolder>() {
 
-    private val callback: Callback
-
-    init {
-        this.callback = callback
-    }
+    private val callback = callback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineViewHolder {
         val view = inflateLayout(parent, MedicineViewHolder.LAYOUT_ID)

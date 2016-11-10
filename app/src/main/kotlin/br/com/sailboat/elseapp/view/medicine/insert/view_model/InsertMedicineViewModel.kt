@@ -9,10 +9,6 @@ class InsertMedicineViewModel : BaseViewModel() {
 
     var medicineId: Long? = -1
     var medicine: Medicine? = null
-    @Transient var alarms: MutableList<Alarm>
-
-    init {
-        this.alarms = ArrayList<Alarm>()
-    }
+    @Transient var alarms = ArrayList<Alarm>()
 
 }

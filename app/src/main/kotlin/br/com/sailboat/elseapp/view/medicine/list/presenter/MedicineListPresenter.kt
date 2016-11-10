@@ -12,15 +12,10 @@ import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewMod
 
 class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(), MedicineListAdapter.Callback {
 
-    private val view: MedicineListPresenter.View
-    private val viewModel: MedicineListViewModel
+    private val view = view
+    private val viewModel = MedicineListViewModel()
 
     override val medicines: MutableList<MedicineVHModel> get() = viewModel.medicines
-
-    init {
-        this.view = view
-        this.viewModel = MedicineListViewModel()
-    }
 
     override fun onResumeFirstSession() {
         loadMedicines()
@@ -46,7 +41,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     private fun loadMedicines() {
 
         LoadMedicinesViewHolderAsyncTask(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
-            override fun onSuccess(result: MutableList<MedicineVHModel>?) {
+            override fun onSuccess(result: MutableList<MedicineVHModel>) {
                 medicines.clear()
                 medicines.addAll(result!!)
 

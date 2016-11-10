@@ -12,13 +12,8 @@ import br.com.sailboat.elseapp.view.medicine.detail.view_model.MedicineDetailVie
 
 class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresenter() {
 
-    private val view: MedicineDetailPresenter.View
-    private val viewModel: MedicineDetailViewModel
-
-    init {
-        this.view = view
-        this.viewModel = MedicineDetailViewModel()
-    }
+    private val view = view
+    private val viewModel = MedicineDetailViewModel()
 
     override fun extractExtrasFromIntent(intent: Intent) {
         viewModel.medicineName = ExtrasHelper.getMedicineName(intent)

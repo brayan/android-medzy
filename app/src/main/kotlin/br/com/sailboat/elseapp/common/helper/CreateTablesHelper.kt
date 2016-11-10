@@ -8,37 +8,24 @@ import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 import java.util.*
 
 
-class CreateTablesHelper private constructor(context: Context, database: SQLiteDatabase) {
+class CreateTablesHelper(context: Context, database: SQLiteDatabase) {
 
-    private var context: Context
-    private var database: SQLiteDatabase
-    private lateinit var tableList: MutableList<BaseSQLite>
+    private val context = context.applicationContext
+    private val database = database
+    private val tables = initTables()
 
-    companion object {
-
-        fun createTables(context: Context, database: SQLiteDatabase) {
-            CreateTablesHelper(context, database).createTables()
-        }
-
-    }
-
-    init {
-        this.context = context.applicationContext
-        this.database = database
-        initTableList()
-    }
-
-    private fun createTables() {
-        for (table in tableList) {
+    fun createTables() {
+        for (table in tables) {
             database.execSQL(table.getQueryCreateTable())
         }
     }
 
-    private fun initTableList() {
-        tableList = ArrayList<BaseSQLite>()
-        tableList.add(MedicineSQLite(context))
-        tableList.add(AlarmSQLite(context))
-    }
+    private fun initTables(): MutableList<BaseSQLite> {
+        val list = ArrayList<BaseSQLite>()
+        list.add(MedicineSQLite(context))
+        list.add(AlarmSQLite(context))
 
+        return list
+    }
 
 }

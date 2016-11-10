@@ -21,16 +21,9 @@ import java.util.*
 
 class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresenter() {
 
-    private val view: InsertMedicinePresenter.View
-    private val viewModel: InsertMedicineViewModel
-
-    private val medicine: Medicine? get() = viewModel.medicine
+    private val view = view
+    private val viewModel = InsertMedicineViewModel()
     private val alarms: MutableList<Alarm> get() = viewModel.alarms
-
-    init {
-        this.view = view
-        this.viewModel = InsertMedicineViewModel()
-    }
 
     override fun extractExtrasFromIntent(intent: Intent) {
         val medicineId = ExtrasHelper.getMedicineId(intent)
@@ -50,7 +43,6 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             // TODO: LOAD MEDICINE
             loadAlarms()
         }
-
 
     }
 
@@ -101,16 +93,16 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun updateMedicineNameView() {
-        view.setMedicineName(medicine?.name ?: "-")
+        view.setMedicineName(viewModel.medicine?.name ?: "-")
         view.putCursorAtTheEnd()
     }
 
     private fun loadAlarms() {
         LoadAlarmsAsyncTask(view.getContext(), viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
 
-            override fun onSuccess(list: MutableList<Alarm>?) {
+            override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
-                viewModel.alarms.addAll(list!!)
+                viewModel.alarms.addAll(list)
 
                 view.setAlarmsView(viewModel.alarms)
             }
@@ -143,12 +135,12 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun checkRequiredFields() {
-        InsertMedicineChecker().check(medicine!!)
+        InsertMedicineChecker().check(viewModel.medicine!!)
     }
 
     private fun save() {
 
-        SaveMedicineAndAlarmsAsyncTask(view.getContext(), medicine!!, alarms, object : SimpleAsyncTask.Callback {
+        SaveMedicineAndAlarmsAsyncTask(view.getContext(), viewModel.medicine!!, alarms, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()

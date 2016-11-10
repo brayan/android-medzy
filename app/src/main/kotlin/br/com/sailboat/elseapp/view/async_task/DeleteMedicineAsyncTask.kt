@@ -5,13 +5,10 @@ import br.com.sailboat.elseapp.base.SimpleAsyncTask
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 
-class DeleteMedicineAsyncTask(context: Context, medicineId: Long, callback: Callback) : SimpleAsyncTask(context.applicationContext, callback) {
+class DeleteMedicineAsyncTask(context: Context, medicineId: Long, callback: SimpleAsyncTask.Callback)
+    : SimpleAsyncTask(context.applicationContext, callback) {
 
-    private val medicineId: Long
-
-    init {
-        this.medicineId = medicineId
-    }
+    private val medicineId = medicineId
 
     override fun onDoInBackground() {
         MedicineSQLite(context).delete(medicineId!!)

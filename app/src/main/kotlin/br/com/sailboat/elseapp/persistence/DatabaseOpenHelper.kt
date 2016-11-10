@@ -9,19 +9,13 @@ import br.com.sailboat.elseapp.common.helper.CreateTablesHelper
 class DatabaseOpenHelper private constructor(context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    private var context: Context
-
-    init {
-        this.context = context
-    }
+    private val context = context
 
     override fun onCreate(database: SQLiteDatabase) {
-        CreateTablesHelper.createTables(context, database)
+        CreateTablesHelper(context, database).createTables()
     }
 
-    override fun onUpgrade(database: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // TODO
-    }
+    override fun onUpgrade(database: SQLiteDatabase, oldVersion: Int, newVersion: Int) { }
 
     companion object {
 
