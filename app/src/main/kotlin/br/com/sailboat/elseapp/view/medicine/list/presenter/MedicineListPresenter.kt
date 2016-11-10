@@ -1,19 +1,21 @@
 package br.com.sailboat.elseapp.view.medicine.list.presenter
 
 import android.content.Context
-import android.content.Intent
 import br.com.sailboat.elseapp.base.BaseAsyncTask
 import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.async_task.LoadMedicinesViewHolderAsyncTask
 import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewModel
 
 
-class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter() {
+class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(), MedicineListAdapter.Callback {
 
-    val view: MedicineListPresenter.View
-    val viewModel: MedicineListViewModel
+    private val view: MedicineListPresenter.View
+    private val viewModel: MedicineListViewModel
+
+    override val medicines: MutableList<MedicineVHModel> get() = viewModel.medicines
 
     init {
         this.view = view
@@ -21,33 +23,29 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter() 
     }
 
     override fun onResumeFirstSession() {
-        loadDrugs()
+        loadMedicines()
     }
 
     override fun onResumeAfterRestart() {
         view.updateContentViews()
     }
 
-    fun onClickNewDrug() {
-        view.startInsertOrEditDrugActivity()
-    }
-
-    fun onClickDrug(position: Int) {
+    override fun onClickMedicine(position: Int) {
         val medicine = medicines[position]
-        view.startDrugDetailActivity(medicine)
+        view.startMedicineDetailActivity(medicine)
     }
 
-    fun onActivityResultOk(data: Intent?) {
-        loadDrugs()
+    fun onClickNewMedicine() {
+        view.startInsertOrEditMedicineActivity()
     }
 
-    fun onActivityResultCanceled(data: Intent?) {
-        loadDrugs()
+    fun onActivityResult() {
+        loadMedicines()
     }
 
-    private fun loadDrugs() {
+    private fun loadMedicines() {
 
-        LoadMedicinesViewHolderAsyncTask(context, object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
+        LoadMedicinesViewHolderAsyncTask(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
             override fun onSuccess(result: MutableList<MedicineVHModel>?) {
                 medicines.clear()
                 medicines.addAll(result!!)
@@ -63,17 +61,13 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter() 
 
     }
 
-    private val context: Context get() = view.activityContext
-
-    val medicines: MutableList<MedicineVHModel> get() = viewModel.medicines
-
 
     interface View {
-        val activityContext: Context
+        fun getContext(): Context
         fun updateContentViews()
         fun showToast(message: String)
-        fun startInsertOrEditDrugActivity()
-        fun startDrugDetailActivity(medicine: MedicineVHModel)
+        fun startInsertOrEditMedicineActivity()
+        fun startMedicineDetailActivity(medicine: MedicineVHModel)
         fun updateWorkoutRemoved(position: Int)
     }
 

@@ -20,7 +20,7 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(layoutId, container, false)
+        return inflater!!.inflate(LAYOUT_ID, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
     protected abstract fun newPresenterInstance(): Presenter
 
-    protected abstract val layoutId: Int
+    protected abstract val LAYOUT_ID: Int
 
     protected abstract fun initViews()
 
@@ -80,4 +80,5 @@ abstract class BaseFragment<Presenter : BasePresenter> : Fragment() {
 
     protected open fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
     }
+
 }

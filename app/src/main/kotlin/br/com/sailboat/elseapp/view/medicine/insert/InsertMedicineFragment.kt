@@ -20,8 +20,7 @@ import java.util.*
 
 class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMedicinePresenter.View {
 
-    override val layoutId: Int get() = R.layout.frag_insert_medicine
-    override val activityContext: Context get() = activity
+    override val LAYOUT_ID: Int get() = R.layout.frag_insert_medicine
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_insert_medicine, menu)
@@ -54,7 +53,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         toolbar.setTitle(title)
     }
 
-    override fun setDrugName(name: String) {
+    override fun setMedicineName(name: String) {
         etInsertMedicineName.setText(name)
     }
 
@@ -62,7 +61,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         etInsertMedicineName.setSelection(etInsertMedicineName.length())
     }
 
-    override fun setDrugAlarm(time: String) {
+    override fun setAlarm(time: String) {
         tvInsertMedicineTime.setText(time)
     }
 

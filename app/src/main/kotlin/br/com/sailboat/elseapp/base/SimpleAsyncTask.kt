@@ -3,7 +3,7 @@ package br.com.sailboat.elseapp.base
 import android.content.Context
 import android.os.AsyncTask
 
-abstract class SimpleAsyncTask (val context: Context, val callback: Callback) : AsyncTask<Void, Void, Exception>(){
+abstract class SimpleAsyncTask (val context: Context, val callback: Callback) : AsyncTask<Void, Void, Exception>() {
 
     override fun doInBackground(vararg params: Void): Exception? {
         try {

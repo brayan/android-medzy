@@ -1,6 +1,5 @@
 package br.com.sailboat.elseapp.view.medicine.list
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
@@ -9,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
@@ -20,28 +18,16 @@ import kotlinx.android.synthetic.main.fab.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View, MedicineListAdapter.Callback {
+class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View {
 
-    private val REQUEST_NEW_DRUG = 0
+
+    private val REQUEST_NEW_MEDICINE = 0
     private val REQUEST_DETAILS = 1
 
-    override val layoutId: Int get() = R.layout.frag_medicine_list
-    override val activityContext: Context get() = activity
+    override val LAYOUT_ID = R.layout.frag_medicine_list
 
     override fun newPresenterInstance(): MedicineListPresenter {
         return MedicineListPresenter(this)
-    }
-
-    override fun onActivityResultOk(requestCode: Int, data: Intent?) {
-        presenter.onActivityResultOk(data)
-    }
-
-    override fun onActivityResultCanceled(requestCode: Int, data: Intent?) {
-        presenter.onActivityResultCanceled(data)
-    }
-
-    override fun onClickDrug(position: Int) {
-        presenter.onClickDrug(position)
     }
 
     override fun initViews() {
@@ -49,12 +35,6 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         initEmptyListView()
         initToolbar()
         initFab()
-    }
-
-    private fun initFab() {
-        fab.setOnClickListener {
-            presenter.onClickNewDrug()
-        }
     }
 
     override fun updateContentViews() {
@@ -66,11 +46,11 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun startInsertOrEditDrugActivity() {
-        InsertMedicineActivity.start(this, REQUEST_NEW_DRUG)
+    override fun startInsertOrEditMedicineActivity() {
+        InsertMedicineActivity.start(this, REQUEST_NEW_MEDICINE)
     }
 
-    override fun startDrugDetailActivity(medicine: MedicineVHModel) {
+    override fun startMedicineDetailActivity(medicine: MedicineVHModel) {
         MedicineDetailActivity.start(this, medicine, REQUEST_DETAILS)
     }
 
@@ -78,21 +58,32 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         recyclerView.adapter.notifyItemRemoved(position)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        presenter.onActivityResult()
+    }
+
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = MedicineListAdapter(presenter.medicines, this)
+        val adapter = MedicineListAdapter(presenter)
         recyclerView.adapter = adapter
     }
 
     private fun initEmptyListView() {
         imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.teal_300), PorterDuff.Mode.SRC_ATOP)
-        tvEmptyListTitle.text = "No drugs"
-        tvEmptyListMessage.text = "Add a new drug  by tapping the + button"
+        tvEmptyListTitle.text = "No medicines"
+        tvEmptyListMessage.text = "Add a new medicine by tapping the + button"
         emptyList.visibility = View.GONE
     }
 
     private fun initToolbar() {
-        toolbar.setTitle("Pill Time")
+        toolbar.setTitle(R.string.app_name)
+    }
+
+    private fun initFab() {
+        fab.setOnClickListener {
+            presenter.onClickNewMedicine()
+        }
     }
 
     private fun updateVisibilityOfViews() {

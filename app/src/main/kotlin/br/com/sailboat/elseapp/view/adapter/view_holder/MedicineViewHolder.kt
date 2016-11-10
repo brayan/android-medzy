@@ -1,43 +1,43 @@
 package br.com.sailboat.elseapp.view.adapter.view_holder
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import br.com.sailboat.elseapp.R
+import br.com.sailboat.elseapp.base.BaseViewHolder
 import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import kotlinx.android.synthetic.main.holder_medicine.view.*
 import java.util.*
 
-class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) : RecyclerView.ViewHolder(itemView) {
+class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) : BaseViewHolder<MedicineVHModel>(itemView) {
 
-    private val callback: Callback?
+    private val callback: MedicineViewHolder.Callback
 
     init {
         this.callback = callback
-        bindCallback()
     }
 
-    fun onBindViewHolder(medicine: MedicineVHModel) {
-        itemView.tvHolderMedicineName.text = medicine.medicineName
-        itemView.tvHolderMedicineAlarmTime.text = formatTime(medicine.alarmTime.time)
+    companion object {
+        val LAYOUT_ID = R.layout.holder_medicine
     }
 
-    private fun bindCallback() {
+    override fun onBindViewHolder(item: MedicineVHModel) {
+        itemView.tvHolderMedicineName.text = item.medicineName
+        itemView.tvHolderMedicineAlarmTime.text = formatTime(item.alarmTime.time)
+    }
 
-        callback?.let {
-            itemView.setOnClickListener {
-                callback.onClickDrug(adapterPosition)
-            }
+    override fun bindCallbacks() {
+        itemView.setOnClickListener {
+            callback.onClickMedicine(adapterPosition)
         }
-
     }
 
-    private fun formatTime(time: Date) : String {
+    private fun formatTime(time: Date): String {
         return AlarmHelper.formatTimeWithAndroidFormat(time, itemView.context)
     }
 
 
     interface Callback {
-        fun onClickDrug(position: Int)
+        fun onClickMedicine(position: Int)
     }
 
 }

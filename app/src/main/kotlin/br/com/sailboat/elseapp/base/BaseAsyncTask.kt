@@ -16,7 +16,6 @@ abstract class BaseAsyncTask(val context: Context) : AsyncTask<Void, Void, Excep
     }
 
     override fun onPostExecute(e: Exception?) {
-
         if (e == null) {
             onSuccess()
         } else {

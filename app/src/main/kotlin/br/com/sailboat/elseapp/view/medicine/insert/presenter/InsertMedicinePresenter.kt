@@ -21,8 +21,11 @@ import java.util.*
 
 class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresenter() {
 
-    val view: InsertMedicinePresenter.View
-    val viewModel: InsertMedicineViewModel
+    private val view: InsertMedicinePresenter.View
+    private val viewModel: InsertMedicineViewModel
+
+    private val medicine: Medicine? get() = viewModel.medicine
+    private val alarms: MutableList<Alarm> get() = viewModel.alarms
 
     init {
         this.view = view
@@ -36,7 +39,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     override fun onResumeFirstSession() {
 
-        if (isInsertingDrug()) {
+        if (isInsertingMedicine()) {
             viewModel.medicine = Medicine(-1, "")
             // TODO: JUST FOR TESTS
             viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getTimeInitialAlarm(), RepeatType.DAY))
@@ -53,7 +56,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     override fun postResume() {
         updateToolbarTitle()
-        updateDrugAlarmView()
+        updateMedicineAlarmView()
     }
 
     fun onClickTime() {
@@ -69,7 +72,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     fun onClickSave() {
 
         try {
-            collectDataFromFieldsAndBindToDrug()
+            collectDataFromFieldsAndBindToMedicine()
             checkRequiredFields()
             save()
 
@@ -88,22 +91,22 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
         alarm.time.set(Calendar.MINUTE, minute)
 
-        updateDrugAlarmView()
+        updateMedicineAlarmView()
     }
 
-    private fun updateDrugAlarmView() {
-//        view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(medicine!!.alarm.time, context))
+    private fun updateMedicineAlarmView() {
+//        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medicine!!.alarm.time, context))
         // TODO: JUST FOR TESTS
-        view.setDrugAlarm(AlarmHelper.formatTimeWithAndroidFormat(viewModel.alarms[0].time.time, context))
+        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(viewModel.alarms[0].time.time, view.getContext()))
     }
 
     private fun updateMedicineNameView() {
-        view.setDrugName(medicine?.name ?: "-")
+        view.setMedicineName(medicine?.name ?: "-")
         view.putCursorAtTheEnd()
     }
 
     private fun loadAlarms() {
-        LoadAlarmsAsyncTask(context, viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
+        LoadAlarmsAsyncTask(view.getContext(), viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
 
             override fun onSuccess(list: MutableList<Alarm>?) {
                 viewModel.alarms.clear()
@@ -123,20 +126,19 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun updateToolbarTitle() {
 
-        if (isInsertingDrug()) {
-            view.setToolbarTitle("New Drug")
+        if (isInsertingMedicine()) {
+            view.setToolbarTitle("New Medicine")
         } else {
-            view.setToolbarTitle("Edit Drug")
+            view.setToolbarTitle("Edit Medicine")
         }
 
     }
 
-    private fun isInsertingDrug() : Boolean {
+    private fun isInsertingMedicine() : Boolean {
         return viewModel.medicine == null || viewModel.medicine?.id == -1L
     }
-    private fun isEditingDrug() = viewModel.medicine != null
 
-    private fun collectDataFromFieldsAndBindToDrug() {
+    private fun collectDataFromFieldsAndBindToMedicine() {
         viewModel.medicine!!.name = view.getNameFromView()
     }
 
@@ -146,7 +148,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun save() {
 
-        SaveMedicineAndAlarmsAsyncTask(context, medicine!!, alarms, object : SimpleAsyncTask.Callback {
+        SaveMedicineAndAlarmsAsyncTask(view.getContext(), medicine!!, alarms, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
@@ -161,18 +163,14 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     }
 
-    private val context: Context get() = view.activityContext
-    private val medicine: Medicine? get() = viewModel.medicine
-    private val alarms: MutableList<Alarm> get() = viewModel.alarms
-
 
     interface View {
-        val activityContext: Context
+        fun getContext() : Context
         fun closeActivityResultOk()
         fun getNameFromView(): String
         fun setToolbarTitle(title: String)
-        fun setDrugName(name: String)
-        fun setDrugAlarm(name: String)
+        fun setMedicineName(name: String)
+        fun setAlarm(name: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showToast(message: String)
         fun showDialog(message: String)

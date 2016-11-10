@@ -15,6 +15,7 @@
         <include layout="@layout/toolbar" />
 
         <android.support.design.widget.TextInputLayout
+            android:theme="@style/TextLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp">
@@ -52,6 +53,7 @@
                 android:textSize="36sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvInsertMedicineFrequency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
                 android:textSize="36sp" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btInsertMedicineAddAlarm"
                 android:background="@color/blue_500"
                 android:text="ADD NEW ALARM"

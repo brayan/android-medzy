@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.view.medicine.detail.presenter.MedicineDetailPresenter
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
 import kotlinx.android.synthetic.main.fab.*
@@ -19,17 +18,16 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), MedicineDetailPresenter.View {
 
-    private val REQUEST_EDIT_DRUG = 0
+    private val REQUEST_EDIT_MEDICINE = 0
 
-    override val layoutId: Int get() = R.layout.frag_medicine_detail
-    override val activityContext: Context get() = activity
+    override val LAYOUT_ID: Int get() = R.layout.frag_medicine_detail
 
     override fun newPresenterInstance(): MedicineDetailPresenter {
         return MedicineDetailPresenter(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_drug_detail, menu)
+        inflater?.inflate(R.menu.menu_medicine_detail, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -49,15 +47,15 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
     override fun onActivityResultOk(requestCode: Int, data: Intent?) {
 
         when (requestCode) {
-            REQUEST_EDIT_DRUG -> {
-                presenter.onActivityResultOkEditDrug(data)
+            REQUEST_EDIT_MEDICINE -> {
+                presenter.onActivityResultOkEditMedicine()
                 return
             }
         }
 
     }
 
-    override fun setDrugName(name: String) {
+    override fun setMedicineName(name: String) {
         tvMedicineDetailName.text = name
     }
 
@@ -66,8 +64,8 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
         activity.finish()
     }
 
-    override fun startInsertDrugActivity(medicineId: Long) {
-        InsertMedicineActivity.start(this, medicineId, REQUEST_EDIT_DRUG)
+    override fun startInsertMedicineActivity(medicineId: Long) {
+        InsertMedicineActivity.start(this, medicineId, REQUEST_EDIT_MEDICINE)
     }
 
     override fun initViews() {
@@ -83,7 +81,7 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
     }
 
     private fun initToolbar() {
-        toolbar.setTitle("Drug Detail")
+        toolbar.setTitle("Medicine Detail")
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
 

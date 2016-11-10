@@ -12,8 +12,8 @@ import br.com.sailboat.elseapp.view.medicine.detail.view_model.MedicineDetailVie
 
 class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresenter() {
 
-    val view: MedicineDetailPresenter.View
-    val viewModel: MedicineDetailViewModel
+    private val view: MedicineDetailPresenter.View
+    private val viewModel: MedicineDetailViewModel
 
     init {
         this.view = view
@@ -30,14 +30,14 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     fun onClickEdit() {
-        view.startInsertDrugActivity(viewModel.medicineId!!);
+        view.startInsertMedicineActivity(viewModel.medicineId!!);
     }
 
     fun onClickMenuDelete() {
         deleteWorkout()
     }
 
-    fun onActivityResultOkEditDrug(data: Intent?) {
+    fun onActivityResultOkEditMedicine() {
         // TODO: START ANIMATION TO UPDATE THE SCREEN
         // LOAD THE INFO AGAIN;
         updateContentViews()
@@ -45,7 +45,7 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
 
     private fun deleteWorkout() {
 
-        DeleteMedicineAsyncTask(context, viewModel.medicineId!!, object : SimpleAsyncTask.Callback {
+        DeleteMedicineAsyncTask(view.getContext(), viewModel.medicineId!!, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
@@ -60,19 +60,18 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
     }
 
     private fun updateContentViews() {
-        view.setDrugName(medicineName?: "")
+        view.setMedicineName(medicineName?: "")
     }
 
-    private val context: Context get() = view.activityContext
     private val medicineName: String? get() = viewModel.medicineName
 
 
     interface View {
-        val activityContext: Context
+        fun getContext() : Context
         fun showToast(message: String)
-        fun setDrugName(name: String)
+        fun setMedicineName(name: String)
         fun closeActivityResultOk()
-        fun startInsertDrugActivity(medicineId: Long)
+        fun startInsertMedicineActivity(medicineId: Long)
     }
 
 }
