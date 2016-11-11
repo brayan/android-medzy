@@ -1,8 +1,6 @@
 package br.com.sailboat.elseapp.view.medicine.list
 
 import android.content.Intent
-import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import br.com.sailboat.elseapp.R
@@ -83,7 +81,8 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     }
 
     private fun initEmptyListView() {
-        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.cyan_300), PorterDuff.Mode.SRC_ATOP)
+//        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.cyan_300), PorterDuff.Mode.SRC_ATOP)
+        imgEmptyList.setImageResource(R.mipmap.ic_launcher)
         tvEmptyListTitle.text = "No meds"
         tvEmptyListMessage.text = "Add a new medication by tapping the + button"
         emptyList.visibility = View.GONE
