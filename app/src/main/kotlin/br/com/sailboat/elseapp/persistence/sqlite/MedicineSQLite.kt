@@ -19,14 +19,29 @@ class MedicineSQLite(context: Context) : BaseSQLite(context) {
         return sb.toString()
     }
 
-    val all: MutableList<Medicine>
-        @Throws(Exception::class)
-        get() {
+    fun getAll(): MutableList<Medicine> {
             val sb = StringBuilder()
-            sb.append(" SELECT Medicine.* FROM Medicine ")
+            sb.append(" SELECT * FROM Medicine ")
 
             return getMedicineList(sb)
         }
+
+    fun getMedicineById(medicineId: Long): Medicine? {
+        val sb = StringBuilder()
+        sb.append(" SELECT * FROM Medicine ")
+        sb.append(" WHERE Medicine.id = " + medicineId)
+
+        val cursor = performQuery(sb.toString())
+        var medicine: Medicine? = null
+
+        if (cursor.moveToNext()) {
+            medicine = getMedicineFromCursor(cursor)
+        }
+
+        cursor.close()
+
+        return medicine
+    }
 
     fun saveAndGetId(medicine: Medicine): Long {
         val sb = StringBuilder()

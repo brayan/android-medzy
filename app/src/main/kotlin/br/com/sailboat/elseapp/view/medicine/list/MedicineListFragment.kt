@@ -84,8 +84,8 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
 
     private fun initEmptyListView() {
         imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.cyan_300), PorterDuff.Mode.SRC_ATOP)
-        tvEmptyListTitle.text = "No medicines"
-        tvEmptyListMessage.text = "Add a new medicine by tapping the + button"
+        tvEmptyListTitle.text = "No meds"
+        tvEmptyListMessage.text = "Add a new medication by tapping the + button"
         emptyList.visibility = View.GONE
     }
 

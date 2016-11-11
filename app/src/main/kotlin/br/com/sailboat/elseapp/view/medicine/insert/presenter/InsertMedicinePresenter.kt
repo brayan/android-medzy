@@ -47,7 +47,6 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     override fun postResume() {
-        updateToolbarTitle()
         updateMedicineAlarmView()
     }
 
@@ -116,16 +115,6 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         }).execute()
     }
 
-    private fun updateToolbarTitle() {
-
-        if (isInsertingMedicine()) {
-            view.setToolbarTitle("New Medicine")
-        } else {
-            view.setToolbarTitle("Edit Medicine")
-        }
-
-    }
-
     private fun isInsertingMedicine() : Boolean {
         return viewModel.medicine == null || viewModel.medicine?.id == -1L
     }
@@ -160,7 +149,6 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         fun getContext() : Context
         fun closeActivityResultOk()
         fun getMedicineNameFromView(): String
-        fun setToolbarTitle(title: String)
         fun setMedicineName(name: String)
         fun setAlarm(name: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)

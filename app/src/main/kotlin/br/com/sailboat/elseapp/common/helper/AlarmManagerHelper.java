@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.text.ParseException;
+import java.util.List;
 
 import br.com.sailboat.elseapp.model.Alarm;
 import br.com.sailboat.elseapp.receiver.AlarmReceiver;
@@ -69,6 +70,14 @@ public class AlarmManagerHelper {
 //
 //            }
 //        }
+    }
+
+
+
+    public static void cancelAlarms(Context context, List<Alarm> alarms) {
+        for (Alarm alarm : alarms) {
+            AlarmManagerHelper.cancelAlarm(context, alarm.getId());
+        }
     }
 
     public static void cancelAlarm(Context context, long alarmId) {

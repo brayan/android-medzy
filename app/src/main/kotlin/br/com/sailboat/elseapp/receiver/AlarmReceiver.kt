@@ -8,8 +8,14 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
+import android.widget.Toast
 import br.com.sailboat.elseapp.R
+import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.common.helper.NotificationHelper
+import br.com.sailboat.elseapp.model.Medicine
+import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
+import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 import br.com.sailboat.elseapp.view.medicine.list.MedicineListActivity
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -21,10 +27,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // TODO: IMPLEMENT NOTIFICATION LIKE ANDROID ALARM
 
-//        try {
-//            val alarmId = intent.getLongExtra(AlarmManagerHelper.ALARM_ID, -1L)
-//            val alarm = AlarmSQLite(context).getAlarmById(alarmId)
-//
+        try {
+            val alarmId = intent.getLongExtra(AlarmManagerHelper.ALARM_ID, -1L)
+            val alarm = AlarmSQLite(context).getAlarmById(alarmId)
+            val medicine = MedicineSQLite(context).getMedicineById(alarm!!.medicineId)
+
+            val builder = buildNotification(intent, medicine)
+            throwNotification(builder)
+
 //            val alarmTime = alarm!!.time
 //            val currentTime = Calendar.getInstance()
 //            currentTime.set(Calendar.SECOND, 0)
@@ -49,15 +59,14 @@ class AlarmReceiver : BroadcastReceiver() {
 //            AlarmManagerHelper.setAlarm(context, alarmId, alarmTime.timeInMillis)
 //
 //            Toast.makeText(context, "Next alarm set to: " + SimpleDateFormat("dd/MM/yyyy HH:mm:SS").format(alarmTime.time), Toast.LENGTH_LONG).show()
-//
-//
-//        } catch (e: Exception) {
-//            LogHelper.printExceptionLog(e)
-//            Toast.makeText(context, "Error on set alarm: " + e.message, Toast.LENGTH_LONG).show()
-//        }
 
-        val builder = buildNotification(intent)
-        throwNotification(builder)
+
+        } catch (e: Exception) {
+            LogHelper.printExceptionLog(e)
+            Toast.makeText(context, "Error on set alarm: " + e.message, Toast.LENGTH_LONG).show()
+        }
+
+
     }
 
     private fun throwNotification(builder: NotificationCompat.Builder) {
@@ -65,7 +74,7 @@ class AlarmReceiver : BroadcastReceiver() {
         notifyMgr.notify(NotificationHelper.NOTIFICATION_ID, builder.build())
     }
 
-    private fun buildNotification(intent: Intent): NotificationCompat.Builder {
+    private fun buildNotification(intent: Intent, medicine: Medicine?): NotificationCompat.Builder {
         val resultIntent = Intent(context, MedicineListActivity::class.java)
         val resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -75,9 +84,9 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
-        builder.color = ContextCompat.getColor(context, R.color.teal_500)
+        builder.color = ContextCompat.getColor(context, R.color.cyan_500)
 //        builder.setOngoing(true)
-        setTextAndTitleFromList(builder)
+        setTextAndTitleFromList(medicine, builder)
         initVibrate(builder)
 //        initSound(builder)
 
@@ -86,8 +95,8 @@ class AlarmReceiver : BroadcastReceiver() {
         return builder
     }
 
-    private fun setTextAndTitleFromList(builder: NotificationCompat.Builder) {
-        builder.setContentTitle("Nome do remédio")
+    private fun setTextAndTitleFromList(medicine: Medicine?, builder: NotificationCompat.Builder) {
+        builder.setContentTitle(medicine!!.name)
         builder.setContentText("1 capsula")
     }
 

@@ -13,6 +13,7 @@ import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.view.dialog.AlarmPickerDialog
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.InsertMedicinePresenter
+import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medicine.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
@@ -48,10 +49,6 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         bindListeners()
     }
 
-    override fun setToolbarTitle(title: String) {
-        toolbar.setTitle(title)
-    }
-
     override fun setMedicineName(name: String) {
         etInsertMedicineName.setText(name)
     }
@@ -61,7 +58,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
     }
 
     override fun setAlarm(time: String) {
-        tvInsertMedicineTime.setText(time)
+        tvAlarmTime.setText(time)
     }
 
     override fun setAlarmsView(alarms: MutableList<Alarm>) {
@@ -106,10 +103,11 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false);
     }
 
     private fun bindListeners() {
-        tvInsertMedicineTime.setOnClickListener {
+        frameAlarm.setOnClickListener {
             presenter.onClickTime()
         }
 
