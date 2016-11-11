@@ -11,7 +11,7 @@ import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
 import br.com.sailboat.elseapp.view.medicine.list.presenter.MedicineListPresenter
-import kotlinx.android.synthetic.main.empty_list.*
+import kotlinx.android.synthetic.main.empty_meds.*
 import kotlinx.android.synthetic.main.fab.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -29,7 +29,7 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
 
     override fun initViews() {
         initRecyclerView()
-        initEmptyListView()
+        initEmptyMedsView()
         initToolbar()
         initFab()
     }
@@ -60,11 +60,11 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     }
 
     override fun hideEmptyList() {
-        emptyList.visibility = View.GONE
+        emptyMeds.visibility = View.GONE
     }
 
     override fun showEmptyList() {
-        emptyList.visibility = View.VISIBLE
+        emptyMeds.visibility = View.VISIBLE
     }
 
     override fun hideMedicines() {
@@ -80,12 +80,8 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         recyclerView.adapter = MedicineListAdapter(presenter)
     }
 
-    private fun initEmptyListView() {
-//        imgEmptyList.setColorFilter(ContextCompat.getColor(activity, R.color.cyan_300), PorterDuff.Mode.SRC_ATOP)
-        imgEmptyList.setImageResource(R.mipmap.ic_launcher)
-        tvEmptyListTitle.text = "No meds"
-        tvEmptyListMessage.text = "Add a new medication by tapping the + button"
-        emptyList.visibility = View.GONE
+    private fun initEmptyMedsView() {
+        emptyMeds.visibility = View.GONE
     }
 
     private fun initToolbar() {
