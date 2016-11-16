@@ -102,7 +102,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun initNotificationActions(builder: NotificationCompat.Builder) {
         val dismissIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_CANCEL_CURRENT)
-        builder.addAction(android.R.drawable.ic_delete, "Mark alarm as taken", dismissIntent)
+        builder.addAction(android.R.drawable.ic_delete, "Taken", dismissIntent)
+        builder.addAction(android.R.drawable.ic_delete, "Snooze", dismissIntent)
     }
 
     private fun initVibrate(builder: NotificationCompat.Builder) {
