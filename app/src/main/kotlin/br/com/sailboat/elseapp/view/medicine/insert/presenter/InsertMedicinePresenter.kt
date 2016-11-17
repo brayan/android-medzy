@@ -12,8 +12,8 @@ import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.model.RepeatType
-import br.com.sailboat.elseapp.view.async_task.LoadAlarmsAsyncTask
-import br.com.sailboat.elseapp.view.async_task.SaveMedicineAndAlarmsAsyncTask
+import br.com.sailboat.elseapp.view.async_task.AsyncLoadAlarms
+import br.com.sailboat.elseapp.view.async_task.AsyncSaveMedicineAndAlarms
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.checker.InsertMedicineChecker
 import br.com.sailboat.elseapp.view.medicine.insert.view_model.InsertMedicineViewModel
 import java.util.*
@@ -97,7 +97,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadAlarms() {
-        LoadAlarmsAsyncTask(view.getContext(), viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
+        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : BaseAsyncTask.Callback<MutableList<Alarm>> {
 
             override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
@@ -111,8 +111,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
                 view.showErrorMessage("An error occurred while loading the alarms :/")
             }
 
-
-        }).execute()
+        })
     }
 
     private fun isInsertingMedicine() : Boolean {
@@ -129,7 +128,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun save() {
 
-        SaveMedicineAndAlarmsAsyncTask(view.getContext(), viewModel.medicine!!, alarms, object : SimpleAsyncTask.Callback {
+        AsyncSaveMedicineAndAlarms.save(view.getContext(), viewModel.medicine!!, alarms, object : SimpleAsyncTask.Callback {
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
@@ -140,7 +139,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
                 view.showErrorMessage("An error occurred while saving the medicine :/")
             }
 
-        }).execute()
+        })
 
     }
 

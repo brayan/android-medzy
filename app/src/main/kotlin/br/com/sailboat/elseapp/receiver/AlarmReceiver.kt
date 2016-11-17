@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.common.helper.ExtrasHelper
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.common.helper.NotificationHelper
 import br.com.sailboat.elseapp.model.Medicine
@@ -32,7 +33,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val alarm = AlarmSQLite(context).getAlarmById(alarmId)
             val medicine = MedicineSQLite(context).getMedicineById(alarm!!.medicineId)
 
-            val builder = buildNotification(intent, medicine)
+            val builder = buildNotification(intent, medicine, alarmId)
             throwNotification(builder)
 
 //            val alarmTime = alarm!!.time
@@ -74,7 +75,7 @@ class AlarmReceiver : BroadcastReceiver() {
         notifyMgr.notify(NotificationHelper.NOTIFICATION_ID, builder.build())
     }
 
-    private fun buildNotification(intent: Intent, medicine: Medicine?): NotificationCompat.Builder {
+    private fun buildNotification(intent: Intent, medicine: Medicine?, alarmId: Long): NotificationCompat.Builder {
         val resultIntent = Intent(context, MedicineListActivity::class.java)
         val resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -90,7 +91,7 @@ class AlarmReceiver : BroadcastReceiver() {
         initVibrate(builder)
 //        initSound(builder)
 
-        initNotificationActions(builder)
+        initNotificationActions(builder, alarmId)
 
         return builder
     }
@@ -100,8 +101,12 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setContentText("1 capsula")
     }
 
-    private fun initNotificationActions(builder: NotificationCompat.Builder) {
-        val dismissIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_CANCEL_CURRENT)
+    private fun initNotificationActions(builder: NotificationCompat.Builder, alarmId: Long) {
+        val intent = Intent(context, AlarmDatabaseUpdateReceiver::class.java)
+
+        ExtrasHelper.putAlarmId(alarmId, intent)
+
+        val dismissIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         builder.addAction(android.R.drawable.ic_delete, "Taken", dismissIntent)
         // TODO:
 

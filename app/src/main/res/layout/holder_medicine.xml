@@ -27,8 +27,6 @@
             android:textColor="@color/light_blue_500"
             android:textSize="32sp" />
 
-
-
         <LinearLayout
             android:layout_toLeftOf="@id/tvHolderMedicineAlarmTime"
             android:layout_width="match_parent"

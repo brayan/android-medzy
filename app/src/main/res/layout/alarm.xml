@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="52dp"
                     android:text="DELETE"
-                    android:textColor="@color/red_400"
+                    android:textColor="@color/deep_orange_400"
                     android:textSize="14sp" />
 
                 <TextView

@@ -6,7 +6,7 @@ import br.com.sailboat.elseapp.base.BasePresenter
 import br.com.sailboat.elseapp.common.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
-import br.com.sailboat.elseapp.view.async_task.LoadMedicinesViewHolderAsyncTask
+import br.com.sailboat.elseapp.view.async_task.AsyncLoadMedicinesViewHolder
 import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewModel
 
 
@@ -40,7 +40,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
     private fun loadMedicines() {
 
-        LoadMedicinesViewHolderAsyncTask(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
+        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
 
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
                 medicines.clear()
@@ -54,7 +54,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
                 view.showDialog("An error occurred while loading the medicines")
             }
 
-        }).execute()
+        })
 
     }
 
