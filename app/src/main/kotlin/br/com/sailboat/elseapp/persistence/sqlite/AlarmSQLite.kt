@@ -72,7 +72,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(context) {
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, formatTimeFromDate(alarm.time))
-        statement.bindLong(2, alarm.repeatType as Long)
+        statement.bindLong(2, alarm.repeatType.toLong())
         statement.bindLong(3, alarm.id)
 
         executeUpdateOrDelete(statement)

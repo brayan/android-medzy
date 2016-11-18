@@ -7,7 +7,7 @@ import java.util.*
 
 object AlarmHelper {
 
-    val DATABASE_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm"
+    val DATABASE_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
     fun formatDateTimeFromDatabaseFormat(date: String): Date {
         return SimpleDateFormat(DATABASE_DATE_TIME_FORMAT).parse(date)

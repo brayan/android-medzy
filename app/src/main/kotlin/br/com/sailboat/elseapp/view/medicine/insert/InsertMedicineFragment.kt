@@ -107,7 +107,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
     }
 
     private fun bindListeners() {
-        frameAlarm.setOnClickListener {
+        frameAlarmTime.setOnClickListener {
             presenter.onClickTime()
         }
 

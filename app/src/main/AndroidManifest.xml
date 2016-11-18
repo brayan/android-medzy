@@ -26,6 +26,8 @@
 
         <receiver android:name=".receiver.AlarmReceiver" />
 
+        <receiver android:name=".receiver.AlarmDatabaseUpdateReceiver" />
+
         <receiver android:name=".receiver.BootReceiver" >
 
             <intent-filter>
