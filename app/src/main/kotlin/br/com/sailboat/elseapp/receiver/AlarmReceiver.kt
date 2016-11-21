@@ -86,10 +86,10 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
         builder.color = ContextCompat.getColor(context, R.color.cyan_500)
-//        builder.setOngoing(true)
+        builder.setOngoing(true)
         setTextAndTitleFromList(medicine, builder)
         initVibrate(builder)
-//        initSound(builder)
+        initSound(builder)
 
         initNotificationActions(builder, alarmId)
 
