@@ -39,7 +39,7 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     }
 
     override fun showDialog(message: String) {
-        DialogHelper.showMessage(fragmentManager, message)
+        DialogHelper.showMessage(activity, message)
     }
 
     override fun startInsertMedicineActivity() {
