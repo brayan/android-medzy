@@ -15,7 +15,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     private val view = view
     private val viewModel = MedicineListViewModel()
 
-    override val medicines: MutableList<MedicineVHModel> get() = viewModel.medicines
+    override val meds: MutableList<MedicineVHModel> get() = viewModel.medicines
 
     override fun onResumeFirstSession() {
         loadMedicines()
@@ -26,7 +26,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     }
 
     override fun onClickMedicine(position: Int) {
-        val medicine = medicines[position]
+        val medicine = meds[position]
         view.startMedicineDetailActivity(medicine)
     }
 
@@ -43,15 +43,17 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
         AsyncLoadMedicinesViewHolder.load(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
 
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
-                medicines.clear()
-                medicines.addAll(result!!)
+                meds.clear()
+                meds.addAll(result!!)
+
+                // TODO: GENERATE MEDS LIST
 
                 updateContentViews()
             }
 
             override fun onFail(e: Exception) {
                 LogHelper.printExceptionLog(e)
-                view.showDialog("An error occurred while loading the medicines")
+                view.showDialog("An error occurred while loading the meds")
             }
 
         })
@@ -64,7 +66,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
     }
 
     private fun updateVisibilityOfMedicines() {
-        if (medicines.isEmpty()) {
+        if (meds.isEmpty()) {
             view.showEmptyList()
             view.hideMedicines()
         } else {

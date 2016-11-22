@@ -18,12 +18,12 @@ class MedicineListAdapter(callback: MedicineListAdapter.Callback) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MedicineViewHolder, position: Int) {
-        val medicine = callback.medicines.get(position)
+        val medicine = callback.meds.get(position)
         holder.onBindViewHolder(medicine)
     }
 
     override fun getItemCount(): Int {
-        return callback.medicines.size
+        return callback.meds.size
     }
 
     private fun inflateLayout(parent: ViewGroup, layoutId: Int): View {
@@ -32,6 +32,6 @@ class MedicineListAdapter(callback: MedicineListAdapter.Callback) : RecyclerView
 
 
     interface Callback : MedicineViewHolder.Callback {
-        val medicines: List<MedicineVHModel>
+        val meds: List<MedicineVHModel>
     }
 }

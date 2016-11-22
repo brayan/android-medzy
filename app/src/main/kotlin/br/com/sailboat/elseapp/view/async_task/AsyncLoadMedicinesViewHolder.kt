@@ -9,7 +9,7 @@ class AsyncLoadMedicinesViewHolder private constructor(context: Context, callbac
     : BaseAsyncTask(context) {
 
     private val callback = callback
-    private lateinit var list: MutableList<MedicineVHModel>
+    private lateinit var meds: MutableList<MedicineVHModel>
 
     companion object {
 
@@ -21,11 +21,11 @@ class AsyncLoadMedicinesViewHolder private constructor(context: Context, callbac
 
 
     override fun onDoInBackground() {
-        list = MedicineViewHolderSQLite(context).getAll()
+        meds = MedicineViewHolderSQLite(context).getAll()
     }
 
     override fun onSuccess() {
-       callback.onSuccess(list)
+       callback.onSuccess(meds)
     }
 
     override fun onFail(e: Exception) {

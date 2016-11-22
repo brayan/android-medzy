@@ -111,7 +111,7 @@ class AlarmReceiver : BroadcastReceiver() {
         // TODO:
 
 
-        builder.addAction(android.R.drawable.ic_delete, "Snooze", dismissIntent)
+//        builder.addAction(android.R.drawable.ic_delete, "Snooze", dismissIntent)
     }
 
     private fun initVibrate(builder: NotificationCompat.Builder) {
