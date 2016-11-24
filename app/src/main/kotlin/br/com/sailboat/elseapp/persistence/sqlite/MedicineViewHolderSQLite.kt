@@ -16,7 +16,7 @@ class MedicineViewHolderSQLite(database: SQLiteOpenHelper) : BaseSQLite(database
         sb.append(" Alarm.time AS alarmTime ")
         sb.append(" FROM Medicine ")
         sb.append(" LEFT JOIN Alarm ON Medicine.id = Alarm.medicineId ")
-        sb.append(" ORDER BY Alarm.time DESC")
+        sb.append(" ORDER BY alarmTime ")
 
         return getMedicineViewHolderModelList(sb)
     }

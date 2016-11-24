@@ -13,6 +13,7 @@ import br.com.sailboat.elseapp.receiver.AlarmReceiver;
 
 public class AlarmManagerHelper {
 
+    public static final int REQUEST_POSTPONE = 999999998;
     public static final String ALARM_ID = "ALARM_ID";
 
     private Context context;
@@ -28,13 +29,17 @@ public class AlarmManagerHelper {
     }
 
     public static void setAlarm(Context ctx, long alarmId, long timeInMillis) throws ParseException {
-        new AlarmManagerHelper(ctx).setAlarm(alarmId, timeInMillis);
+        new AlarmManagerHelper(ctx).setAlarm(alarmId, (int) alarmId, timeInMillis);
     }
 
-    private void setAlarm(long alarmId, long timeInMillis) throws ParseException {
+    public static void setPostponeAlarm(Context ctx, long alarmId, long timeInMillis) throws ParseException {
+        new AlarmManagerHelper(ctx).setAlarm(alarmId, REQUEST_POSTPONE, timeInMillis);
+    }
+
+    private void setAlarm(long alarmId, int requestId, long timeInMillis) throws ParseException {
         intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(ALARM_ID, alarmId);
-        pendingIntent = PendingIntent.getBroadcast(context, (int) alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context, requestId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         getAlarmManager().setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
     }

@@ -58,6 +58,4 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divider" />
-
 </LinearLayout>

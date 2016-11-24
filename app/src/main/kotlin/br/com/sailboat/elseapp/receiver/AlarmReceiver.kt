@@ -91,7 +91,7 @@ class AlarmReceiver : BroadcastReceiver() {
         initVibrate(builder)
         initSound(builder)
 
-        initNotificationActions(builder, alarmId)
+        addActions(builder, alarmId)
 
         return builder
     }
@@ -101,17 +101,28 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setContentText("1 capsula")
     }
 
-    private fun initNotificationActions(builder: NotificationCompat.Builder, alarmId: Long) {
+    private fun addActions(builder: NotificationCompat.Builder, alarmId: Long) {
+        addTakenAction(alarmId, builder)
+        addPostponeAction(alarmId, builder)
+    }
+
+    private fun addTakenAction(alarmId: Long, builder: NotificationCompat.Builder) {
         val intent = Intent(context, AlarmDatabaseUpdateReceiver::class.java)
 
         ExtrasHelper.putAlarmId(alarmId, intent)
 
         val dismissIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         builder.addAction(android.R.drawable.ic_delete, "Taken", dismissIntent)
-        // TODO:
+    }
 
+    private fun addPostponeAction(alarmId: Long, builder: NotificationCompat.Builder) {
+        val intent = Intent(context, PostponeAlarmReceiver::class.java)
 
-//        builder.addAction(android.R.drawable.ic_delete, "Snooze", dismissIntent)
+        ExtrasHelper.putAlarmId(alarmId, intent)
+
+        val dismissIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+        builder.addAction(android.R.drawable.ic_delete, "Postpone for 10 minutes", dismissIntent)
     }
 
     private fun initVibrate(builder: NotificationCompat.Builder) {
