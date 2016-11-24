@@ -1,7 +1,7 @@
 package br.com.sailboat.elseapp.view.medicine.insert.presenter.checker
 
-import br.com.sailboat.elseapp.common.exception.RequiredFieldNotFilledException
 import br.com.sailboat.elseapp.model.Medicine
+import br.com.sailboat.helper.exception.RequiredFieldNotFilledException
 
 class InsertMedicineChecker {
 

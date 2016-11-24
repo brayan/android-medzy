@@ -1,13 +1,13 @@
 package br.com.sailboat.elseapp.view.medicine.list.presenter
 
 import android.content.Context
-import br.com.sailboat.elseapp.base.BaseAsyncTask
-import br.com.sailboat.elseapp.base.BasePresenter
-import br.com.sailboat.elseapp.common.helper.LogHelper
+import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.async_task.AsyncLoadMedicinesViewHolder
 import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewModel
+import br.com.sailboat.helper.async.callback.ResultCallback
+import br.com.sailboat.helper.base.BasePresenter
 
 
 class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(), MedicineListAdapter.Callback {
@@ -40,7 +40,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
     private fun loadMedicines() {
 
-        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : BaseAsyncTask.Callback<MutableList<MedicineVHModel>> {
+        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : ResultCallback<MutableList<MedicineVHModel>> {
 
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
                 meds.clear()

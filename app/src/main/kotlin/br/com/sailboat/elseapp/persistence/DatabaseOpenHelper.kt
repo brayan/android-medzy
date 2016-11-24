@@ -3,7 +3,7 @@ package br.com.sailboat.elseapp.persistence
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import br.com.sailboat.elseapp.common.helper.CreateTablesHelper
+import br.com.sailboat.elseapp.helper.CreateTablesHelper
 
 
 class DatabaseOpenHelper private constructor(context: Context) :

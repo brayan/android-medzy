@@ -10,10 +10,9 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import br.com.sailboat.elseapp.R
-import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
-import br.com.sailboat.elseapp.common.helper.ExtrasHelper
-import br.com.sailboat.elseapp.common.helper.LogHelper
-import br.com.sailboat.elseapp.common.helper.NotificationHelper
+import br.com.sailboat.elseapp.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.helper.ExtrasHelper
+import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
@@ -72,7 +71,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun throwNotification(builder: NotificationCompat.Builder) {
         val notifyMgr = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notifyMgr.notify(NotificationHelper.NOTIFICATION_ID, builder.build())
+        notifyMgr.notify(0, builder.build())
     }
 
     private fun buildNotification(intent: Intent, medicine: Medicine?, alarmId: Long): NotificationCompat.Builder {

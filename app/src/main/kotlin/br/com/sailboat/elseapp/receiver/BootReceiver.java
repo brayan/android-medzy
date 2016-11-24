@@ -4,10 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.List;
-
-import br.com.sailboat.elseapp.common.helper.LogHelper;
-
 
 public class BootReceiver extends BroadcastReceiver {
 

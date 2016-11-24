@@ -2,9 +2,9 @@ package br.com.sailboat.elseapp.view.medicine.detail
 
 import android.content.Intent
 import android.support.v4.app.Fragment
-import br.com.sailboat.elseapp.base.BaseActivity
-import br.com.sailboat.elseapp.common.helper.ExtrasHelper
+import br.com.sailboat.elseapp.helper.ExtrasHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.helper.base.BaseActivity
 
 class MedicineDetailActivity : BaseActivity<MedicineDetailFragment>() {
 

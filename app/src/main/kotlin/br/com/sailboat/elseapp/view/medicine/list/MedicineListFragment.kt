@@ -1,37 +1,43 @@
 package br.com.sailboat.elseapp.view.medicine.list
 
 import android.content.Intent
+import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import br.com.sailboat.elseapp.R
-import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
 import br.com.sailboat.elseapp.view.medicine.list.presenter.MedicineListPresenter
+import br.com.sailboat.helper.DialogHelper
+import br.com.sailboat.helper.base.BaseFragment
 import kotlinx.android.synthetic.main.empty_meds.*
-import kotlinx.android.synthetic.main.fab.*
-import kotlinx.android.synthetic.main.recyclerview.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View {
 
     private val REQUEST_NEW_MEDICINE = 0
     private val REQUEST_DETAILS = 1
 
-    override val LAYOUT_ID = R.layout.frag_medicine_list
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar: Toolbar
+
+    override fun getLayoutId(): Int {
+        return R.layout.frag_medicine_list
+    }
 
     override fun newPresenterInstance(): MedicineListPresenter {
         return MedicineListPresenter(this)
     }
 
-    override fun initViews() {
-        initRecyclerView()
+    override fun initViews(view: View) {
+        initRecyclerView(view)
         initEmptyMedsView()
-        initToolbar()
-        initFab()
+        initToolbar(view)
+        initFab(view)
     }
 
     override fun updateMedicines() {
@@ -75,7 +81,8 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         recyclerView.visibility = View.VISIBLE
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(view: View) {
+        recyclerView = view.findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MedicineListAdapter(presenter)
     }
@@ -84,11 +91,15 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         emptyMeds.visibility = View.GONE
     }
 
-    private fun initToolbar() {
+    private fun initToolbar(view: View) {
+        toolbar = view.findViewById(R.id.toolbar) as Toolbar
         toolbar.setTitle(R.string.app_name)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+
     }
 
-    private fun initFab() {
+    private fun initFab(view: View) {
+        val fab = view.findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener {
             presenter.onClickNewMedicine()
         }

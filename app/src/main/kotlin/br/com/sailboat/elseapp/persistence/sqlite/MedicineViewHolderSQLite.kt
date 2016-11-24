@@ -3,8 +3,8 @@ package br.com.sailboat.elseapp.persistence.sqlite
 import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.elseapp.base.BaseSQLite
-import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.helper.DateHelper
 import java.util.*
 
 class MedicineViewHolderSQLite(context: Context) : BaseSQLite(context) {
@@ -46,7 +46,7 @@ class MedicineViewHolderSQLite(context: Context) : BaseSQLite(context) {
 
     private fun formatTimeFromString(date: String) : Calendar {
         val calendar = Calendar.getInstance()
-        calendar.time = AlarmHelper.formatDateTimeFromDatabaseFormat(date)
+        calendar.time = DateHelper.formatDateTimeFromDatabaseFormat(date)
 
         return calendar
     }

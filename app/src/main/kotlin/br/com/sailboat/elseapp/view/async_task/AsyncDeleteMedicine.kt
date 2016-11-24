@@ -1,16 +1,16 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
-import br.com.sailboat.elseapp.base.SimpleAsyncTask
-import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
+import br.com.sailboat.helper.async.SimpleAsyncTask
 
 class AsyncDeleteMedicine private constructor(context: Context, medicineId: Long, callback: SimpleAsyncTask.Callback)
-    : SimpleAsyncTask(context.applicationContext, callback) {
+    : SimpleAsyncTask(callback) {
 
+    private val context = context
     private val medicineId = medicineId
-
 
     companion object {
 
@@ -18,7 +18,6 @@ class AsyncDeleteMedicine private constructor(context: Context, medicineId: Long
             AsyncDeleteMedicine(context, medicineId, callback).execute()
         }
     }
-
 
     override fun onDoInBackground() {
         cancelAlarms()

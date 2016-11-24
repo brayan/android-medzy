@@ -3,24 +3,29 @@ package br.com.sailboat.elseapp.view.medicine.insert
 import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.elseapp.R
-import br.com.sailboat.elseapp.base.BaseFragment
-import br.com.sailboat.elseapp.common.helper.DialogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.view.dialog.AlarmPickerDialog
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.InsertMedicinePresenter
+import br.com.sailboat.helper.DialogHelper
+import br.com.sailboat.helper.base.BaseFragment
 import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medicine.*
-import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMedicinePresenter.View {
 
-    override val LAYOUT_ID: Int get() = R.layout.frag_insert_medicine
+    private lateinit var toolbar: Toolbar
+
+    override fun getLayoutId(): Int {
+        return R.layout.frag_insert_medicine
+    }
 
     override fun newPresenterInstance(): InsertMedicinePresenter {
         return InsertMedicinePresenter(this)
@@ -44,8 +49,8 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
 
     }
 
-    override fun initViews() {
-        initToolbar()
+    override fun initViews(view: View) {
+        initToolbar(view)
         bindListeners()
     }
 
@@ -100,7 +105,8 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         imm.showSoftInput(etInsertMedicineName, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun initToolbar() {
+    private fun initToolbar(view: View) {
+        toolbar = view.findViewById(R.id.toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false);

@@ -1,4 +1,4 @@
-package br.com.sailboat.elseapp.common.helper;
+package br.com.sailboat.elseapp.helper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

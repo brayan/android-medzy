@@ -1,17 +1,18 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
-import br.com.sailboat.elseapp.base.SimpleAsyncTask
-import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
+import br.com.sailboat.helper.async.SimpleAsyncTask
 
 
 class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: SimpleAsyncTask.Callback)
-    : SimpleAsyncTask(context.applicationContext, callback) {
+    : SimpleAsyncTask(callback) {
 
+    private val context = context
     private val medicine = medicine
     private val alarms = alarms
 

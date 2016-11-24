@@ -3,8 +3,8 @@ package br.com.sailboat.elseapp.view.adapter.view_holder
 import android.view.View
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.base.BaseViewHolder
-import br.com.sailboat.elseapp.common.helper.AlarmHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.helper.DateHelper
 import kotlinx.android.synthetic.main.holder_medicine.view.*
 import java.util.*
 
@@ -28,7 +28,7 @@ class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) 
     }
 
     private fun formatTime(time: Date): String {
-        return AlarmHelper.formatTimeWithAndroidFormat(time, itemView.context)
+        return DateHelper.formatTimeWithAndroidFormat(time, itemView.context)
     }
 
 

@@ -4,12 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import br.com.sailboat.elseapp.common.helper.AlarmManagerHelper
-import br.com.sailboat.elseapp.common.helper.ExtrasHelper
-import br.com.sailboat.elseapp.common.helper.LogHelper
-import br.com.sailboat.elseapp.common.helper.NotificationHelper
+import br.com.sailboat.elseapp.helper.AlarmManagerHelper
+import br.com.sailboat.elseapp.helper.ExtrasHelper
+import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.RepeatType
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
+import br.com.sailboat.helper.NotificationHelper
 import java.util.*
 
 class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
@@ -47,7 +47,7 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
 
             AlarmSQLite(context).update(alarm)
 
-            NotificationHelper.closeNotifications(context)
+            NotificationHelper.closeNotifications(context, 0)
 
         } catch (e: Exception) {
             LogHelper.printExceptionLog(e)

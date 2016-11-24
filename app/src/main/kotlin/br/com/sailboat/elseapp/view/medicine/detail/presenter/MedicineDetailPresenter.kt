@@ -2,12 +2,12 @@ package br.com.sailboat.elseapp.view.medicine.detail.presenter
 
 import android.content.Context
 import android.content.Intent
-import br.com.sailboat.elseapp.base.BasePresenter
-import br.com.sailboat.elseapp.base.SimpleAsyncTask
-import br.com.sailboat.elseapp.common.helper.ExtrasHelper
-import br.com.sailboat.elseapp.common.helper.LogHelper
+import br.com.sailboat.elseapp.helper.ExtrasHelper
+import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.view.async_task.AsyncDeleteMedicine
 import br.com.sailboat.elseapp.view.medicine.detail.view_model.MedicineDetailViewModel
+import br.com.sailboat.helper.async.SimpleAsyncTask
+import br.com.sailboat.helper.base.BasePresenter
 
 
 class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresenter() {

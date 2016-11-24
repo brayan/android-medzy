@@ -22,10 +22,6 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
-    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-    </style>
-
     <style name="TextLabel" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@android:color/white</item>
         <item name="android:textSize">20sp</item>

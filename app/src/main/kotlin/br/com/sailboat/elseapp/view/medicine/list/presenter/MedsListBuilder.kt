@@ -1,8 +1,7 @@
 package br.com.sailboat.elseapp.view.medicine.list.presenter
 
-import br.com.sailboat.elseapp.common.helper.AlarmHelper
-import br.com.sailboat.elseapp.common.helper.CalendarHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.helper.DateHelper
 import java.util.*
 
 class MedsListBuilder private constructor(meds: List<MedicineVHModel>) {
@@ -28,13 +27,13 @@ class MedsListBuilder private constructor(meds: List<MedicineVHModel>) {
 
         for (med in meds) {
 
-            if (CalendarHelper.isBeforeToday(med.alarmTime)) {
+            if (DateHelper.isBeforeToday(med.alarmTime)) {
                 beforeTodayMeds.add(med)
 
-            } else if (CalendarHelper.isToday(med.alarmTime)) {
+            } else if (DateHelper.isToday(med.alarmTime)) {
                 todayMeds.add(med)
 
-            } else if (CalendarHelper.isTomorrow(med.alarmTime)) {
+            } else if (DateHelper.isTomorrow(med.alarmTime)) {
                 tomorrowMeds.add(med)
 
             } else {
