@@ -3,16 +3,12 @@ package br.com.sailboat.elseapp.persistence
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import br.com.sailboat.elseapp.helper.CreateTablesHelper
 
 
-class DatabaseOpenHelper private constructor(context: Context) :
-        SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-
-    private val context = context
+class DatabaseOpenHelper private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(database: SQLiteDatabase) {
-        CreateTablesHelper(context, database).createTables()
+        TablesCreatorHelper(database).createTables()
     }
 
     override fun onUpgrade(database: SQLiteDatabase, oldVersion: Int, newVersion: Int) { }

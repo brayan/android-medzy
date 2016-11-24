@@ -14,6 +14,7 @@ import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.helper.ExtrasHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Medicine
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
 import br.com.sailboat.elseapp.view.medicine.list.MedicineListActivity
@@ -29,8 +30,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         try {
             val alarmId = intent.getLongExtra(AlarmManagerHelper.ALARM_ID, -1L)
-            val alarm = AlarmSQLite(context).getAlarmById(alarmId)
-            val medicine = MedicineSQLite(context).getMedicineById(alarm!!.medicineId)
+            val alarm = AlarmSQLite(DatabaseOpenHelper.getInstance(context)).getAlarmById(alarmId)
+            val medicine = MedicineSQLite(DatabaseOpenHelper.getInstance(context)).getMedicineById(alarm!!.medicineId)
 
             val builder = buildNotification(intent, medicine, alarmId)
             throwNotification(builder)

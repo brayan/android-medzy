@@ -1,26 +1,13 @@
 package br.com.sailboat.elseapp.persistence.sqlite
 
-import android.content.Context
 import android.database.Cursor
-import br.com.sailboat.elseapp.base.BaseSQLite
+import android.database.sqlite.SQLiteOpenHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.helper.DateHelper
+import br.com.sailboat.helper.sqlite.BaseSQLite
 import java.util.*
 
-class AlarmSQLite(context: Context) : BaseSQLite(context) {
-
-    override fun getQueryCreateTable(): String {
-        val sb = StringBuilder()
-        sb.append(" CREATE TABLE Alarm ( ")
-        sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-        sb.append(" medicineId INTEGER, ")
-        sb.append(" time TEXT NOT NULL, ")
-        sb.append(" repeatType INTEGER, ")
-        sb.append(" FOREIGN KEY(medicineId) REFERENCES Medicine(id) ")
-        sb.append(" ); ")
-
-        return sb.toString()
-    }
+class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
 
     fun getAlarmsByMedicine(medicineId: Long): MutableList<Alarm> {
         val sb = StringBuilder()

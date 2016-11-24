@@ -2,6 +2,7 @@ package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
 import br.com.sailboat.elseapp.model.Alarm
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.helper.async.BaseAsyncTask
 import br.com.sailboat.helper.async.callback.ResultCallback
@@ -23,7 +24,7 @@ class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, ca
     }
 
     override fun onDoInBackground() {
-        list = AlarmSQLite(context).getAlarmsByMedicine(medicineId)
+        list = AlarmSQLite(DatabaseOpenHelper.getInstance(context)).getAlarmsByMedicine(medicineId)
     }
 
     override fun onSuccess() {

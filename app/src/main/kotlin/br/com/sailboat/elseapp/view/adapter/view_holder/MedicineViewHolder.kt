@@ -2,9 +2,9 @@ package br.com.sailboat.elseapp.view.adapter.view_holder
 
 import android.view.View
 import br.com.sailboat.elseapp.R
-import br.com.sailboat.elseapp.base.BaseViewHolder
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.helper.DateHelper
+import br.com.sailboat.helper.base.BaseViewHolder
 import kotlinx.android.synthetic.main.holder_medicine.view.*
 import java.util.*
 

@@ -1,10 +1,9 @@
 package br.com.sailboat.elseapp.view.medicine.detail.view_model
 
-import br.com.sailboat.elseapp.base.BaseViewModel
 import br.com.sailboat.elseapp.model.Alarm
-import br.com.sailboat.elseapp.model.Medicine
+import java.io.Serializable
 
-class MedicineDetailViewModel : BaseViewModel() {
+class MedicineDetailViewModel : Serializable {
 
     var medicineId: Long? = -1L
     var medicineName: String? =  ""

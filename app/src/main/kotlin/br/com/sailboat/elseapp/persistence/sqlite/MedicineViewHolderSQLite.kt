@@ -1,13 +1,13 @@
 package br.com.sailboat.elseapp.persistence.sqlite
 
-import android.content.Context
 import android.database.Cursor
-import br.com.sailboat.elseapp.base.BaseSQLite
+import android.database.sqlite.SQLiteOpenHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.helper.DateHelper
+import br.com.sailboat.helper.sqlite.BaseSQLite
 import java.util.*
 
-class MedicineViewHolderSQLite(context: Context) : BaseSQLite(context) {
+class MedicineViewHolderSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
 
     fun getAll(): MutableList<MedicineVHModel> {
         val sb = StringBuilder()

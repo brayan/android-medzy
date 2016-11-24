@@ -1,30 +1,12 @@
 package br.com.sailboat.elseapp.persistence.sqlite
 
-import android.content.Context
 import android.database.Cursor
-import br.com.sailboat.elseapp.base.BaseSQLite
+import android.database.sqlite.SQLiteOpenHelper
 import br.com.sailboat.elseapp.model.Medicine
-import java.util.*
+import br.com.sailboat.helper.sqlite.BaseSQLite
 
 
-class MedicineSQLite(context: Context) : BaseSQLite(context) {
-
-    override fun getQueryCreateTable(): String {
-        val sb = StringBuilder()
-        sb.append(" CREATE TABLE Medicine ( ")
-        sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-        sb.append(" name TEXT NOT NULL ")
-        sb.append(" ); ")
-
-        return sb.toString()
-    }
-
-    fun getAll(): MutableList<Medicine> {
-            val sb = StringBuilder()
-            sb.append(" SELECT * FROM Medicine ")
-
-            return getMedicineList(sb)
-        }
+class MedicineSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
 
     fun getMedicineById(medicineId: Long): Medicine? {
         val sb = StringBuilder()
@@ -76,20 +58,6 @@ class MedicineSQLite(context: Context) : BaseSQLite(context) {
         statement.bindLong(1, medicineId)
 
         executeUpdateOrDelete(statement)
-    }
-
-    private fun getMedicineList(query: StringBuilder): MutableList<Medicine> {
-        val cursor = performQuery(query.toString())
-        val medicines = ArrayList<Medicine>()
-
-        while (cursor.moveToNext()) {
-            val medicine = getMedicineFromCursor(cursor)
-            medicines.add(medicine)
-        }
-
-        cursor.close()
-
-        return medicines
     }
 
     private fun getMedicineFromCursor(cursor: Cursor): Medicine {

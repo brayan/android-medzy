@@ -8,6 +8,7 @@ import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.helper.ExtrasHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.RepeatType
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.helper.NotificationHelper
 import java.util.*
@@ -19,7 +20,7 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
         try {
 
             val alarmId = ExtrasHelper.getAlarmId(intent)
-            val alarm = AlarmSQLite(context).getAlarmById(alarmId!!)
+            val alarm = AlarmSQLite(DatabaseOpenHelper.getInstance(context)).getAlarmById(alarmId!!)
 
 
             val alarmTime = alarm!!.time
@@ -45,7 +46,7 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
             AlarmManagerHelper.setAlarm(context, alarmId, alarmTime.timeInMillis)
 
 
-            AlarmSQLite(context).update(alarm)
+            AlarmSQLite(DatabaseOpenHelper.getInstance(context)).update(alarm)
 
             NotificationHelper.closeNotifications(context, 0)
 
