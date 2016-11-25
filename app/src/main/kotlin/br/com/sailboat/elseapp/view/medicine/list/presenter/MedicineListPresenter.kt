@@ -3,9 +3,12 @@ package br.com.sailboat.elseapp.view.medicine.list.presenter
 import android.content.Context
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
+import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.async_task.AsyncLoadMedicinesViewHolder
 import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewModel
+import br.com.sailboat.helper.alarm.AlarmHelper
 import br.com.sailboat.helper.async.callback.ResultCallback
 import br.com.sailboat.helper.base.BasePresenter
 
@@ -38,17 +41,29 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
         loadMedicines()
     }
 
+    fun onSwipedMedication(position: Int) {
+        val med = meds[position]
+        meds.removeAt(position)
+        view.updateMedicationRemoved(position)
+
+        Thread.sleep(300)
+
+        val alarmSqlite = AlarmSQLite(DatabaseOpenHelper.getInstance(view.getContext()))
+        val alarm = alarmSqlite.getAlarmById(med.alarmId)
+
+        AlarmHelper.incrementToNextValidDate(alarm!!.time, alarm.repeatType)
+
+        alarmSqlite.update(alarm)
+
+        loadMedicines()
+    }
+
     private fun loadMedicines() {
 
         AsyncLoadMedicinesViewHolder.load(view.getContext(), object : ResultCallback<MutableList<MedicineVHModel>> {
 
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
-                meds.clear()
-                meds.addAll(result!!)
-
-                // TODO: GENERATE MEDS LIST
-
-                updateContentViews()
+                onSuccessLoadMedication(result)
             }
 
             override fun onFail(e: Exception) {
@@ -58,6 +73,15 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
         })
 
+    }
+
+    private fun onSuccessLoadMedication(result: MutableList<MedicineVHModel>) {
+        meds.clear()
+        meds.addAll(result!!)
+
+        // TODO: GENERATE MEDS LIST
+
+        updateContentViews()
     }
 
     private fun updateContentViews() {
@@ -86,7 +110,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
         fun showDialog(message: String)
         fun startInsertMedicineActivity()
         fun startMedicineDetailActivity(medicine: MedicineVHModel)
-        fun updateWorkoutRemoved(position: Int)
+        fun updateMedicationRemoved(position: Int)
         fun showMedicines()
         fun hideEmptyList()
         fun showEmptyList()

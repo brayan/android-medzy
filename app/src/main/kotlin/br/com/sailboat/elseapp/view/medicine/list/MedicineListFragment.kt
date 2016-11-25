@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
+import br.com.sailboat.elseapp.view.adapter.MedicineViewHolderItemTouchHelper
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
 import br.com.sailboat.elseapp.view.medicine.list.presenter.MedicineListPresenter
@@ -56,7 +58,7 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         MedicineDetailActivity.start(this, medicine, REQUEST_DETAILS)
     }
 
-    override fun updateWorkoutRemoved(position: Int) {
+    override fun updateMedicationRemoved(position: Int) {
         recyclerView.adapter.notifyItemRemoved(position)
     }
 
@@ -85,6 +87,18 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
         recyclerView = view.findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MedicineListAdapter(presenter)
+
+
+
+
+        val itemTouchHelper = ItemTouchHelper(MedicineViewHolderItemTouchHelper(activity, object : MedicineViewHolderItemTouchHelper.Callback {
+            override fun onSwiped(adapterPosition: Int, direction: Int) {
+                presenter.onSwipedMedication(adapterPosition)
+            }
+        }))
+
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
     }
 
     private fun initEmptyMedsView() {

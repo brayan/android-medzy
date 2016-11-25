@@ -2,17 +2,17 @@ package br.com.sailboat.elseapp.view.medicine.insert.presenter
 
 import android.content.Context
 import android.content.Intent
-import br.com.sailboat.elseapp.helper.AlarmHelper
 import br.com.sailboat.elseapp.helper.ExtrasHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
-import br.com.sailboat.elseapp.model.RepeatType
 import br.com.sailboat.elseapp.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.elseapp.view.async_task.AsyncSaveMedicineAndAlarms
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.checker.InsertMedicineChecker
 import br.com.sailboat.elseapp.view.medicine.insert.view_model.InsertMedicineViewModel
+import br.com.sailboat.helper.alarm.AlarmHelper
 import br.com.sailboat.helper.DateHelper
+import br.com.sailboat.helper.alarm.RepeatType
 import br.com.sailboat.helper.async.SimpleAsyncTask
 import br.com.sailboat.helper.async.callback.ResultCallback
 import br.com.sailboat.helper.base.BasePresenter
@@ -36,7 +36,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         if (isInsertingMedicine()) {
             viewModel.medicine = Medicine(-1, "")
             // TODO: JUST FOR TESTS
-            viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getTimeInitialAlarm(), RepeatType.DAY))
+            viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getInitialAlarmTime(), RepeatType.DAY))
             view.openKeyboard()
 
         } else {

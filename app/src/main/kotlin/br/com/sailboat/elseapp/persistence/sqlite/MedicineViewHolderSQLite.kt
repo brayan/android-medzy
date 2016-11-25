@@ -13,6 +13,7 @@ class MedicineViewHolderSQLite(database: SQLiteOpenHelper) : BaseSQLite(database
         val sb = StringBuilder()
         sb.append(" SELECT Medicine.id AS medicineId, ")
         sb.append(" Medicine.name AS medicineName, ")
+        sb.append(" Alarm.id AS alarmId, ")
         sb.append(" Alarm.time AS alarmTime ")
         sb.append(" FROM Medicine ")
         sb.append(" LEFT JOIN Alarm ON Medicine.id = Alarm.medicineId ")
@@ -36,12 +37,13 @@ class MedicineViewHolderSQLite(database: SQLiteOpenHelper) : BaseSQLite(database
     }
 
     private fun getMedicineFromCursor(cursor: Cursor): MedicineVHModel {
-        val id = cursor.getLong(cursor.getColumnIndexOrThrow("medicineId"))
+        val medicineId = cursor.getLong(cursor.getColumnIndexOrThrow("medicineId"))
         val name = cursor.getString(cursor.getColumnIndexOrThrow("medicineName"))
+        val alarmId = cursor.getLong(cursor.getColumnIndexOrThrow("alarmId"))
         val alarm = cursor.getString(cursor.getColumnIndexOrThrow("alarmTime"))
 
 
-        return MedicineVHModel(id, name, formatTimeFromString(alarm))
+        return MedicineVHModel(medicineId, alarmId, name, formatTimeFromString(alarm))
     }
 
     private fun formatTimeFromString(date: String) : Calendar {
