@@ -1,13 +1,14 @@
 package br.com.sailboat.elseapp.persistence.sqlite
 
+import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteOpenHelper
+import br.com.sailboat.canoe.base.BaseSQLite
+import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.elseapp.model.Alarm
-import br.com.sailboat.helper.DateHelper
-import br.com.sailboat.helper.sqlite.BaseSQLite
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import java.util.*
 
-class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
+class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
     fun getAlarmsByMedicine(medicineId: Long): MutableList<Alarm> {
         val sb = StringBuilder()
@@ -45,7 +46,7 @@ class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         statement.bindString(2, formatTimeFromDate(alarm.time))
         statement.bindLong(3, alarm.repeatType.toLong())
 
-        val id = executeInsert(statement)
+        val id = insert(statement)
 
         return id
     }
@@ -62,7 +63,7 @@ class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         statement.bindLong(2, alarm.repeatType.toLong())
         statement.bindLong(3, alarm.id)
 
-        executeUpdateOrDelete(statement)
+        update(statement)
     }
 
     fun delete(alarmId: Long) {
@@ -70,7 +71,7 @@ class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         val statement = compileStatement(query)
         statement.bindLong(1, alarmId)
 
-        executeUpdateOrDelete(statement)
+        delete(statement)
     }
 
     fun deleteAllByMedicine(medicineId: Long) {
@@ -78,7 +79,7 @@ class AlarmSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         val statement = compileStatement(query)
         statement.bindLong(1, medicineId)
 
-        executeUpdateOrDelete(statement)
+        delete(statement)
     }
 
     private fun getAlarmList(query: StringBuilder): MutableList<Alarm> {

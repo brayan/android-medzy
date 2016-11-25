@@ -1,16 +1,15 @@
 package br.com.sailboat.elseapp.view.medicine.list.presenter
 
 import android.content.Context
+import br.com.sailboat.canoe.alarm.AlarmHelper
+import br.com.sailboat.canoe.async.callback.ResultCallback
+import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
-import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
 import br.com.sailboat.elseapp.view.async_task.AsyncLoadMedicinesViewHolder
 import br.com.sailboat.elseapp.view.medicine.list.view_model.MedicineListViewModel
-import br.com.sailboat.helper.alarm.AlarmHelper
-import br.com.sailboat.helper.async.callback.ResultCallback
-import br.com.sailboat.helper.base.BasePresenter
 
 
 class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(), MedicineListAdapter.Callback {
@@ -48,7 +47,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
         Thread.sleep(300)
 
-        val alarmSqlite = AlarmSQLite(DatabaseOpenHelper.getInstance(view.getContext()))
+        val alarmSqlite = AlarmSQLite(view.getContext())
         val alarm = alarmSqlite.getAlarmById(med.alarmId)
 
         AlarmHelper.incrementToNextValidDate(alarm!!.time, alarm.repeatType)

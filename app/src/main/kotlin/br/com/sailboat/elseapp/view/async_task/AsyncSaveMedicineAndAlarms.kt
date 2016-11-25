@@ -1,13 +1,12 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
+import br.com.sailboat.canoe.async.SimpleAsyncTask
 import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.model.Medicine
-import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
-import br.com.sailboat.helper.async.SimpleAsyncTask
 
 
 class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: SimpleAsyncTask.Callback)
@@ -44,16 +43,16 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     private fun updateMedicine() {
-        MedicineSQLite(DatabaseOpenHelper.getInstance(context)).update(medicine)
+        MedicineSQLite(context).update(medicine)
     }
 
     private fun saveNewMedicine() {
-        val id = MedicineSQLite(DatabaseOpenHelper.getInstance(context)).saveAndGetId(medicine)
+        val id = MedicineSQLite(context).saveAndGetId(medicine)
         medicine.id = id
     }
 
     private fun saveAlarms() {
-        val alarmSQLite = AlarmSQLite(DatabaseOpenHelper.getInstance(context))
+        val alarmSQLite = AlarmSQLite(context)
         alarmSQLite.deleteAllByMedicine(medicine.id)
 
         for (alarm in alarms) {

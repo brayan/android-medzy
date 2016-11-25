@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import br.com.sailboat.canoe.base.BaseFragment
+import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.view.adapter.MedicineListAdapter
@@ -15,8 +17,6 @@ import br.com.sailboat.elseapp.view.adapter.MedicineViewHolderItemTouchHelper
 import br.com.sailboat.elseapp.view.medicine.detail.MedicineDetailActivity
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
 import br.com.sailboat.elseapp.view.medicine.list.presenter.MedicineListPresenter
-import br.com.sailboat.helper.DialogHelper
-import br.com.sailboat.helper.base.BaseFragment
 import kotlinx.android.synthetic.main.empty_meds.*
 
 class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View {

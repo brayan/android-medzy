@@ -4,8 +4,8 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.model.MedicineVHModel
-import br.com.sailboat.helper.DateHelper
-import br.com.sailboat.helper.base.BaseViewHolder
+import br.com.sailboat.canoe.base.BaseViewHolder
+import br.com.sailboat.canoe.helper.DateHelper
 import kotlinx.android.synthetic.main.holder_medicine.view.*
 import java.util.*
 

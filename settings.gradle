@@ -1,2 +1,2 @@
-include ':app', ':helper'
-project(':helper').projectDir = new File(settingsDir, '../helper/helper')
+include ':app', ':canoe'
+project(':canoe').projectDir = new File(settingsDir, '../canoe/canoe')

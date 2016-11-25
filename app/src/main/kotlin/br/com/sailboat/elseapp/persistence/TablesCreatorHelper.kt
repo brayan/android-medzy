@@ -1,7 +1,7 @@
 package br.com.sailboat.elseapp.persistence
 
 import android.database.sqlite.SQLiteDatabase
-import br.com.sailboat.helper.sqlite.TablesCreator
+import br.com.sailboat.canoe.sqlite.TablesCreator
 import java.util.*
 
 class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {

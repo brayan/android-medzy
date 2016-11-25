@@ -1,12 +1,13 @@
 package br.com.sailboat.elseapp.persistence.sqlite
 
+import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteOpenHelper
+import br.com.sailboat.canoe.base.BaseSQLite
 import br.com.sailboat.elseapp.model.Medicine
-import br.com.sailboat.helper.sqlite.BaseSQLite
+import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 
 
-class MedicineSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
+class MedicineSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
     fun getMedicineById(medicineId: Long): Medicine? {
         val sb = StringBuilder()
@@ -34,7 +35,7 @@ class MedicineSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         val statement = compileStatement(sb.toString())
         statement.bindString(1, medicine.name)
 
-        val id = executeInsert(statement)
+        val id = insert(statement)
 
         return id
     }
@@ -49,7 +50,7 @@ class MedicineSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         statement.bindString(1, medicine.name)
         statement.bindLong(2, medicine.id)
 
-        executeUpdateOrDelete(statement)
+        update(statement)
     }
 
     fun delete(medicineId: Long) {
@@ -57,7 +58,7 @@ class MedicineSQLite(database: SQLiteOpenHelper) : BaseSQLite(database) {
         val statement = compileStatement(query)
         statement.bindLong(1, medicineId)
 
-        executeUpdateOrDelete(statement)
+        delete(statement)
     }
 
     private fun getMedicineFromCursor(cursor: Cursor): Medicine {

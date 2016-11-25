@@ -1,7 +1,7 @@
 package br.com.sailboat.elseapp.view.medicine.list.presenter
 
+import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
-import br.com.sailboat.helper.DateHelper
 import java.util.*
 
 class MedsListBuilder private constructor(meds: List<MedicineVHModel>) {

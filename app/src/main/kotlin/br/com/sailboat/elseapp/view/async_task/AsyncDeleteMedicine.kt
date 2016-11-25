@@ -1,11 +1,10 @@
 package br.com.sailboat.elseapp.view.async_task
 
 import android.content.Context
+import br.com.sailboat.canoe.async.SimpleAsyncTask
 import br.com.sailboat.elseapp.helper.AlarmManagerHelper
-import br.com.sailboat.elseapp.persistence.DatabaseOpenHelper
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.elseapp.persistence.sqlite.MedicineSQLite
-import br.com.sailboat.helper.async.SimpleAsyncTask
 
 class AsyncDeleteMedicine private constructor(context: Context, medicineId: Long, callback: SimpleAsyncTask.Callback)
     : SimpleAsyncTask(callback) {
@@ -27,16 +26,16 @@ class AsyncDeleteMedicine private constructor(context: Context, medicineId: Long
     }
 
     private fun cancelAlarms() {
-        val alarms = AlarmSQLite(DatabaseOpenHelper.getInstance(context)).getAlarmsByMedicine(medicineId)
+        val alarms = AlarmSQLite(context).getAlarmsByMedicine(medicineId)
         AlarmManagerHelper.cancelAlarms(context, alarms)
     }
 
     private fun deleteMedicine() {
-        MedicineSQLite(DatabaseOpenHelper.getInstance(context)).delete(medicineId)
+        MedicineSQLite(context).delete(medicineId)
     }
 
     private fun deleteAlarms() {
-        AlarmSQLite(DatabaseOpenHelper.getInstance(context)).deleteAllByMedicine(medicineId)
+        AlarmSQLite(context).deleteAllByMedicine(medicineId)
     }
 
 }

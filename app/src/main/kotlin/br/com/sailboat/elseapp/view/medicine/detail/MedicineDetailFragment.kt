@@ -13,7 +13,7 @@ import android.widget.Toast
 import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.view.medicine.detail.presenter.MedicineDetailPresenter
 import br.com.sailboat.elseapp.view.medicine.insert.InsertMedicineActivity
-import br.com.sailboat.helper.base.BaseFragment
+import br.com.sailboat.canoe.base.BaseFragment
 import kotlinx.android.synthetic.main.frag_medicine_detail.*
 
 class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), MedicineDetailPresenter.View {

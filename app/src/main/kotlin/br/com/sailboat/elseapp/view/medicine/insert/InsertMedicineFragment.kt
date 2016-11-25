@@ -13,8 +13,9 @@ import br.com.sailboat.elseapp.R
 import br.com.sailboat.elseapp.model.Alarm
 import br.com.sailboat.elseapp.view.dialog.AlarmPickerDialog
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.InsertMedicinePresenter
-import br.com.sailboat.helper.DialogHelper
-import br.com.sailboat.helper.base.BaseFragment
+import br.com.sailboat.canoe.base.BaseFragment
+import br.com.sailboat.canoe.alarm.*
+import br.com.sailboat.canoe.helper.DialogHelper
 import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medicine.*
 import java.util.*

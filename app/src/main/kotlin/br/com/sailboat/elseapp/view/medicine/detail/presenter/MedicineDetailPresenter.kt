@@ -6,8 +6,8 @@ import br.com.sailboat.elseapp.helper.ExtrasHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.view.async_task.AsyncDeleteMedicine
 import br.com.sailboat.elseapp.view.medicine.detail.view_model.MedicineDetailViewModel
-import br.com.sailboat.helper.async.SimpleAsyncTask
-import br.com.sailboat.helper.base.BasePresenter
+import br.com.sailboat.canoe.async.SimpleAsyncTask
+import br.com.sailboat.canoe.base.BasePresenter
 
 
 class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresenter() {

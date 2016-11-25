@@ -3,7 +3,7 @@ package br.com.sailboat.elseapp.view.medicine.insert
 import android.content.Intent
 import android.support.v4.app.Fragment
 import br.com.sailboat.elseapp.helper.ExtrasHelper
-import br.com.sailboat.helper.base.BaseActivity
+import br.com.sailboat.canoe.base.BaseActivity
 
 class InsertMedicineActivity : BaseActivity<InsertMedicineFragment>() {
 

@@ -10,13 +10,12 @@ import br.com.sailboat.elseapp.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.elseapp.view.async_task.AsyncSaveMedicineAndAlarms
 import br.com.sailboat.elseapp.view.medicine.insert.presenter.checker.InsertMedicineChecker
 import br.com.sailboat.elseapp.view.medicine.insert.view_model.InsertMedicineViewModel
-import br.com.sailboat.helper.alarm.AlarmHelper
-import br.com.sailboat.helper.DateHelper
-import br.com.sailboat.helper.alarm.RepeatType
-import br.com.sailboat.helper.async.SimpleAsyncTask
-import br.com.sailboat.helper.async.callback.ResultCallback
-import br.com.sailboat.helper.base.BasePresenter
-import br.com.sailboat.helper.exception.RequiredFieldNotFilledException
+import br.com.sailboat.canoe.alarm.RepeatType
+import br.com.sailboat.canoe.async.SimpleAsyncTask
+import br.com.sailboat.canoe.async.callback.ResultCallback
+import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException
+import br.com.sailboat.canoe.helper.DateHelper
 import java.util.*
 
 
@@ -36,7 +35,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         if (isInsertingMedicine()) {
             viewModel.medicine = Medicine(-1, "")
             // TODO: JUST FOR TESTS
-            viewModel.alarms.add(Alarm(-1, -1, AlarmHelper.getInitialAlarmTime(), RepeatType.DAY))
+            viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY))
             view.openKeyboard()
 
         } else {
