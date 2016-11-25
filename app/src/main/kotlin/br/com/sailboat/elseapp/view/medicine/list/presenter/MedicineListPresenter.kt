@@ -4,6 +4,7 @@ import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
 import br.com.sailboat.canoe.async.callback.ResultCallback
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.elseapp.helper.AlarmManagerHelper
 import br.com.sailboat.elseapp.helper.LogHelper
 import br.com.sailboat.elseapp.model.MedicineVHModel
 import br.com.sailboat.elseapp.persistence.sqlite.AlarmSQLite
@@ -48,11 +49,12 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
         Thread.sleep(300)
 
         val alarmSqlite = AlarmSQLite(view.getContext())
-        val alarm = alarmSqlite.getAlarmById(med.alarmId)
+        val alarm = alarmSqlite.getAlarmById(med.alarmId)!!
 
-        AlarmHelper.incrementToNextValidDate(alarm!!.time, alarm.repeatType)
+        AlarmHelper.incrementToNextValidDate(alarm.time, alarm.repeatType)
 
         alarmSqlite.update(alarm)
+        AlarmManagerHelper.setAlarm(view.getContext(), alarm.id, alarm.time.timeInMillis)
 
         loadMedicines()
     }
