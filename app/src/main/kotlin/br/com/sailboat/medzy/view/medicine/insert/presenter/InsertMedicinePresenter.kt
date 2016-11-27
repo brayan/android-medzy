@@ -3,8 +3,8 @@ package br.com.sailboat.medzy.view.medicine.insert.presenter
 import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.RepeatType
-import br.com.sailboat.canoe.async.SimpleAsyncTask
-import br.com.sailboat.canoe.async.callback.ResultCallback
+import br.com.sailboat.canoe.async.callback.OnSuccess
+import br.com.sailboat.canoe.async.callback.OnSuccessResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
@@ -90,17 +90,13 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : ResultCallback<MutableList<Alarm>> {
+        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<MutableList<Alarm>> {
 
             override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
                 viewModel.alarms.addAll(list)
 
                 view.setAlarmsView(viewModel.alarms)
-            }
-
-            override fun onFail(e: Exception) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), "An error occurred while loading the alarms :/", e)
             }
 
         })
@@ -120,16 +116,8 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     private fun save() {
 
-        AsyncSaveMedicineAndAlarms.save(view.getContext(), viewModel.medicine!!, alarms, object : SimpleAsyncTask.Callback {
-
-            override fun onSuccess() {
-                view.closeActivityResultOk()
-            }
-
-            override fun onFail(e: Exception) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
-            }
-
+        AsyncSaveMedicineAndAlarms.save(view.getContext(), viewModel.medicine!!, alarms, OnSuccess {
+            view.closeActivityResultOk()
         })
 
     }

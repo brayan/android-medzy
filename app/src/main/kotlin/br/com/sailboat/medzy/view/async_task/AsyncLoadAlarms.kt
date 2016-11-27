@@ -1,13 +1,13 @@
 package br.com.sailboat.medzy.view.async_task
 
 import android.content.Context
-import br.com.sailboat.canoe.async.BaseAsyncTask
-import br.com.sailboat.canoe.async.callback.ResultCallback
+import br.com.sailboat.canoe.async.AsyncSuccess
+import br.com.sailboat.canoe.async.callback.OnSuccessResult
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import java.util.*
 
-class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, callback: ResultCallback<MutableList<Alarm>>) : BaseAsyncTask() {
+class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, callback: OnSuccessResult<MutableList<Alarm>>) : AsyncSuccess(context) {
 
     private val context = context
     private val callback = callback
@@ -16,7 +16,7 @@ class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, ca
 
     companion object {
 
-        fun load(context: Context, medicineId: Long, callback: ResultCallback<MutableList<Alarm>>) {
+        fun load(context: Context, medicineId: Long, callback: OnSuccessResult<MutableList<Alarm>>) {
             AsyncLoadAlarms(context, medicineId, callback).execute()
         }
 
@@ -28,10 +28,6 @@ class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, ca
 
     override fun onSuccess() {
         callback.onSuccess(list)
-    }
-
-    override fun onFail(e: Exception) {
-        callback.onFail(e)
     }
 
 }

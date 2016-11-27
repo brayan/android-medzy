@@ -1,7 +1,8 @@
 package br.com.sailboat.medzy.view.async_task
 
 import android.content.Context
-import br.com.sailboat.canoe.async.SimpleAsyncTask
+import br.com.sailboat.canoe.async.AsyncSuccess
+import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medicine
@@ -9,29 +10,33 @@ import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.persistence.sqlite.MedicineSQLite
 
 
-class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: SimpleAsyncTask.Callback)
-    : SimpleAsyncTask(callback) {
+class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: OnSuccess)
+    : AsyncSuccess(context) {
 
     private val context = context
     private val medicine = medicine
     private val alarms = alarms
+    private val callback = callback
 
     private val isNewMedicine: Boolean get() = medicine.id == -1L
 
     companion object {
 
-        fun save(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: SimpleAsyncTask.Callback) {
+        fun save(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: OnSuccess) {
             AsyncSaveMedicineAndAlarms(context, medicine, alarms, callback).execute()
         }
 
     }
-
 
     override fun onDoInBackground() {
         cancelAlarms()
         saveOrUpdateMedicine()
         saveAlarms()
         setAlarms()
+    }
+
+    override fun onSuccess() {
+        callback.onSuccess()
     }
 
     private fun saveOrUpdateMedicine() {

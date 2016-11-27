@@ -2,9 +2,8 @@ package br.com.sailboat.medzy.view.medicine.detail.presenter
 
 import android.content.Context
 import android.content.Intent
-import br.com.sailboat.canoe.async.SimpleAsyncTask
+import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.base.BasePresenter
-import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.view.async_task.AsyncDeleteMedicine
 import br.com.sailboat.medzy.view.medicine.detail.view_model.MedicineDetailViewModel
@@ -40,15 +39,8 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
 
     private fun deleteWorkout() {
 
-        AsyncDeleteMedicine.delete(view.getContext(), viewModel.medicineId!!, object : SimpleAsyncTask.Callback {
-
-            override fun onSuccess() {
-                view.closeActivityResultOk()
-            }
-
-            override fun onFail(e: Exception) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
-            }
+        AsyncDeleteMedicine.delete(view.getContext(), viewModel.medicineId!!, OnSuccess {
+            view.closeActivityResultOk()
         })
 
     }

@@ -2,9 +2,8 @@ package br.com.sailboat.medzy.view.medicine.list.presenter
 
 import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
-import br.com.sailboat.canoe.async.callback.ResultCallback
+import br.com.sailboat.canoe.async.callback.OnSuccessResult
 import br.com.sailboat.canoe.base.BasePresenter
-import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.view.adapter.MedicineListAdapter
@@ -61,14 +60,10 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
     private fun loadMedicines() {
 
-        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : ResultCallback<MutableList<MedicineVHModel>> {
+        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : OnSuccessResult<MutableList<MedicineVHModel>> {
 
             override fun onSuccess(result: MutableList<MedicineVHModel>) {
                 onSuccessLoadMedication(result)
-            }
-
-            override fun onFail(e: Exception) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), "An error occurred while loading the meds", e)
             }
 
         })
