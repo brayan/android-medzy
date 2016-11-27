@@ -2,16 +2,15 @@ package br.com.sailboat.medzy.view.medicine.insert.presenter
 
 import android.content.Context
 import android.content.Intent
-import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.helper.LogHelper
-import br.com.sailboat.medzy.model.Alarm
-import br.com.sailboat.medzy.model.Medicine
 import br.com.sailboat.canoe.alarm.RepeatType
 import br.com.sailboat.canoe.async.SimpleAsyncTask
 import br.com.sailboat.canoe.async.callback.ResultCallback
 import br.com.sailboat.canoe.base.BasePresenter
-import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException
 import br.com.sailboat.canoe.helper.DateHelper
+import br.com.sailboat.canoe.helper.SafeOperation
+import br.com.sailboat.medzy.helper.ExtrasHelper
+import br.com.sailboat.medzy.model.Alarm
+import br.com.sailboat.medzy.model.Medicine
 import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicineAndAlarms
 import br.com.sailboat.medzy.view.medicine.insert.presenter.checker.InsertMedicineChecker
@@ -62,16 +61,10 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     fun onClickSave() {
 
-        try {
+        SafeOperation.withDialog(view.getContext()) {
             collectDataFromFieldsAndBindToMedicine()
             checkRequiredFields()
             save()
-
-        } catch (e: RequiredFieldNotFilledException) {
-            view.showInfoMessage(e?.message ?: "")
-
-        } catch (e: Exception) {
-            LogHelper.printExceptionLog(e)
         }
 
     }
@@ -107,8 +100,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             }
 
             override fun onFail(e: Exception) {
-                LogHelper.printExceptionLog(e)
-                view.showErrorMessage("An error occurred while loading the alarms :/")
+                SafeOperation.printLogAndShowDialog(view.getContext(), "An error occurred while loading the alarms :/", e)
             }
 
         })
@@ -135,8 +127,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             }
 
             override fun onFail(e: Exception) {
-                LogHelper.printExceptionLog(e)
-                view.showErrorMessage("An error occurred while saving the medicine :/")
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
 
         })

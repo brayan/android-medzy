@@ -3,9 +3,8 @@ package br.com.sailboat.medzy.persistence.sqlite
 import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.canoe.base.BaseSQLite
-import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
 import br.com.sailboat.medzy.persistence.DatabaseOpenHelper
+import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
 import java.util.*
 
 class MedicineViewHolderSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
@@ -38,20 +37,12 @@ class MedicineViewHolderSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper
     }
 
     private fun getMedicineFromCursor(cursor: Cursor): MedicineVHModel {
-        val medicineId = cursor.getLong(cursor.getColumnIndexOrThrow("medicineId"))
-        val name = cursor.getString(cursor.getColumnIndexOrThrow("medicineName"))
-        val alarmId = cursor.getLong(cursor.getColumnIndexOrThrow("alarmId"))
-        val alarm = cursor.getString(cursor.getColumnIndexOrThrow("alarmTime"))
+        val medicineId = getLong(cursor, "medicineId")
+        val name = getString(cursor, "medicineName")
+        val alarmId = getLong(cursor, "alarmId")
+        val alarm = getCalendar(cursor, "alarmTime")
 
-
-        return MedicineVHModel(medicineId, alarmId, name, formatTimeFromString(alarm))
-    }
-
-    private fun formatTimeFromString(date: String) : Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.time = DateHelper.formatDateTimeFromDatabaseFormat(date)
-
-        return calendar
+        return MedicineVHModel(medicineId, alarmId, name, alarm)
     }
 
 }

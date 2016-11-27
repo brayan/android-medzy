@@ -75,11 +75,11 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
     }
 
     override fun showInfoMessage(message: String) {
-        DialogHelper.showMessage(activity, message)
+        DialogHelper.showMessage(activity, message, null)
     }
 
     override fun showErrorMessage(message: String) {
-        DialogHelper.showMessage(activity, message)
+        DialogHelper.showMessage(activity, message, null)
     }
 
     override fun closeActivityResultOk() {

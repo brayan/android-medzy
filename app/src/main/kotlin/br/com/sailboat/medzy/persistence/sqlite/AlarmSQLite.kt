@@ -3,7 +3,7 @@ package br.com.sailboat.medzy.persistence.sqlite
 import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.canoe.base.BaseSQLite
-import br.com.sailboat.canoe.helper.DateHelper
+import br.com.sailboat.canoe.exception.EntityNotFoundException
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.persistence.DatabaseOpenHelper
 import java.util.*
@@ -18,21 +18,22 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         return getAlarmList(sb)
     }
 
-    fun getAlarmById(alarmId: Long): Alarm? {
+    fun getAlarmById(alarmId: Long): Alarm {
         val sb = StringBuilder()
         sb.append(" SELECT Alarm.* FROM Alarm ")
         sb.append(" WHERE Alarm.id = " + alarmId)
 
         val cursor = performQuery(sb.toString())
-        var alarm: Alarm? = null
 
         if (cursor.moveToNext()) {
-            alarm = getAlarmFromCursor(cursor)
+            val alarm = getAlarmFromCursor(cursor)
+            cursor.close()
+            return alarm
         }
 
         cursor.close()
 
-        return alarm
+        throw EntityNotFoundException("Alarm with id "+ alarmId +" not found")
     }
 
     fun saveAndGetId(alarm: Alarm): Long {
@@ -43,7 +44,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
 
         val statement = compileStatement(sb.toString())
         statement.bindLong(1, alarm.medicineId)
-        statement.bindString(2, formatTimeFromDate(alarm.time))
+        statement.bindString(2, parseCalendarToString(alarm.time))
         statement.bindLong(3, alarm.repeatType.toLong())
 
         val id = insert(statement)
@@ -59,7 +60,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindString(1, formatTimeFromDate(alarm.time))
+        statement.bindString(1, parseCalendarToString(alarm.time))
         statement.bindLong(2, alarm.repeatType.toLong())
         statement.bindLong(3, alarm.id)
 
@@ -97,22 +98,12 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     }
 
     private fun getAlarmFromCursor(cursor: Cursor): Alarm {
-        val id = cursor.getLong(cursor.getColumnIndexOrThrow("id"))
-        val medicineId = cursor.getLong(cursor.getColumnIndexOrThrow("medicineId"))
-        val time = cursor.getString(cursor.getColumnIndexOrThrow("time"))
-        val repeatType = cursor.getInt(cursor.getColumnIndexOrThrow("repeatType"))
+        val id = getLong(cursor, "id")
+        val medicineId = getLong(cursor, "medicineId")
+        val time = getCalendar(cursor, "time")
+        val repeatType = getInt(cursor, "repeatType")
 
-        return Alarm(id, medicineId, formatTimeFromString(time), repeatType)
+        return Alarm(id, medicineId, time, repeatType)
     }
 
-    private fun formatTimeFromDate(date: Calendar) : String {
-        return DateHelper.formatDateTimeWithDatabaseFormat(date.time)
-    }
-
-    private fun formatTimeFromString(date: String) : Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.time = DateHelper.formatDateTimeFromDatabaseFormat(date)
-
-        return calendar
-    }
 }

@@ -14,7 +14,7 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         return createTables
     }
 
-    fun getQueryCreateTableMedicine(): String {
+    private fun getQueryCreateTableMedicine(): String {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Medicine ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
@@ -24,7 +24,7 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         return sb.toString()
     }
 
-    fun getQueryCreateTableAlarm(): String {
+    private fun getQueryCreateTableAlarm(): String {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Alarm ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")

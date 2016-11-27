@@ -8,6 +8,7 @@ import android.content.Intent;
 import java.text.ParseException;
 import java.util.List;
 
+import br.com.sailboat.canoe.helper.SafeOperation;
 import br.com.sailboat.medzy.model.Alarm;
 import br.com.sailboat.medzy.receiver.AlarmReceiver;
 
@@ -21,6 +22,13 @@ public class AlarmManagerHelper {
 
     private AlarmManagerHelper(Context context) {
         this.context = context.getApplicationContext();
+
+        SafeOperation.withLog(new SafeOperation.Callback() {
+            @Override
+            public void perform() throws Exception {
+                // TODO
+            }
+        });
     }
 
     public static void setAlarm(Context ctx, long alarmId, long timeInMillis) throws ParseException {

@@ -2,10 +2,10 @@ package br.com.sailboat.medzy.view.medicine.detail.presenter
 
 import android.content.Context
 import android.content.Intent
-import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.helper.LogHelper
 import br.com.sailboat.canoe.async.SimpleAsyncTask
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.SafeOperation
+import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.view.async_task.AsyncDeleteMedicine
 import br.com.sailboat.medzy.view.medicine.detail.view_model.MedicineDetailViewModel
 
@@ -47,8 +47,7 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
             }
 
             override fun onFail(e: Exception) {
-                LogHelper.printExceptionLog(e)
-                view.showToast(e?.message ?: "")
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
         })
 

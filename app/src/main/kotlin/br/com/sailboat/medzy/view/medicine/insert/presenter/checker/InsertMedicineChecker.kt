@@ -1,7 +1,7 @@
 package br.com.sailboat.medzy.view.medicine.insert.presenter.checker
 
-import br.com.sailboat.medzy.model.Medicine
 import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException
+import br.com.sailboat.medzy.model.Medicine
 
 class InsertMedicineChecker {
 

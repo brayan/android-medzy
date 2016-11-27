@@ -4,8 +4,8 @@ import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
 import br.com.sailboat.canoe.async.callback.ResultCallback
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
-import br.com.sailboat.medzy.helper.LogHelper
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.view.adapter.MedicineListAdapter
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
@@ -68,8 +68,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
             }
 
             override fun onFail(e: Exception) {
-                LogHelper.printExceptionLog(e)
-                view.showDialog("An error occurred while loading the meds")
+                SafeOperation.printLogAndShowDialog(view.getContext(), "An error occurred while loading the meds", e)
             }
 
         })
