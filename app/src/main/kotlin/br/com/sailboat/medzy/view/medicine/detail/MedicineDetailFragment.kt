@@ -10,16 +10,15 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medicine.detail.presenter.MedicineDetailPresenter
 import br.com.sailboat.medzy.view.medicine.insert.InsertMedicineActivity
-import kotlinx.android.synthetic.main.frag_medicine_detail.*
 
 class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), MedicineDetailPresenter.View {
 
     private val REQUEST_EDIT_MEDICINE = 0
+    private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
         return R.layout.frag_medicine_detail
@@ -47,19 +46,12 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
 
     }
 
-    override fun onActivityResultOk(requestCode: Int, data: Intent?) {
-
-        when (requestCode) {
-            REQUEST_EDIT_MEDICINE -> {
-                presenter.onActivityResultOkEditMedicine()
-                return
-            }
-        }
-
+    override fun postActivityResult(requestCode: Int, data: Intent?) {
+        presenter.postActivityResult()
     }
 
     override fun setMedicineName(name: String) {
-        tvMedicineDetailName.text = name
+        toolbar.setTitle(name)
     }
 
     override fun closeActivityResultOk() {
@@ -89,7 +81,7 @@ class MedicineDetailFragment : BaseFragment<MedicineDetailPresenter>(), Medicine
     }
 
     private fun initToolbar(view: View) {
-        val toolbar = view.findViewById(R.id.toolbar) as Toolbar
+        toolbar = view.findViewById(R.id.toolbar) as Toolbar
         toolbar.setTitle("Medicine Detail")
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)

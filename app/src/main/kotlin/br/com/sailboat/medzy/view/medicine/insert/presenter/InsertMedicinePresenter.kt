@@ -12,6 +12,7 @@ import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medicine
 import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
+import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
 import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicineAndAlarms
 import br.com.sailboat.medzy.view.medicine.insert.presenter.checker.InsertMedicineChecker
 import br.com.sailboat.medzy.view.medicine.insert.view_model.InsertMedicineViewModel
@@ -38,15 +39,40 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             view.openKeyboard()
 
         } else {
-//            updateMedicineNameView()
-            // TODO: LOAD MEDICINE
+            loadMedicine()
             loadAlarms()
         }
 
     }
 
+    private fun loadMedicine() {
+        AsyncLoadMedication.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<Medicine> {
+
+            override fun onSuccess(med: Medicine) {
+                viewModel.medicine = med
+                updateMedicineNameView()
+            }
+
+        })
+    }
+
+    private fun loadAlarms() {
+        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<MutableList<Alarm>> {
+
+            override fun onSuccess(list: MutableList<Alarm>) {
+                viewModel.alarms.clear()
+                viewModel.alarms.addAll(list)
+
+                view.setAlarmsView(viewModel.alarms)
+
+                updateMedicineAlarmView()
+            }
+
+        })
+    }
+
     override fun postResume() {
-        updateMedicineAlarmView()
+//        updateMedicineAlarmView()
     }
 
     fun onClickTime() {
@@ -89,21 +115,9 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         view.putCursorAtTheEnd()
     }
 
-    private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<MutableList<Alarm>> {
-
-            override fun onSuccess(list: MutableList<Alarm>) {
-                viewModel.alarms.clear()
-                viewModel.alarms.addAll(list)
-
-                view.setAlarmsView(viewModel.alarms)
-            }
-
-        })
-    }
 
     private fun isInsertingMedicine() : Boolean {
-        return viewModel.medicine == null || viewModel.medicine?.id == -1L
+        return viewModel.medicineId == -1L
     }
 
     private fun collectDataFromFieldsAndBindToMedicine() {

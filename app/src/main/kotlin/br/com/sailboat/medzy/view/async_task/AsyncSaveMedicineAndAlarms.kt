@@ -18,8 +18,6 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     private val alarms = alarms
     private val callback = callback
 
-    private val isNewMedicine: Boolean get() = medicine.id == -1L
-
     companion object {
 
         fun save(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: OnSuccess) {
@@ -29,10 +27,9 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     override fun onDoInBackground() {
-        cancelAlarms()
+        cancelAndDeleteAlarms()
         saveOrUpdateMedicine()
         saveAlarms()
-        setAlarms()
     }
 
     override fun onSuccess() {
@@ -40,7 +37,7 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     private fun saveOrUpdateMedicine() {
-        if (isNewMedicine) {
+        if (isMedicineNew()) {
             saveNewMedicine()
         } else {
             updateMedicine()
@@ -57,25 +54,34 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     private fun saveAlarms() {
-        val alarmSQLite = AlarmSQLite(context)
-        alarmSQLite.deleteAllByMedicine(medicine.id)
-
         for (alarm in alarms) {
             alarm.medicineId = medicine.id
-            alarm.id = alarmSQLite.saveAndGetId(alarm)
-        }
-    }
-
-    private fun setAlarms() {
-        for (alarm in alarms) {
+            alarm.id = AlarmSQLite(context).saveAndGetId(alarm)
             AlarmManagerHelper.setAlarm(context, alarm.id, alarm.time.timeInMillis)
         }
     }
 
-    private fun cancelAlarms() {
-        for (alarm in alarms) {
-            AlarmManagerHelper.cancelAlarm(context, alarm.id)
+    private fun cancelAndDeleteAlarms() {
+
+        if (isMedicineNotNew()) {
+            val alarmSQLite = AlarmSQLite(context)
+            var alarmss = alarmSQLite.getAlarmsByMedicine(medicine.id)
+
+            for (alarm in alarmss) {
+                AlarmManagerHelper.cancelAlarm(context, alarm.id)
+                alarmSQLite.delete(alarm.id)
+            }
+
         }
+
+    }
+
+    fun isMedicineNew(): Boolean {
+        return medicine.id == -1L
+    }
+
+    fun isMedicineNotNew(): Boolean {
+        return !isMedicineNew()
     }
 
 }

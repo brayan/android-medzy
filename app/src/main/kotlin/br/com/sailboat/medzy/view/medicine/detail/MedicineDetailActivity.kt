@@ -4,21 +4,19 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import br.com.sailboat.canoe.base.BaseActivity
 import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
 
 class MedicineDetailActivity : BaseActivity<MedicineDetailFragment>() {
 
     companion object {
 
-        fun start(fromFragment: Fragment, medicine: MedicineVHModel, requestCode: Int) {
+        fun start(fromFragment: Fragment, medId: Long, requestCode: Int) {
             val starter = Intent(fromFragment.activity, MedicineDetailActivity::class.java)
-            addExtrasToIntent(medicine, starter)
+            addExtrasToIntent(medId, starter)
             fromFragment.startActivityForResult(starter, requestCode)
         }
 
-        private fun addExtrasToIntent(medicine: MedicineVHModel, starter: Intent) {
-            ExtrasHelper.putMedicineName(medicine.medicineName, starter)
-            ExtrasHelper.putMedicineId(medicine.medicineId, starter)
+        private fun addExtrasToIntent(medId: Long, starter: Intent) {
+            ExtrasHelper.putMedicineId(medId, starter)
         }
 
     }

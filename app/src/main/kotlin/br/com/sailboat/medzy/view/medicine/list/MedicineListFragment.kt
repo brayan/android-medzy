@@ -56,7 +56,7 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     }
 
     override fun startMedicineDetailActivity(medicine: MedicineVHModel) {
-        MedicineDetailActivity.start(this, medicine, REQUEST_DETAILS)
+        MedicineDetailActivity.start(this, medicine.medicineId, REQUEST_DETAILS)
     }
 
     override fun updateMedicationRemoved(position: Int) {

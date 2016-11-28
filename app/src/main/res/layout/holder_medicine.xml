@@ -44,6 +44,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvHolderMedicineDose"
                 android:paddingRight="8dp"
                 android:layout_width="match_parent"
