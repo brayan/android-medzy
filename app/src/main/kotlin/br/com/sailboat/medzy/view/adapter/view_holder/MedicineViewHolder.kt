@@ -19,7 +19,7 @@ class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) 
 
     override fun onBindViewHolder(item: MedicineVHModel) {
         itemView.tvHolderMedicineName.text = item.medicineName
-        itemView.tvHolderMedicineAlarmTime.text = formatTime(item.alarmTime.time)
+        itemView.tvHolderMedicineAlarmTime.text = formatTime(item.alarmTime)
 
         if (DateHelper.isBeforeNow(item.alarmTime)) {
             itemView.tvHolderMedicineAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
@@ -38,8 +38,8 @@ class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) 
         }
     }
 
-    private fun formatTime(time: Date): String {
-        return DateHelper.formatTimeWithAndroidFormat(time, itemView.context)
+    private fun formatTime(time: Calendar): String {
+        return DateHelper.formatTimeWithAndroidFormat(itemView.context, time)
     }
 
 

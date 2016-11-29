@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.helper.DialogHelper
+import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
@@ -124,6 +122,18 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
         toolbar.setNavigationOnClickListener {
             activity.onBackPressed()
         }
+
+        etInsertMedicineName.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(view: View?, keyCode: Int, keyEvent: KeyEvent?): Boolean {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    UIHelper.hideKeyboard(activity, etInsertMedicineName)
+                    return true
+                }
+                return false
+            }
+
+
+        })
 
     }
 

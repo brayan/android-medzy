@@ -37,12 +37,59 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
             // TODO: JUST FOR TESTS
             viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY))
             view.openKeyboard()
+            updateMedicineAlarmView()
 
         } else {
-            loadMedicine()
-            loadAlarms()
+            loadInfo()
         }
 
+    }
+
+    override fun postResume() {
+//        updateMedicineAlarmView()
+    }
+
+    fun onClickTime() {
+        // TODO: JUST FOR TESTS
+        var alarm = viewModel.alarms.get(0)
+        view.startAlarmChooserDialog(alarm.time)
+    }
+
+    fun onClickFrequency() {
+
+    }
+
+    fun onClickSave() {
+
+        SafeOperation.withDialog(view.getContext()) {
+            collectDataFromFieldsAndBindToMedicine()
+            prepareAlarms()
+            checkRequiredFields()
+            save()
+        }
+
+    }
+
+    private fun prepareAlarms() {
+        for (alarm in alarms) {
+            if (DateHelper.isBeforeNow(alarm.time)) {
+                alarm.time.add(Calendar.DAY_OF_MONTH, 1)
+            }
+        }
+    }
+
+    fun onClickOkAlarmChooserDialog(alarmId: Long, hourOfDay: Int, minute: Int) {
+        // TODO: JUST FOR TESTS
+        val alarm = viewModel.alarms[0]
+        alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        alarm.time.set(Calendar.MINUTE, minute)
+
+        updateMedicineAlarmView()
+    }
+
+    private fun loadInfo() {
+        loadMedicine()
+        loadAlarms()
     }
 
     private fun loadMedicine() {
@@ -71,43 +118,9 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
         })
     }
 
-    override fun postResume() {
-//        updateMedicineAlarmView()
-    }
-
-    fun onClickTime() {
-        // TODO: JUST FOR TESTS
-        var alarm = viewModel.alarms.get(0)
-        view.startAlarmChooserDialog(alarm.time)
-    }
-
-    fun onClickFrequency() {
-
-    }
-
-    fun onClickSave() {
-
-        SafeOperation.withDialog(view.getContext()) {
-            collectDataFromFieldsAndBindToMedicine()
-            checkRequiredFields()
-            save()
-        }
-
-    }
-
-    fun onClickOkAlarmChooserDialog(alarmId: Long, hourOfDay: Int, minute: Int) {
-        // TODO: JUST FOR TESTS
-        val alarm = viewModel.alarms[0]
-        alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        alarm.time.set(Calendar.MINUTE, minute)
-
-        updateMedicineAlarmView()
-    }
-
     private fun updateMedicineAlarmView() {
-//        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medicine!!.alarm.time, context))
         // TODO: JUST FOR TESTS
-        view.setAlarm(DateHelper.formatTimeWithAndroidFormat(viewModel.alarms[0].time.time, view.getContext()))
+        view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
     }
 
     private fun updateMedicineNameView() {
@@ -116,7 +129,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
 
-    private fun isInsertingMedicine() : Boolean {
+    private fun isInsertingMedicine(): Boolean {
         return viewModel.medicineId == -1L
     }
 
@@ -125,7 +138,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun checkRequiredFields() {
-        InsertMedicineChecker().check(viewModel.medicine!!)
+        InsertMedicineChecker().check(viewModel.medicine!!, viewModel.alarms)
     }
 
     private fun save() {
@@ -138,7 +151,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
 
     interface View {
-        fun getContext() : Context
+        fun getContext(): Context
         fun closeActivityResultOk()
         fun getMedicineNameFromView(): String
         fun setMedicineName(name: String)

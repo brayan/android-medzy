@@ -5,6 +5,7 @@ import android.content.Intent
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medicine
@@ -65,10 +66,8 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
             override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
                 viewModel.alarms.addAll(list)
-
-//                view.setAlarmsView(viewModel.alarms)
 //
-//                updateMedicineAlarmView()
+                updateMedicineAlarmView()
             }
 
         })
@@ -89,11 +88,20 @@ class MedicineDetailPresenter(view: MedicineDetailPresenter.View) : BasePresente
         view.setMedicineName(viewModel.medicine!!.name)
     }
 
+    private fun updateMedicineAlarmView() {
+//        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medicine!!.alarm.time, context))
+        // TODO: JUST FOR TESTS
+        view.setAlarmDate(DateHelper.getSimpleDayName(view.getContext(), viewModel.alarms[0].time))
+        view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+    }
+
 
     interface View {
         fun getContext() : Context
         fun showToast(message: String)
         fun setMedicineName(name: String)
+        fun setAlarmDate(date: String)
+        fun setAlarmTime(time: String)
         fun closeActivityResultOk()
         fun startInsertMedicineActivity(medicineId: Long)
     }

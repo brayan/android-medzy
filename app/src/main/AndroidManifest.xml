@@ -22,10 +22,9 @@
 
         <activity android:name=".view.medicine.detail.MedicineDetailActivity" />
 
-        <activity android:name=".view.medicine.insert.InsertMedicineActivity">
-
-
-            </activity>
+        <activity
+            android:name=".view.medicine.insert.InsertMedicineActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <receiver android:name=".receiver.AlarmReceiver" />
 
@@ -33,7 +32,7 @@
 
         <receiver android:name=".receiver.PostponeAlarmReceiver" />
 
-        <receiver android:name=".receiver.BootReceiver" >
+        <receiver android:name=".receiver.BootReceiver">
 
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
