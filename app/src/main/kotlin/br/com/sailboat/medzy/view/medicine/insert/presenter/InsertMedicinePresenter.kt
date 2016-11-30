@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.RepeatType
 import br.com.sailboat.canoe.async.callback.OnSuccess
-import br.com.sailboat.canoe.async.callback.OnSuccessResult
+import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
@@ -93,7 +93,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadMedicine() {
-        AsyncLoadMedication.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<Medicine> {
+        AsyncLoadMedication.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessWithResult<Medicine> {
 
             override fun onSuccess(med: Medicine) {
                 viewModel.medicine = med
@@ -104,7 +104,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessResult<MutableList<Alarm>> {
+        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessWithResult<MutableList<Alarm>> {
 
             override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
