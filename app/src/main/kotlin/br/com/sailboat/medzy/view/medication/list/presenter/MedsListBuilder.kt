@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.list.presenter
+package br.com.sailboat.medzy.view.medication.list.presenter
 
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel

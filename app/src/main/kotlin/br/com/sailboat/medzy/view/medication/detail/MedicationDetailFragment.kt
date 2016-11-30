@@ -2,6 +2,7 @@ package br.com.sailboat.medzy.view.medication.detail
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -13,13 +14,28 @@ import android.widget.Toast
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
-import br.com.sailboat.medzy.view.medicine.insert.InsertMedicationActivity
+import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
 import kotlinx.android.synthetic.main.alarm_detail.*
+
 
 class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), MedicationDetailPresenter.View {
 
     private val REQUEST_EDIT_MEDICINE = 0
     private lateinit var toolbar: Toolbar
+
+    companion object {
+
+        fun newInstance(medId: Long): MedicationDetailFragment {
+            val fragment = MedicationDetailFragment()
+
+            val args = Bundle()
+            args.putLong("MEDICATION_ID", medId)
+            fragment.setArguments(args)
+
+            return fragment
+        }
+
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.frag_medication_detail
@@ -91,7 +107,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
 
     private fun initToolbar(view: View) {
         toolbar = view.findViewById(R.id.toolbar) as Toolbar
-        toolbar.setTitle("Medication Detail")
+        toolbar.setTitle(getString(R.string.med_detail))
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
 

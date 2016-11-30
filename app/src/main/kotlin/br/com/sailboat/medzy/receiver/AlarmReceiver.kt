@@ -28,8 +28,8 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun getMedicationFromAlarmId(context: Context, alarmId: Long): Medication {
-        val alarm = AlarmSQLite(context).getAlarmById(alarmId)!!
-        return MedicationSQLite(context).getMedicationById(alarm.medId)!!
+        val alarm = AlarmSQLite(context).getAlarmById(alarmId)
+        return MedicationSQLite(context).getMedicationById(alarm.medId)
     }
 
 }

@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.list
+package br.com.sailboat.medzy.view.medication.list
 
 import br.com.sailboat.canoe.base.BaseActivity
 

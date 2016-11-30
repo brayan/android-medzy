@@ -1,7 +1,7 @@
 package br.com.sailboat.medzy.view.medication.detail.presenter
 
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
@@ -12,7 +12,7 @@ import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.view.async_task.AsyncDeleteMedication
 import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
-import br.com.sailboat.medzy.view.medicine.detail.view_model.MedicationDetailViewModel
+import br.com.sailboat.medzy.view.medication.detail.view_model.MedicationDetailViewModel
 
 
 class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePresenter() {
@@ -20,8 +20,10 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     private val view = view
     private val viewModel = MedicationDetailViewModel()
 
-    override fun extractExtrasFromIntent(intent: Intent) {
-        viewModel.medId = ExtrasHelper.getMedicationId(intent)
+    override fun extractExtrasFromArguments(arguments: Bundle?) {
+        arguments.let {
+            viewModel.medId = ExtrasHelper.getMedicationId(arguments!!)
+        }
     }
 
     override fun onResumeFirstSession() {

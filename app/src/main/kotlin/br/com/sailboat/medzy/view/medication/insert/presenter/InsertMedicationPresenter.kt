@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.insert.presenter
+package br.com.sailboat.medzy.view.medication.insert.presenter
 
 import android.content.Context
 import android.content.Intent
@@ -14,8 +14,8 @@ import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
 import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicationAndAlarms
-import br.com.sailboat.medzy.view.medicine.insert.presenter.checker.InsertMedicationChecker
-import br.com.sailboat.medzy.view.medicine.insert.view_model.InsertMedicationViewModel
+import br.com.sailboat.medzy.view.medication.insert.presenter.checker.InsertMedicationChecker
+import br.com.sailboat.medzy.view.medication.insert.view_model.InsertMedicationViewModel
 import java.util.*
 
 
@@ -143,7 +143,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun checkRequiredFields() {
-        InsertMedicationChecker().check(viewModel.medication!!, viewModel.alarms)
+        InsertMedicationChecker().check(view.getContext(), viewModel.medication!!, viewModel.alarms)
     }
 
     private fun save() {
@@ -160,7 +160,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun closeActivityResultOk()
         fun getMedicineNameFromView(): String
         fun setMedicineName(name: String)
-        fun setAlarm(name: String)
+        fun setAlarm(time: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)
         fun showErrorMessage(message: String)

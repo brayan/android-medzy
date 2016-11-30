@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.insert
+package br.com.sailboat.medzy.view.medication.insert
 
 import android.content.Intent
 import android.support.v4.app.Fragment

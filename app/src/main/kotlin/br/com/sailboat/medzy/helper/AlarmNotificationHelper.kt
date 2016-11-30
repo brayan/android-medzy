@@ -12,7 +12,7 @@ import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.receiver.AlarmDatabaseUpdateReceiver
 import br.com.sailboat.medzy.receiver.PostponeAlarmReceiver
-import br.com.sailboat.medzy.view.medicine.list.MedicationListActivity
+import br.com.sailboat.medzy.view.medication.list.MedicationListActivity
 
 class AlarmNotificationHelper(context: Context) {
 
@@ -43,7 +43,7 @@ class AlarmNotificationHelper(context: Context) {
 
     private fun setTextAndTitleFromList(medication: Medication, builder: NotificationCompat.Builder) {
         builder.setContentTitle(medication.name)
-        builder.setContentText("1 capsula")
+//        builder.setContentText("1 capsula")
     }
 
     private fun addActions(builder: NotificationCompat.Builder, alarmId: Long) {
@@ -57,7 +57,7 @@ class AlarmNotificationHelper(context: Context) {
         ExtrasHelper.putAlarmId(alarmId, intent)
 
         val dismissIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        builder.addAction(android.R.drawable.ic_delete, "Taken", dismissIntent)
+        builder.addAction(android.R.drawable.ic_delete, context.getString(R.string.taken), dismissIntent)
     }
 
     private fun addPostponeAction(alarmId: Long, builder: NotificationCompat.Builder) {
@@ -67,7 +67,7 @@ class AlarmNotificationHelper(context: Context) {
 
         val dismissIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
-        builder.addAction(android.R.drawable.ic_delete, "Postpone for 10 minutes", dismissIntent)
+        builder.addAction(android.R.drawable.ic_delete, context.getString(R.string.postpone), dismissIntent)
     }
 
     private fun initVibrate(builder: NotificationCompat.Builder) {

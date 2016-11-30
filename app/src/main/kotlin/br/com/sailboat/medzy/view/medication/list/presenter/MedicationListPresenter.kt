@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.list.presenter
+package br.com.sailboat.medzy.view.medication.list.presenter
 
 import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
@@ -9,7 +9,7 @@ import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicationViewHolder
-import br.com.sailboat.medzy.view.medicine.list.view_model.MedicineListViewModel
+import br.com.sailboat.medzy.view.medication.list.view_model.MedicineListViewModel
 
 
 class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresenter(), MedicationListAdapter.Callback {
@@ -48,7 +48,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
         Thread.sleep(300)
 
         val alarmSqlite = AlarmSQLite(view.getContext())
-        val alarm = alarmSqlite.getAlarmById(med.alarmId)!!
+        val alarm = alarmSqlite.getAlarmById(med.alarmId)
 
         AlarmHelper.incrementToNextValidDate(alarm.time, alarm.repeatType)
 
@@ -72,7 +72,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
     private fun onSuccessLoadMedication(result: MutableList<MedicationVHModel>) {
         meds.clear()
-        meds.addAll(result!!)
+        meds.addAll(result)
 
         // TODO: GENERATE MEDS LIST
 

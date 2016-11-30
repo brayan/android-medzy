@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.list
+package br.com.sailboat.medzy.view.medication.list
 
 import android.content.Intent
 import android.support.design.widget.FloatingActionButton
@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.View
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.helper.DialogHelper
@@ -14,9 +15,9 @@ import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
 import br.com.sailboat.medzy.view.adapter.MedicationViewHolderItemTouchHelper
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
-import br.com.sailboat.medzy.view.medicine.detail.MedicationDetailActivity
-import br.com.sailboat.medzy.view.medicine.insert.InsertMedicationActivity
-import br.com.sailboat.medzy.view.medicine.list.presenter.MedicationListPresenter
+import br.com.sailboat.medzy.view.medication.detail.MedicationDetailActivity
+import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
+import br.com.sailboat.medzy.view.medication.list.presenter.MedicationListPresenter
 import kotlinx.android.synthetic.main.empty_meds.*
 
 class MedicationListFragment : BaseFragment<MedicationListPresenter>(), MedicationListPresenter.View {
@@ -33,6 +34,16 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
 
     override fun newPresenterInstance(): MedicationListPresenter {
         return MedicationListPresenter(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("TEST", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("TEST", "onPause")
     }
 
     override fun initViews(view: View) {

@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.insert
+package br.com.sailboat.medzy.view.medication.insert
 
 import android.app.Activity
 import android.content.Context
@@ -12,7 +12,7 @@ import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
-import br.com.sailboat.medzy.view.medicine.insert.presenter.InsertMedicationPresenter
+import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
 import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medication.*
 import java.util.*

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Medzy</string>
+    <string name="postpone">Postpone for 10 minutes</string>
+    <string name="taken">Taken</string>
+    <string name="med_detail">Medication Detail</string>
+    <string name="check_add_alarm">You must add at least one alarm</string>
+    <string name="check_enter_name">You must enter a name for the medication</string>
+    <string name="no_meds">No meds</string>
+    <string name="empty_meds_message">Add a new medication by tapping the + button</string>
 </resources>

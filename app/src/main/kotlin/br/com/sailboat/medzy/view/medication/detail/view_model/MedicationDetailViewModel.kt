@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.detail.view_model
+package br.com.sailboat.medzy.view.medication.detail.view_model
 
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication

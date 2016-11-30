@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.medicine.list.MedicationListActivity">
+        <activity
+            android:launchMode="singleTop"
+            android:name=".view.medication.list.MedicationListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.medicine.detail.MedicationDetailActivity" />
+        <activity android:name=".view.medication.detail.MedicationDetailActivity" />
 
         <activity
-            android:name=".view.medicine.insert.InsertMedicationActivity"
+            android:name=".view.medication.insert.InsertMedicationActivity"
             android:windowSoftInputMode="adjustResize" />
 
         <receiver android:name=".receiver.AlarmReceiver" />

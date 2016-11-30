@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.view.medicine.detail
+package br.com.sailboat.medzy.view.medication.detail
 
 import android.content.Intent
 import android.support.v4.app.Fragment
@@ -23,7 +23,8 @@ class MedicationDetailActivity : BaseActivity<MedicationDetailFragment>() {
     }
 
     override fun newFragmentInstance(): MedicationDetailFragment {
-        return MedicationDetailFragment()
+        val medId = ExtrasHelper.getMedicationId(intent)!!
+        return MedicationDetailFragment.newInstance(medId)
     }
 
 }
