@@ -16,7 +16,7 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
 
     private fun getQueryCreateTableMedicine(): String {
         val sb = StringBuilder()
-        sb.append(" CREATE TABLE Medicine ( ")
+        sb.append(" CREATE TABLE Medication ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
         sb.append(" name TEXT NOT NULL ")
         sb.append(" ); ")
@@ -28,10 +28,10 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Alarm ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-        sb.append(" medicineId INTEGER, ")
+        sb.append(" medicationId INTEGER, ")
         sb.append(" time TEXT NOT NULL, ")
         sb.append(" repeatType INTEGER, ")
-        sb.append(" FOREIGN KEY(medicineId) REFERENCES Medicine(id) ")
+        sb.append(" FOREIGN KEY(medicationId) REFERENCES Medication(id) ")
         sb.append(" ); ")
 
         return sb.toString()

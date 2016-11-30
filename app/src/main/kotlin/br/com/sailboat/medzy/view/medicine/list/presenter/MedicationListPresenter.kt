@@ -6,18 +6,18 @@ import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
-import br.com.sailboat.medzy.view.adapter.MedicineListAdapter
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
-import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicinesViewHolder
+import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
+import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
+import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicationViewHolder
 import br.com.sailboat.medzy.view.medicine.list.view_model.MedicineListViewModel
 
 
-class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(), MedicineListAdapter.Callback {
+class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresenter(), MedicationListAdapter.Callback {
 
     private val view = view
     private val viewModel = MedicineListViewModel()
 
-    override val meds: MutableList<MedicineVHModel> get() = viewModel.medicines
+    override val meds: MutableList<MedicationVHModel> get() = viewModel.medications
 
     override fun onResumeFirstSession() {
         loadMedicines()
@@ -60,9 +60,9 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
     private fun loadMedicines() {
 
-        AsyncLoadMedicinesViewHolder.load(view.getContext(), object : OnSuccessWithResult<MutableList<MedicineVHModel>> {
+        AsyncLoadMedicationViewHolder.load(view.getContext(), object : OnSuccessWithResult<MutableList<MedicationVHModel>> {
 
-            override fun onSuccess(result: MutableList<MedicineVHModel>) {
+            override fun onSuccess(result: MutableList<MedicationVHModel>) {
                 onSuccessLoadMedication(result)
             }
 
@@ -70,7 +70,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
 
     }
 
-    private fun onSuccessLoadMedication(result: MutableList<MedicineVHModel>) {
+    private fun onSuccessLoadMedication(result: MutableList<MedicationVHModel>) {
         meds.clear()
         meds.addAll(result!!)
 
@@ -104,7 +104,7 @@ class MedicineListPresenter(view: MedicineListPresenter.View) : BasePresenter(),
         fun updateMedicines()
         fun showDialog(message: String)
         fun startInsertMedicineActivity()
-        fun startMedicineDetailActivity(medicine: MedicineVHModel)
+        fun startMedicineDetailActivity(medication: MedicationVHModel)
         fun updateMedicationRemoved(position: Int)
         fun showMedicines()
         fun hideEmptyList()

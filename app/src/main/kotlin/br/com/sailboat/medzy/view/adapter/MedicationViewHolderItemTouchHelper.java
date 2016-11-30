@@ -8,18 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineViewHolder;
+import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder;
 
 
-public class MedicineViewHolderItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class MedicationViewHolderItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private MedicineViewHolderItemTouchHelper.Callback callback;
+    private MedicationViewHolderItemTouchHelper.Callback callback;
 
     private Context context;
 
     private Paint paint;
 
-    public MedicineViewHolderItemTouchHelper(Context context, Callback callback) {
+    public MedicationViewHolderItemTouchHelper(Context context, Callback callback) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         setContext(context);
         setCallback(callback);
@@ -75,7 +75,7 @@ public class MedicineViewHolderItemTouchHelper extends ItemTouchHelper.SimpleCal
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
         if (isMedsViewHolder(viewHolder)) {
-            MedicineViewHolder holder = (MedicineViewHolder) viewHolder;
+            MedicationViewHolder holder = (MedicationViewHolder) viewHolder;
             getCallback().onSwiped(holder.getAdapterPosition(), direction);
         }
 
@@ -117,7 +117,7 @@ public class MedicineViewHolderItemTouchHelper extends ItemTouchHelper.SimpleCal
     }
 
     private boolean isMedsViewHolder(RecyclerView.ViewHolder viewHolder) {
-        return viewHolder instanceof MedicineViewHolder;
+        return viewHolder instanceof MedicationViewHolder;
     }
 
     public Callback getCallback() {

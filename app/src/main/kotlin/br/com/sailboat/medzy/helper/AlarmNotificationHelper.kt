@@ -9,10 +9,10 @@ import android.support.v4.content.ContextCompat
 import br.com.sailboat.canoe.helper.NotificationHelper
 import br.com.sailboat.medzy.R
 
-import br.com.sailboat.medzy.model.Medicine
+import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.receiver.AlarmDatabaseUpdateReceiver
 import br.com.sailboat.medzy.receiver.PostponeAlarmReceiver
-import br.com.sailboat.medzy.view.medicine.list.MedicineListActivity
+import br.com.sailboat.medzy.view.medicine.list.MedicationListActivity
 
 class AlarmNotificationHelper(context: Context) {
 
@@ -20,8 +20,8 @@ class AlarmNotificationHelper(context: Context) {
 
     private val context = context
 
-    fun throwNotification(alarmId: Long, medicine: Medicine) {
-        val resultIntent = Intent(context, MedicineListActivity::class.java)
+    fun throwNotification(alarmId: Long, medication: Medication) {
+        val resultIntent = Intent(context, MedicationListActivity::class.java)
         val resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context)
@@ -32,7 +32,7 @@ class AlarmNotificationHelper(context: Context) {
         builder.setAutoCancel(true)
         builder.color = ContextCompat.getColor(context, R.color.cyan_500)
         builder.setOngoing(true)
-        setTextAndTitleFromList(medicine, builder)
+        setTextAndTitleFromList(medication, builder)
         initVibrate(builder)
         initSound(builder)
 
@@ -41,8 +41,8 @@ class AlarmNotificationHelper(context: Context) {
         NotificationHelper.throwNotification(context, NOTIFICATION_ID, builder)
     }
 
-    private fun setTextAndTitleFromList(medicine: Medicine, builder: NotificationCompat.Builder) {
-        builder.setContentTitle(medicine.name)
+    private fun setTextAndTitleFromList(medication: Medication, builder: NotificationCompat.Builder) {
+        builder.setContentTitle(medication.name)
         builder.setContentText("1 capsula")
     }
 

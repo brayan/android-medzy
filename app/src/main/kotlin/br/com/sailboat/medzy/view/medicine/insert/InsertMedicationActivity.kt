@@ -2,10 +2,10 @@ package br.com.sailboat.medzy.view.medicine.insert
 
 import android.content.Intent
 import android.support.v4.app.Fragment
-import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.canoe.base.BaseActivity
+import br.com.sailboat.medzy.helper.ExtrasHelper
 
-class InsertMedicineActivity : BaseActivity<InsertMedicineFragment>() {
+class InsertMedicationActivity : BaseActivity<InsertMedicationFragment>() {
 
     companion object {
 
@@ -14,21 +14,21 @@ class InsertMedicineActivity : BaseActivity<InsertMedicineFragment>() {
         }
 
         fun start(fromFragment: Fragment, medicineId: Long?, requestCode: Int) {
-            val starter = Intent(fromFragment.activity, InsertMedicineActivity::class.java)
+            val starter = Intent(fromFragment.activity, InsertMedicationActivity::class.java)
             addMedicineIdToIntent(medicineId, starter)
             fromFragment.startActivityForResult(starter, requestCode)
         }
 
         private fun addMedicineIdToIntent(medicineId: Long?, starter: Intent) {
             medicineId?.let {
-                ExtrasHelper.putMedicineId(medicineId, starter)
+                ExtrasHelper.putMedicationId(medicineId, starter)
             }
         }
 
     }
 
-    override fun newFragmentInstance(): InsertMedicineFragment {
-        return InsertMedicineFragment()
+    override fun newFragmentInstance(): InsertMedicationFragment {
+        return InsertMedicationFragment()
     }
 
 }

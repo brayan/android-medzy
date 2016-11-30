@@ -6,25 +6,25 @@ import android.view.View
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
-import kotlinx.android.synthetic.main.holder_medicine.view.*
+import kotlinx.android.synthetic.main.holder_medication.view.*
 import java.util.*
 
-class MedicineViewHolder(itemView: View, callback: MedicineViewHolder.Callback) : BaseViewHolder<MedicineVHModel>(itemView) {
+class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callback) : BaseViewHolder<MedicationVHModel>(itemView) {
 
     private val callback = callback
 
     companion object {
-        val LAYOUT_ID = R.layout.holder_medicine
+        val LAYOUT_ID = R.layout.holder_medication
     }
 
-    override fun onBindViewHolder(item: MedicineVHModel) {
-        itemView.tvHolderMedicineName.text = item.medicineName
-        itemView.tvHolderMedicineAlarmTime.text = formatTime(item.alarmTime)
+    override fun onBindViewHolder(item: MedicationVHModel) {
+        itemView.tvHolderMedicationName.text = item.medName
+        itemView.tvHolderMedicationAlarmTime.text = formatTime(item.alarmTime)
 
         if (DateHelper.isBeforeNow(item.alarmTime)) {
-            itemView.tvHolderMedicineAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
+            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
         } else {
-            itemView.tvHolderMedicineAlarmTime.setTextColor(getColorFromResource(R.color.light_blue_500))
+            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.light_blue_500))
         }
     }
 

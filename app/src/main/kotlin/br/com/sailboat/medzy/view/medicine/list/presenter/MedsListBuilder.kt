@@ -1,17 +1,17 @@
 package br.com.sailboat.medzy.view.medicine.list.presenter
 
 import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
+import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
 import java.util.*
 
-class MedsListBuilder private constructor(meds: List<MedicineVHModel>) {
+class MedsListBuilder private constructor(meds: List<MedicationVHModel>) {
 
     private var meds = meds;
 
 
     companion object {
 
-        fun buildFrom(meds: List<MedicineVHModel>) {
+        fun buildFrom(meds: List<MedicationVHModel>) {
             MedsListBuilder(meds).build()
 
         }
@@ -19,10 +19,10 @@ class MedsListBuilder private constructor(meds: List<MedicineVHModel>) {
 
     fun build() {
 
-        val beforeTodayMeds = ArrayList<MedicineVHModel>()
-        val todayMeds = ArrayList<MedicineVHModel>()
-        val tomorrowMeds = ArrayList<MedicineVHModel>()
-        val nextDaysMeds = ArrayList<MedicineVHModel>()
+        val beforeTodayMeds = ArrayList<MedicationVHModel>()
+        val todayMeds = ArrayList<MedicationVHModel>()
+        val tomorrowMeds = ArrayList<MedicationVHModel>()
+        val nextDaysMeds = ArrayList<MedicationVHModel>()
 
 
         for (med in meds) {

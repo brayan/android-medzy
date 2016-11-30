@@ -7,11 +7,11 @@ import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import java.util.*
 
-class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, callback: OnSuccessWithResult<MutableList<Alarm>>) : AsyncSuccess(context) {
+class AsyncLoadAlarms private constructor(context: Context, medId: Long, callback: OnSuccessWithResult<MutableList<Alarm>>) : AsyncSuccess(context) {
 
     private val context = context
     private val callback = callback
-    private val medicineId = medicineId
+    private val medId = medId
     private var list: MutableList<Alarm> = ArrayList<Alarm>()
 
     companion object {
@@ -23,7 +23,7 @@ class AsyncLoadAlarms private constructor(context: Context, medicineId: Long, ca
     }
 
     override fun onDoInBackground() {
-        list = AlarmSQLite(context).getAlarmsByMedicine(medicineId)
+        list = AlarmSQLite(context).getAlarmsByMedicine(medId)
     }
 
     override fun onSuccess() {

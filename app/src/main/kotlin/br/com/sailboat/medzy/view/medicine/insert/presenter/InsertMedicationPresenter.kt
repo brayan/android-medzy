@@ -10,30 +10,30 @@ import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
-import br.com.sailboat.medzy.model.Medicine
+import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
-import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicineAndAlarms
-import br.com.sailboat.medzy.view.medicine.insert.presenter.checker.InsertMedicineChecker
-import br.com.sailboat.medzy.view.medicine.insert.view_model.InsertMedicineViewModel
+import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicationAndAlarms
+import br.com.sailboat.medzy.view.medicine.insert.presenter.checker.InsertMedicationChecker
+import br.com.sailboat.medzy.view.medicine.insert.view_model.InsertMedicationViewModel
 import java.util.*
 
 
-class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresenter() {
+class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePresenter() {
 
     private val view = view
-    private val viewModel = InsertMedicineViewModel()
+    private val viewModel = InsertMedicationViewModel()
     private val alarms: MutableList<Alarm> get() = viewModel.alarms
 
     override fun extractExtrasFromIntent(intent: Intent) {
-        val medicineId = ExtrasHelper.getMedicineId(intent)
-        viewModel.medicineId = medicineId
+        val medicineId = ExtrasHelper.getMedicationId(intent)
+        viewModel.medicationId = medicineId
     }
 
     override fun onResumeFirstSession() {
 
         if (isInsertingMedicine()) {
-            viewModel.medicine = Medicine(-1, "")
+            viewModel.medication = Medication(-1, "")
             // TODO: JUST FOR TESTS
             viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY))
             view.openKeyboard()
@@ -80,7 +80,12 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
 
     fun onClickOkAlarmChooserDialog(alarmId: Long, hourOfDay: Int, minute: Int) {
         // TODO: JUST FOR TESTS
+        val currentTime = Calendar.getInstance()
+        currentTime.set(Calendar.SECOND, 0)
+        currentTime.set(Calendar.MILLISECOND, 0)
+
         val alarm = viewModel.alarms[0]
+        alarm.time.time = currentTime.time
         alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
         alarm.time.set(Calendar.MINUTE, minute)
 
@@ -93,10 +98,10 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadMedicine() {
-        AsyncLoadMedication.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessWithResult<Medicine> {
+        AsyncLoadMedication.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<Medication> {
 
-            override fun onSuccess(med: Medicine) {
-                viewModel.medicine = med
+            override fun onSuccess(med: Medication) {
+                viewModel.medication = med
                 updateMedicineNameView()
             }
 
@@ -104,7 +109,7 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medicineId!!, object : OnSuccessWithResult<MutableList<Alarm>> {
+        AsyncLoadAlarms.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<MutableList<Alarm>> {
 
             override fun onSuccess(list: MutableList<Alarm>) {
                 viewModel.alarms.clear()
@@ -124,26 +129,26 @@ class InsertMedicinePresenter(view: InsertMedicinePresenter.View) : BasePresente
     }
 
     private fun updateMedicineNameView() {
-        view.setMedicineName(viewModel.medicine?.name ?: "-")
+        view.setMedicineName(viewModel.medication?.name ?: "-")
         view.putCursorAtTheEnd()
     }
 
 
     private fun isInsertingMedicine(): Boolean {
-        return viewModel.medicineId == -1L
+        return viewModel.medicationId == -1L
     }
 
     private fun collectDataFromFieldsAndBindToMedicine() {
-        viewModel.medicine!!.name = view.getMedicineNameFromView()
+        viewModel.medication!!.name = view.getMedicineNameFromView()
     }
 
     private fun checkRequiredFields() {
-        InsertMedicineChecker().check(viewModel.medicine!!, viewModel.alarms)
+        InsertMedicationChecker().check(viewModel.medication!!, viewModel.alarms)
     }
 
     private fun save() {
 
-        AsyncSaveMedicineAndAlarms.save(view.getContext(), viewModel.medicine!!, alarms, OnSuccess {
+        AsyncSaveMedicationAndAlarms.save(view.getContext(), viewModel.medication!!, alarms, OnSuccess {
             view.closeActivityResultOk()
         })
 

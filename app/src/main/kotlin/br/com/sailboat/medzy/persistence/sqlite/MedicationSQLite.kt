@@ -4,21 +4,21 @@ import android.content.Context
 import android.database.Cursor
 import br.com.sailboat.canoe.base.BaseSQLite
 import br.com.sailboat.canoe.exception.EntityNotFoundException
-import br.com.sailboat.medzy.model.Medicine
+import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.DatabaseOpenHelper
 
 
-class MedicineSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
+class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
-    fun getMedicineById(medicineId: Long): Medicine {
+    fun getMedicationById(medicineId: Long): Medication {
         val sb = StringBuilder()
-        sb.append(" SELECT * FROM Medicine ")
-        sb.append(" WHERE Medicine.id = " + medicineId)
+        sb.append(" SELECT * FROM Medication ")
+        sb.append(" WHERE Medication.id = " + medicineId)
 
         val cursor = performQuery(sb.toString())
 
         if (cursor.moveToNext()) {
-            val medicine = getMedicineFromCursor(cursor)
+            val medicine = getMedicationFromCursor(cursor)
             cursor.close()
             return medicine
         }
@@ -28,46 +28,46 @@ class MedicineSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstan
         throw EntityNotFoundException("Medication with id "+ medicineId +" not found")
     }
 
-    fun saveAndGetId(medicine: Medicine): Long {
+    fun saveAndGetId(medication: Medication): Long {
         val sb = StringBuilder()
-        sb.append(" INSERT INTO Medicine ")
+        sb.append(" INSERT INTO Medication ")
         sb.append(" (name) ")
         sb.append(" VALUES (?); ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindString(1, medicine.name)
+        statement.bindString(1, medication.name)
 
         val id = insert(statement)
 
         return id
     }
 
-    fun update(medicine: Medicine) {
+    fun update(medication: Medication) {
         val sb = StringBuilder()
-        sb.append(" UPDATE Medicine SET ")
+        sb.append(" UPDATE Medication SET ")
         sb.append(" name = ? ")
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindString(1, medicine.name)
-        statement.bindLong(2, medicine.id)
+        statement.bindString(1, medication.name)
+        statement.bindLong(2, medication.id)
 
         update(statement)
     }
 
     fun delete(medicineId: Long) {
-        val query = "DELETE FROM Medicine WHERE Medicine.id = ?"
+        val query = "DELETE FROM Medication WHERE Medication.id = ?"
         val statement = compileStatement(query)
         statement.bindLong(1, medicineId)
 
         delete(statement)
     }
 
-    private fun getMedicineFromCursor(cursor: Cursor): Medicine {
+    private fun getMedicationFromCursor(cursor: Cursor): Medication {
         val id = getLong(cursor, "id")
         val name = getString(cursor, "name")
 
-        return Medicine(id, name)
+        return Medication(id, name)
     }
 
 }

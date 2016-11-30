@@ -5,24 +5,24 @@ import br.com.sailboat.canoe.async.AsyncSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
-import br.com.sailboat.medzy.persistence.sqlite.MedicineSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
-class AsyncDeleteMedicine private constructor(context: Context, medId: Long, callback: OnSuccess) : AsyncSuccess(context) {
+class AsyncDeleteMedication private constructor(context: Context, medId: Long, callback: OnSuccess) : AsyncSuccess(context) {
 
     private val callback = callback
     private val context = context
-    private val medicineId = medId
+    private val medId = medId
 
     companion object {
 
         fun delete(context: Context, medicineId: Long, callback: OnSuccess) {
-            AsyncDeleteMedicine(context, medicineId, callback).execute()
+            AsyncDeleteMedication(context, medicineId, callback).execute()
         }
     }
 
     override fun onDoInBackground() {
         cancelAlarms()
-        deleteMedicine()
+        deleteMedication()
         deleteAlarms()
     }
 
@@ -31,16 +31,16 @@ class AsyncDeleteMedicine private constructor(context: Context, medId: Long, cal
     }
 
     private fun cancelAlarms() {
-        val alarms = AlarmSQLite(context).getAlarmsByMedicine(medicineId)
+        val alarms = AlarmSQLite(context).getAlarmsByMedicine(medId)
         AlarmManagerHelper.cancelAlarms(context, alarms)
     }
 
-    private fun deleteMedicine() {
-        MedicineSQLite(context).delete(medicineId)
+    private fun deleteMedication() {
+        MedicationSQLite(context).delete(medId)
     }
 
     private fun deleteAlarms() {
-        AlarmSQLite(context).deleteAllByMedicine(medicineId)
+        AlarmSQLite(context).deleteAllByMedicine(medId)
     }
 
 }

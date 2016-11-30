@@ -6,9 +6,9 @@ import android.content.Intent
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.AlarmNotificationHelper
 import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.model.Medicine
+import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
-import br.com.sailboat.medzy.persistence.sqlite.MedicineSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -16,9 +16,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
         SafeOperation.withLog {
             val alarmId = getAlarmId(intent)
-            val medicine = getMedicineFromAlarmId(context, alarmId)
+            val medication = getMedicationFromAlarmId(context, alarmId)
 
-            AlarmNotificationHelper(context).throwNotification(alarmId, medicine)
+            AlarmNotificationHelper(context).throwNotification(alarmId, medication)
         }
 
     }
@@ -27,9 +27,9 @@ class AlarmReceiver : BroadcastReceiver() {
         return ExtrasHelper.getAlarmId(intent)!!
     }
 
-    private fun getMedicineFromAlarmId(context: Context, alarmId: Long): Medicine {
+    private fun getMedicationFromAlarmId(context: Context, alarmId: Long): Medication {
         val alarm = AlarmSQLite(context).getAlarmById(alarmId)!!
-        return MedicineSQLite(context).getMedicineById(alarm.medicineId)!!
+        return MedicationSQLite(context).getMedicationById(alarm.medId)!!
     }
 
 }

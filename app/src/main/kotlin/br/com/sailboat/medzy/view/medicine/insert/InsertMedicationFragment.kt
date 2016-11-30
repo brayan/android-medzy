@@ -12,21 +12,21 @@ import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
-import br.com.sailboat.medzy.view.medicine.insert.presenter.InsertMedicinePresenter
+import br.com.sailboat.medzy.view.medicine.insert.presenter.InsertMedicationPresenter
 import kotlinx.android.synthetic.main.alarm.*
-import kotlinx.android.synthetic.main.frag_insert_medicine.*
+import kotlinx.android.synthetic.main.frag_insert_medication.*
 import java.util.*
 
-class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMedicinePresenter.View {
+class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), InsertMedicationPresenter.View {
 
     private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_insert_medicine
+        return R.layout.frag_insert_medication
     }
 
-    override fun newPresenterInstance(): InsertMedicinePresenter {
-        return InsertMedicinePresenter(this)
+    override fun newPresenterInstance(): InsertMedicationPresenter {
+        return InsertMedicationPresenter(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -115,7 +115,7 @@ class InsertMedicineFragment : BaseFragment<InsertMedicinePresenter>(), InsertMe
             presenter.onClickTime()
         }
 
-        tvInsertMedicineFrequency.setOnClickListener {
+        tvInsertMedicationFrequency.setOnClickListener {
             presenter.onClickFrequency()
         }
 

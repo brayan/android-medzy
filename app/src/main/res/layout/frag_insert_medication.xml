@@ -45,7 +45,7 @@
             <include layout="@layout/alarm" />
 
             <TextView
-                android:id="@+id/tvInsertMedicineFrequency"
+                android:id="@+id/tvInsertMedicationFrequency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -55,7 +55,7 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btInsertMedicineAddAlarm"
+                android:id="@+id/btInsertMedicationAddAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/blue_500"

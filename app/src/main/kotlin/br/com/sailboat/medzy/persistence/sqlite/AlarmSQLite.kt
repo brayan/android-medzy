@@ -13,7 +13,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     fun getAlarmsByMedicine(medicineId: Long): MutableList<Alarm> {
         val sb = StringBuilder()
         sb.append(" SELECT Alarm.* FROM Alarm ")
-        sb.append(" WHERE Alarm.medicineId = " + medicineId)
+        sb.append(" WHERE Alarm.medicationId = " + medicineId)
 
         return getAlarmList(sb)
     }
@@ -39,11 +39,11 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     fun saveAndGetId(alarm: Alarm): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Alarm ")
-        sb.append(" (medicineId, time, repeatType) ")
+        sb.append(" (medicationId, time, repeatType) ")
         sb.append(" VALUES (?, ?, ?); ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindLong(1, alarm.medicineId)
+        statement.bindLong(1, alarm.medId)
         statement.bindString(2, parseCalendarToString(alarm.time))
         statement.bindLong(3, alarm.repeatType.toLong())
 
@@ -76,7 +76,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     }
 
     fun deleteAllByMedicine(medicineId: Long) {
-        val query = "DELETE FROM Alarm WHERE Alarm.medicineId = ?"
+        val query = "DELETE FROM Alarm WHERE Alarm.medicationId = ?"
         val statement = compileStatement(query)
         statement.bindLong(1, medicineId)
 
@@ -99,7 +99,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
 
     private fun getAlarmFromCursor(cursor: Cursor): Alarm {
         val id = getLong(cursor, "id")
-        val medicineId = getLong(cursor, "medicineId")
+        val medicineId = getLong(cursor, "medicationId")
         val time = getCalendar(cursor, "time")
         val repeatType = getInt(cursor, "repeatType")
 

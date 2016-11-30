@@ -11,16 +11,15 @@ import android.view.View
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.medzy.R
-
-import br.com.sailboat.medzy.view.adapter.MedicineListAdapter
-import br.com.sailboat.medzy.view.adapter.MedicineViewHolderItemTouchHelper
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicineVHModel
-import br.com.sailboat.medzy.view.medicine.detail.MedicineDetailActivity
-import br.com.sailboat.medzy.view.medicine.insert.InsertMedicineActivity
-import br.com.sailboat.medzy.view.medicine.list.presenter.MedicineListPresenter
+import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
+import br.com.sailboat.medzy.view.adapter.MedicationViewHolderItemTouchHelper
+import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
+import br.com.sailboat.medzy.view.medicine.detail.MedicationDetailActivity
+import br.com.sailboat.medzy.view.medicine.insert.InsertMedicationActivity
+import br.com.sailboat.medzy.view.medicine.list.presenter.MedicationListPresenter
 import kotlinx.android.synthetic.main.empty_meds.*
 
-class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineListPresenter.View {
+class MedicationListFragment : BaseFragment<MedicationListPresenter>(), MedicationListPresenter.View {
 
     private val REQUEST_NEW_MEDICINE = 0
     private val REQUEST_DETAILS = 1
@@ -29,11 +28,11 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_medicine_list
+        return R.layout.frag_medication_list
     }
 
-    override fun newPresenterInstance(): MedicineListPresenter {
-        return MedicineListPresenter(this)
+    override fun newPresenterInstance(): MedicationListPresenter {
+        return MedicationListPresenter(this)
     }
 
     override fun initViews(view: View) {
@@ -52,11 +51,11 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     }
 
     override fun startInsertMedicineActivity() {
-        InsertMedicineActivity.start(this, REQUEST_NEW_MEDICINE)
+        InsertMedicationActivity.start(this, REQUEST_NEW_MEDICINE)
     }
 
-    override fun startMedicineDetailActivity(medicine: MedicineVHModel) {
-        MedicineDetailActivity.start(this, medicine.medicineId, REQUEST_DETAILS)
+    override fun startMedicineDetailActivity(medication: MedicationVHModel) {
+        MedicationDetailActivity.start(this, medication.medId, REQUEST_DETAILS)
     }
 
     override fun updateMedicationRemoved(position: Int) {
@@ -87,12 +86,12 @@ class MedicineListFragment : BaseFragment<MedicineListPresenter>(), MedicineList
     private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MedicineListAdapter(presenter)
+        recyclerView.adapter = MedicationListAdapter(presenter)
 
 
 
 
-        val itemTouchHelper = ItemTouchHelper(MedicineViewHolderItemTouchHelper(activity, object : MedicineViewHolderItemTouchHelper.Callback {
+        val itemTouchHelper = ItemTouchHelper(MedicationViewHolderItemTouchHelper(activity, object : MedicationViewHolderItemTouchHelper.Callback {
             override fun onSwiped(adapterPosition: Int, direction: Int) {
                 presenter.onSwipedMedication(adapterPosition)
             }

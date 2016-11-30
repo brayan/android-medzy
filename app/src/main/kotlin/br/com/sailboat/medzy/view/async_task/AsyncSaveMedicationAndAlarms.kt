@@ -5,23 +5,23 @@ import br.com.sailboat.canoe.async.AsyncSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.model.Alarm
-import br.com.sailboat.medzy.model.Medicine
+import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
-import br.com.sailboat.medzy.persistence.sqlite.MedicineSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
 
-class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: OnSuccess)
+class AsyncSaveMedicationAndAlarms private constructor(context: Context, medication: Medication, alarms: MutableList<Alarm>, callback: OnSuccess)
     : AsyncSuccess(context) {
 
     private val context = context
-    private val medicine = medicine
+    private val medication = medication
     private val alarms = alarms
     private val callback = callback
 
     companion object {
 
-        fun save(context: Context, medicine: Medicine, alarms: MutableList<Alarm>, callback: OnSuccess) {
-            AsyncSaveMedicineAndAlarms(context, medicine, alarms, callback).execute()
+        fun save(context: Context, medication: Medication, alarms: MutableList<Alarm>, callback: OnSuccess) {
+            AsyncSaveMedicationAndAlarms(context, medication, alarms, callback).execute()
         }
 
     }
@@ -45,17 +45,17 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     private fun updateMedicine() {
-        MedicineSQLite(context).update(medicine)
+        MedicationSQLite(context).update(medication)
     }
 
     private fun saveNewMedicine() {
-        val id = MedicineSQLite(context).saveAndGetId(medicine)
-        medicine.id = id
+        val id = MedicationSQLite(context).saveAndGetId(medication)
+        medication.id = id
     }
 
     private fun saveAlarms() {
         for (alarm in alarms) {
-            alarm.medicineId = medicine.id
+            alarm.medId = medication.id
             alarm.id = AlarmSQLite(context).saveAndGetId(alarm)
             AlarmManagerHelper.setAlarm(context, alarm.id, alarm.time.timeInMillis)
         }
@@ -65,7 +65,7 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
 
         if (isMedicineNotNew()) {
             val alarmSQLite = AlarmSQLite(context)
-            var alarmss = alarmSQLite.getAlarmsByMedicine(medicine.id)
+            var alarmss = alarmSQLite.getAlarmsByMedicine(medication.id)
 
             for (alarm in alarmss) {
                 AlarmManagerHelper.cancelAlarm(context, alarm.id)
@@ -77,7 +77,7 @@ class AsyncSaveMedicineAndAlarms private constructor(context: Context, medicine:
     }
 
     fun isMedicineNew(): Boolean {
-        return medicine.id == -1L
+        return medication.id == -1L
     }
 
     fun isMedicineNotNew(): Boolean {
