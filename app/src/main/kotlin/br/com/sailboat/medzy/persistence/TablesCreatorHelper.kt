@@ -8,13 +8,13 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
 
     override fun getSQLCreateTables(): MutableList<String> {
         val createTables = ArrayList<String>()
-        createTables.add(getQueryCreateTableMedicine())
-        createTables.add(getQueryCreateTableAlarm())
+        createTables.add(getSqlCreateTableMedicine())
+        createTables.add(getSqlCreateTableAlarm())
 
         return createTables
     }
 
-    private fun getQueryCreateTableMedicine(): String {
+    private fun getSqlCreateTableMedicine(): String {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Medication ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
@@ -24,7 +24,7 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         return sb.toString()
     }
 
-    private fun getQueryCreateTableAlarm(): String {
+    private fun getSqlCreateTableAlarm(): String {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Alarm ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")

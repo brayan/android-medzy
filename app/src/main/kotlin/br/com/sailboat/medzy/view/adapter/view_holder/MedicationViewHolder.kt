@@ -6,10 +6,11 @@ import android.view.View
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
+import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import kotlinx.android.synthetic.main.holder_medication.view.*
 import java.util.*
 
-class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callback) : BaseViewHolder<MedicationVHModel>(itemView) {
+class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callback) : BaseViewHolder(itemView) {
 
     private val callback = callback
 
@@ -17,7 +18,9 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
         val LAYOUT_ID = R.layout.holder_medication
     }
 
-    override fun onBindViewHolder(item: MedicationVHModel) {
+    override fun <T : Any?> onBindViewHolder(item: T) {
+        item as MedicationRecyclerItem
+
         itemView.tvHolderMedicationName.text = item.medName
         itemView.tvHolderMedicationAlarmTime.text = formatTime(item.alarmTime)
 

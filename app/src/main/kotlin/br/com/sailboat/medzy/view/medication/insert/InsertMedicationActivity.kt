@@ -2,10 +2,10 @@ package br.com.sailboat.medzy.view.medication.insert
 
 import android.content.Intent
 import android.support.v4.app.Fragment
-import br.com.sailboat.canoe.base.BaseActivity
+import br.com.sailboat.canoe.base.BaseActivitySingleFragment
 import br.com.sailboat.medzy.helper.ExtrasHelper
 
-class InsertMedicationActivity : BaseActivity<InsertMedicationFragment>() {
+class InsertMedicationActivity : BaseActivitySingleFragment<InsertMedicationFragment>() {
 
     companion object {
 

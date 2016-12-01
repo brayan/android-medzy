@@ -1,17 +1,17 @@
 package br.com.sailboat.medzy.view.medication.list.presenter
 
 import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.medzy.view.adapter.view_holder.MedicationVHModel
+import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import java.util.*
 
-class MedsListBuilder private constructor(meds: List<MedicationVHModel>) {
+class MedsListBuilder private constructor(meds: List<MedicationRecyclerItem>) {
 
     private var meds = meds;
 
 
     companion object {
 
-        fun buildFrom(meds: List<MedicationVHModel>) {
+        fun buildFrom(meds: List<MedicationRecyclerItem>) {
             MedsListBuilder(meds).build()
 
         }
@@ -19,10 +19,10 @@ class MedsListBuilder private constructor(meds: List<MedicationVHModel>) {
 
     fun build() {
 
-        val beforeTodayMeds = ArrayList<MedicationVHModel>()
-        val todayMeds = ArrayList<MedicationVHModel>()
-        val tomorrowMeds = ArrayList<MedicationVHModel>()
-        val nextDaysMeds = ArrayList<MedicationVHModel>()
+        val beforeTodayMeds = ArrayList<MedicationRecyclerItem>()
+        val todayMeds = ArrayList<MedicationRecyclerItem>()
+        val tomorrowMeds = ArrayList<MedicationRecyclerItem>()
+        val nextDaysMeds = ArrayList<MedicationRecyclerItem>()
 
 
         for (med in meds) {
