@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder
+import br.com.sailboat.medzy.view.adapter.view_holder.PaddingViewHolder
+import br.com.sailboat.medzy.view.adapter.view_holder.SubheaderViewHolder
 
 
 class MedicationListAdapter(callback: Callback) : RecyclerView.Adapter<BaseViewHolder>() {
@@ -17,9 +19,13 @@ class MedicationListAdapter(callback: Callback) : RecyclerView.Adapter<BaseViewH
                 val view = BaseViewHolder.inflateLayout(parent, MedicationViewHolder.LAYOUT_ID)
                 return MedicationViewHolder(view, callback)
             }
+            ViewType.PADDING -> {
+                val view = BaseViewHolder.inflateLayout(parent, PaddingViewHolder.LAYOUT_ID)
+                return PaddingViewHolder(view)
+            }
             else -> {
-                val view = BaseViewHolder.inflateLayout(parent, MedicationViewHolder.LAYOUT_ID)
-                return MedicationViewHolder(view, callback)
+                val view = BaseViewHolder.inflateLayout(parent, SubheaderViewHolder.LAYOUT_ID)
+                return SubheaderViewHolder(view)
             }
         }
 

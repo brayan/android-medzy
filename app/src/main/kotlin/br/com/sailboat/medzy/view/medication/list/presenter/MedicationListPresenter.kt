@@ -1,14 +1,14 @@
 package br.com.sailboat.medzy.view.medication.list.presenter
 
 import android.content.Context
-import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.canoe.alarm.AlarmHelper
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
-import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
+import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicationViewHolder
 import br.com.sailboat.medzy.view.medication.list.view_model.MedicineListViewModel
 
@@ -73,9 +73,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
     private fun onSuccessLoadMedication(result: MutableList<MedicationRecyclerItem>) {
         meds.clear()
-        meds.addAll(result)
-
-        // TODO: GENERATE MEDS LIST
+        meds.addAll(MedsListBuilder.buildFrom(result))
 
         updateContentViews()
     }

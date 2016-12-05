@@ -4,7 +4,7 @@ import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.`@+id/recycler`
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
@@ -13,7 +13,7 @@ import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
-import br.com.sailboat.medzy.view.adapter.MedicationViewHolderItemTouchHelper
+import br.com.sailboat.medzy.view.adapter.SwipeLeftRightMedication
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import br.com.sailboat.medzy.view.medication.detail.MedicationDetailActivity
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
@@ -25,7 +25,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     private val REQUEST_NEW_MEDICINE = 0
     private val REQUEST_DETAILS = 1
 
-    private lateinit var recyclerView: `@+id/recycler`
+    private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
@@ -54,7 +54,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     }
 
     override fun updateMedicines() {
-        `@+id/recycler`.adapter.notifyDataSetChanged()
+        recyclerView.adapter.notifyDataSetChanged()
     }
 
     override fun showDialog(message: String) {
@@ -70,7 +70,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     }
 
     override fun updateMedicationRemoved(position: Int) {
-        `@+id/recycler`.adapter.notifyItemRemoved(position)
+        recyclerView.adapter.notifyItemRemoved(position)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -87,28 +87,28 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     }
 
     override fun hideMedicines() {
-        `@+id/recycler`.visibility = View.GONE
+        recyclerView.visibility = View.GONE
     }
 
     override fun showMedicines() {
-        `@+id/recycler`.visibility = View.VISIBLE
+        recyclerView.visibility = View.VISIBLE
     }
 
     private fun initRecyclerView(view: View) {
-        `@+id/recycler` = view.findViewById(R.id.`@+id/recycler`) as `@+id/recycler`
-        `@+id/recycler`.layoutManager = LinearLayoutManager(activity)
-        `@+id/recycler`.adapter = MedicationListAdapter(presenter)
+        recyclerView = view.findViewById(R.id.recycler) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = MedicationListAdapter(presenter)
 
 
 
 
-        val itemTouchHelper = ItemTouchHelper(MedicationViewHolderItemTouchHelper(activity, object : MedicationViewHolderItemTouchHelper.Callback {
+        val itemTouchHelper = ItemTouchHelper(SwipeLeftRightMedication(activity, object : SwipeLeftRightMedication.Callback {
             override fun onSwiped(adapterPosition: Int, direction: Int) {
                 presenter.onSwipedMedication(adapterPosition)
             }
         }))
 
-        itemTouchHelper.attachToRecyclerView(`@+id/recycler`)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
 

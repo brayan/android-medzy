@@ -11,15 +11,15 @@ import android.view.View;
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder;
 
 
-public class MedicationViewHolderItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class SwipeLeftRightMedication extends ItemTouchHelper.SimpleCallback {
 
-    private MedicationViewHolderItemTouchHelper.Callback callback;
+    private SwipeLeftRightMedication.Callback callback;
 
     private Context context;
 
     private Paint paint;
 
-    public MedicationViewHolderItemTouchHelper(Context context, Callback callback) {
+    public SwipeLeftRightMedication(Context context, Callback callback) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         setContext(context);
         setCallback(callback);

@@ -2,7 +2,6 @@ package br.com.sailboat.medzy.view.adapter.view_holder
 
 import android.support.v4.content.ContextCompat
 import android.view.View
-
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
