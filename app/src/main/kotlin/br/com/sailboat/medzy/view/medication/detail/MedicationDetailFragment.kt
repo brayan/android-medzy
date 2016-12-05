@@ -72,11 +72,11 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun setAlarmDate(date: String) {
-        tvAlarmDate.setText(date)
+        tvAlarmDetailDate.setText(date)
     }
 
     override fun setAlarmTime(time: String) {
-        tvAlarmTime.setText(time)
+        tvAlarmDetailTime.setText(time)
     }
 
     override fun closeActivityResultOk() {

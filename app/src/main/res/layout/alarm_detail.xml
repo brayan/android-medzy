@@ -19,20 +19,27 @@
         android:paddingTop="8dp">
 
         <TextView
-            android:id="@+id/tvAlarmDate"
+            android:id="@+id/tvAlarmDetailDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
             android:textColor="@color/secondary_text" />
 
         <TextView
-            android:id="@+id/tvAlarmTime"
+            android:id="@+id/tvAlarmDetailTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="-"
             android:textColor="@color/light_blue_500"
             android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/tvAlarmDetailAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Amount"
+            android:textSize="28sp" />
 
 
     </LinearLayout>

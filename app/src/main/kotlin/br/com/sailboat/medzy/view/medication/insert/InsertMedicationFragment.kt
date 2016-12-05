@@ -115,10 +115,6 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
             presenter.onClickTime()
         }
 
-        tvInsertMedicationFrequency.setOnClickListener {
-            presenter.onClickFrequency()
-        }
-
         toolbar.setNavigationOnClickListener {
             activity.onBackPressed()
         }

@@ -33,9 +33,9 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     override fun onResumeFirstSession() {
 
         if (isInsertingMedicine()) {
-            viewModel.medication = Medication(-1, "")
+            viewModel.medication = Medication(-1, "", 0.0)
             // TODO: JUST FOR TESTS
-            viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY))
+            viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY, 1.0))
             view.openKeyboard()
             updateMedicineAlarmView()
 
@@ -45,18 +45,14 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     }
 
-    override fun postResume() {
-//        updateMedicineAlarmView()
+    override fun onResumeAfterRestart() {
+        updateMedicineAlarmView()
     }
 
     fun onClickTime() {
         // TODO: JUST FOR TESTS
         var alarm = viewModel.alarms.get(0)
         view.startAlarmChooserDialog(alarm.time)
-    }
-
-    fun onClickFrequency() {
-
     }
 
     fun onClickSave() {

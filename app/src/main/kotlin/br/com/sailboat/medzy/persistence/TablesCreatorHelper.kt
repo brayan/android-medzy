@@ -18,7 +18,8 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         val sb = StringBuilder()
         sb.append(" CREATE TABLE Medication ( ")
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ")
-        sb.append(" name TEXT NOT NULL ")
+        sb.append(" name TEXT NOT NULL, ")
+        sb.append(" totalAmount REAL ")
         sb.append(" ); ")
 
         return sb.toString()
@@ -31,6 +32,7 @@ class TablesCreatorHelper(database: SQLiteDatabase) : TablesCreator(database) {
         sb.append(" medicationId INTEGER, ")
         sb.append(" time TEXT NOT NULL, ")
         sb.append(" repeatType INTEGER, ")
+        sb.append(" amount REAL, ")
         sb.append(" FOREIGN KEY(medicationId) REFERENCES Medication(id) ")
         sb.append(" ); ")
 

@@ -39,13 +39,14 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     fun saveAndGetId(alarm: Alarm): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Alarm ")
-        sb.append(" (medicationId, time, repeatType) ")
-        sb.append(" VALUES (?, ?, ?); ")
+        sb.append(" (medicationId, time, repeatType, amount) ")
+        sb.append(" VALUES (?, ?, ?, ?); ")
 
         val statement = compileStatement(sb.toString())
         statement.bindLong(1, alarm.medId)
         statement.bindString(2, parseCalendarToString(alarm.time))
         statement.bindLong(3, alarm.repeatType.toLong())
+        statement.bindDouble(4, alarm.amount)
 
         val id = insert(statement)
 
@@ -56,13 +57,15 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         val sb = StringBuilder()
         sb.append(" UPDATE Alarm SET ")
         sb.append(" time = ?, ")
-        sb.append(" repeatType = ? ")
+        sb.append(" repeatType = ?, ")
+        sb.append(" amount = ? ")
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, parseCalendarToString(alarm.time))
         statement.bindLong(2, alarm.repeatType.toLong())
-        statement.bindLong(3, alarm.id)
+        statement.bindDouble(3, alarm.amount)
+        statement.bindLong(4, alarm.id)
 
         update(statement)
     }
@@ -102,8 +105,9 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         val medicineId = getLong(cursor, "medicationId")
         val time = getCalendar(cursor, "time")
         val repeatType = getInt(cursor, "repeatType")
+        val amount = getDouble(cursor, "amount")
 
-        return Alarm(id, medicineId, time, repeatType)
+        return Alarm(id, medicineId, time, repeatType, amount)
     }
 
 }

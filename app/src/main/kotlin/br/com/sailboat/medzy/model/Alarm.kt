@@ -6,4 +6,5 @@ import java.util.*
 data class Alarm(var id: Long,
                  var medId: Long,
                  var time: Calendar,
-                 var repeatType: Int) : Serializable
+                 var repeatType: Int,
+                 var amount: Double) : Serializable

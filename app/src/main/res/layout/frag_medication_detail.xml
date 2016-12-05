@@ -18,6 +18,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvDetailTotalAmount"
+                android:paddingLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Total Amount"
+                android:textSize="28sp" />
+
             <include layout="@layout/alarm_detail" />
 
         </LinearLayout>

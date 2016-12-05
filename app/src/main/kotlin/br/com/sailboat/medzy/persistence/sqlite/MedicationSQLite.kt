@@ -31,11 +31,12 @@ class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInst
     fun saveAndGetId(medication: Medication): Long {
         val sb = StringBuilder()
         sb.append(" INSERT INTO Medication ")
-        sb.append(" (name) ")
-        sb.append(" VALUES (?); ")
+        sb.append(" (name, totalAmount) ")
+        sb.append(" VALUES (?, ?); ")
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, medication.name)
+        statement.bindDouble(2, medication.totalAmount)
 
         val id = insert(statement)
 
@@ -45,12 +46,13 @@ class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInst
     fun update(medication: Medication) {
         val sb = StringBuilder()
         sb.append(" UPDATE Medication SET ")
-        sb.append(" name = ? ")
+        sb.append(" name = ?, totalAmount = ? ")
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
         statement.bindString(1, medication.name)
-        statement.bindLong(2, medication.id)
+        statement.bindDouble(2, medication.totalAmount)
+        statement.bindLong(3, medication.id)
 
         update(statement)
     }
@@ -66,8 +68,9 @@ class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInst
     private fun getMedicationFromCursor(cursor: Cursor): Medication {
         val id = getLong(cursor, "id")
         val name = getString(cursor, "name")
+        val totalAmount = getDouble(cursor, "totalAmount")
 
-        return Medication(id, name)
+        return Medication(id, name, totalAmount)
     }
 
 }

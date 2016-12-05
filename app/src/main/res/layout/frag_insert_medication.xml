@@ -42,17 +42,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/alarm" />
-
-            <TextView
-                android:id="@+id/tvInsertMedicationFrequency"
+            <EditText
+                android:inputType="textCapSentences|textMultiLine"
+                android:id="@+id/etInsertMedicineTotalAmount"
+                android:paddingLeft="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:padding="16dp"
-                android:text="Every day"
-                android:textSize="36sp"
-                android:visibility="gone" />
+                android:hint="Total Amount"
+                android:maxLines="2"
+                android:textSize="28sp" />
+
+            <include layout="@layout/alarm" />
 
             <Button
                 android:id="@+id/btInsertMedicationAddAlarm"
