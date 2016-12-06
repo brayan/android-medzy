@@ -15,8 +15,8 @@ class AsyncDeleteMedication private constructor(context: Context, medId: Long, c
 
     companion object {
 
-        fun delete(context: Context, medicineId: Long, callback: OnSuccess) {
-            AsyncDeleteMedication(context, medicineId, callback).execute()
+        fun delete(context: Context, medId: Long, callback: OnSuccess) {
+            AsyncDeleteMedication(context, medId, callback).execute()
         }
     }
 
@@ -35,7 +35,7 @@ class AsyncDeleteMedication private constructor(context: Context, medId: Long, c
     }
 
     private fun cancelAlarms() {
-        val alarms = AlarmSQLite(context).getAlarmsByMedicine(medId)
+        val alarms = AlarmSQLite(context).getAlarmsByMed(medId)
         AlarmManagerHelper.cancelAlarms(context, alarms)
     }
 
@@ -44,7 +44,7 @@ class AsyncDeleteMedication private constructor(context: Context, medId: Long, c
     }
 
     private fun deleteAlarms() {
-        AlarmSQLite(context).deleteAllByMedicine(medId)
+        AlarmSQLite(context).deleteAllByMed(medId)
     }
 
 }

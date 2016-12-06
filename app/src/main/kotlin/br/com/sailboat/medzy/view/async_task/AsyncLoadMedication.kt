@@ -15,8 +15,8 @@ class AsyncLoadMedication private constructor(context: Context, medId: Long, cal
 
     companion object {
 
-        fun load(context: Context, medicineId: Long, callback: OnSuccessWithResult<Medication>) {
-            AsyncLoadMedication(context, medicineId, callback).execute()
+        fun load(context: Context, medId: Long, callback: OnSuccessWithResult<Medication>) {
+            AsyncLoadMedication(context, medId, callback).execute()
         }
 
     }

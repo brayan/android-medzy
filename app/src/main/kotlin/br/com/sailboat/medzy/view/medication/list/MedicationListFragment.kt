@@ -53,7 +53,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
         initFab(view)
     }
 
-    override fun updateMedicines() {
+    override fun updateMeds() {
         recyclerView.adapter.notifyDataSetChanged()
     }
 
@@ -61,11 +61,11 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
         DialogHelper.showMessage(activity, message, null)
     }
 
-    override fun startInsertMedicineActivity() {
+    override fun startInsertMedicationActivity() {
         InsertMedicationActivity.start(this, REQUEST_NEW_MEDICINE)
     }
 
-    override fun startMedicineDetailActivity(medication: MedicationRecyclerItem) {
+    override fun startMedicationDetailActivity(medication: MedicationRecyclerItem) {
         MedicationDetailActivity.start(this, medication.medId, REQUEST_DETAILS)
     }
 
@@ -86,11 +86,11 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
         emptyMeds.visibility = View.VISIBLE
     }
 
-    override fun hideMedicines() {
+    override fun hideMeds() {
         recyclerView.visibility = View.GONE
     }
 
-    override fun showMedicines() {
+    override fun showMeds() {
         recyclerView.visibility = View.VISIBLE
     }
 
@@ -126,7 +126,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     private fun initFab(view: View) {
         val fab = view.findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener {
-            presenter.onClickNewMedicine()
+            presenter.onClickNewMed()
         }
     }
 

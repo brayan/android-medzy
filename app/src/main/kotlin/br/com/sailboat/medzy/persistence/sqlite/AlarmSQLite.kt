@@ -10,10 +10,10 @@ import java.util.*
 
 class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
-    fun getAlarmsByMedicine(medicineId: Long): MutableList<Alarm> {
+    fun getAlarmsByMed(medId: Long): MutableList<Alarm> {
         val sb = StringBuilder()
         sb.append(" SELECT Alarm.* FROM Alarm ")
-        sb.append(" WHERE Alarm.medicationId = " + medicineId)
+        sb.append(" WHERE Alarm.medicationId = " + medId)
 
         return getAlarmList(sb)
     }
@@ -78,10 +78,10 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         delete(statement)
     }
 
-    fun deleteAllByMedicine(medicineId: Long) {
+    fun deleteAllByMed(medId: Long) {
         val query = "DELETE FROM Alarm WHERE Alarm.medicationId = ?"
         val statement = compileStatement(query)
-        statement.bindLong(1, medicineId)
+        statement.bindLong(1, medId)
 
         delete(statement)
     }
@@ -102,12 +102,12 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
 
     private fun getAlarmFromCursor(cursor: Cursor): Alarm {
         val id = getLong(cursor, "id")
-        val medicineId = getLong(cursor, "medicationId")
+        val medId = getLong(cursor, "medicationId")
         val time = getCalendar(cursor, "time")
         val repeatType = getInt(cursor, "repeatType")
         val amount = getDouble(cursor, "amount")
 
-        return Alarm(id, medicineId, time, repeatType, amount)
+        return Alarm(id, medId, time, repeatType, amount)
     }
 
 }

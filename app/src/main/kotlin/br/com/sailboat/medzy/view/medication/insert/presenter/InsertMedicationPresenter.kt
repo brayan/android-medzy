@@ -26,18 +26,18 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private val alarms: MutableList<Alarm> get() = viewModel.alarms
 
     override fun extractExtrasFromIntent(intent: Intent) {
-        val medicineId = ExtrasHelper.getMedicationId(intent)
-        viewModel.medicationId = medicineId
+        val medId = ExtrasHelper.getMedicationId(intent)
+        viewModel.medicationId = medId
     }
 
     override fun onResumeFirstSession() {
 
-        if (isInsertingMedicine()) {
+        if (isInsertingMed()) {
             viewModel.medication = Medication(-1, "", 0.0)
             // TODO: JUST FOR TESTS
             viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY, 1.0))
             view.openKeyboard()
-            updateMedicineAlarmView()
+            updateMedAlarmView()
 
         } else {
             loadInfo()
@@ -46,7 +46,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     override fun onResumeAfterRestart() {
-        updateMedicineAlarmView()
+        updateMedAlarmView()
     }
 
     fun onClickTime() {
@@ -58,7 +58,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     fun onClickSave() {
 
         SafeOperation.withDialog(view.getContext()) {
-            collectDataFromFieldsAndBindToMedicine()
+            collectDataFromFieldsAndBindToMed()
             prepareAlarms()
             checkRequiredFields()
             save()
@@ -85,20 +85,20 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
         alarm.time.set(Calendar.MINUTE, minute)
 
-        updateMedicineAlarmView()
+        updateMedAlarmView()
     }
 
     private fun loadInfo() {
-        loadMedicine()
+        loadMeds()
         loadAlarms()
     }
 
-    private fun loadMedicine() {
+    private fun loadMeds() {
         AsyncLoadMedication.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<Medication> {
 
             override fun onSuccess(med: Medication) {
                 viewModel.medication = med
-                updateMedicineNameView()
+                updateMedNameView()
             }
 
             override fun onFail(e: Exception?) {
@@ -117,7 +117,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
                 view.setAlarmsView(viewModel.alarms)
 
-                updateMedicineAlarmView()
+                updateMedAlarmView()
             }
 
             override fun onFail(e: Exception?) {
@@ -127,23 +127,23 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         })
     }
 
-    private fun updateMedicineAlarmView() {
+    private fun updateMedAlarmView() {
         // TODO: JUST FOR TESTS
         view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
     }
 
-    private fun updateMedicineNameView() {
-        view.setMedicineName(viewModel.medication?.name ?: "-")
+    private fun updateMedNameView() {
+        view.setMedName(viewModel.medication?.name ?: "-")
         view.putCursorAtTheEnd()
     }
 
 
-    private fun isInsertingMedicine(): Boolean {
+    private fun isInsertingMed(): Boolean {
         return viewModel.medicationId == -1L
     }
 
-    private fun collectDataFromFieldsAndBindToMedicine() {
-        viewModel.medication!!.name = view.getMedicineName()
+    private fun collectDataFromFieldsAndBindToMed() {
+        viewModel.medication!!.name = view.getMedName()
         collectTotalAmount()
     }
 
@@ -179,9 +179,9 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     interface View {
         fun getContext(): Context
         fun closeActivityResultOk()
-        fun getMedicineName(): String
+        fun getMedName(): String
         fun getTotalAmount(): String
-        fun setMedicineName(name: String)
+        fun setMedName(name: String)
         fun setAlarm(time: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)

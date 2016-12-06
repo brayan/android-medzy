@@ -10,22 +10,22 @@ import br.com.sailboat.medzy.persistence.DatabaseOpenHelper
 
 class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
-    fun getMedicationById(medicineId: Long): Medication {
+    fun getMedicationById(medId: Long): Medication {
         val sb = StringBuilder()
         sb.append(" SELECT * FROM Medication ")
-        sb.append(" WHERE Medication.id = " + medicineId)
+        sb.append(" WHERE Medication.id = " + medId)
 
         val cursor = performQuery(sb.toString())
 
         if (cursor.moveToNext()) {
-            val medicine = getMedicationFromCursor(cursor)
+            val med = getMedicationFromCursor(cursor)
             cursor.close()
-            return medicine
+            return med
         }
 
         cursor.close()
 
-        throw EntityNotFoundException("Medication with id "+ medicineId +" not found")
+        throw EntityNotFoundException("Medication with id "+ medId +" not found")
     }
 
     fun saveAndGetId(medication: Medication): Long {
@@ -57,10 +57,10 @@ class MedicationSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInst
         update(statement)
     }
 
-    fun delete(medicineId: Long) {
+    fun delete(medId: Long) {
         val query = "DELETE FROM Medication WHERE Medication.id = ?"
         val statement = compileStatement(query)
-        statement.bindLong(1, medicineId)
+        statement.bindLong(1, medId)
 
         delete(statement)
     }

@@ -30,7 +30,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_insert_medicine, menu)
+        inflater?.inflate(R.menu.menu_insert_medication, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -52,12 +52,12 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         bindListeners()
     }
 
-    override fun setMedicineName(name: String) {
-        etInsertMedicineName.setText(name)
+    override fun setMedName(name: String) {
+        etInsertMedicationName.setText(name)
     }
 
     override fun putCursorAtTheEnd() {
-        etInsertMedicineName.setSelection(etInsertMedicineName.length())
+        etInsertMedicationName.setSelection(etInsertMedicationName.length())
     }
 
     override fun setAlarm(time: String) {
@@ -68,12 +68,12 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         // TODO: GENERATE ALARM VIEWS
     }
 
-    override fun getMedicineName(): String {
-        return etInsertMedicineName.text.toString()
+    override fun getMedName(): String {
+        return etInsertMedicationName.text.toString()
     }
 
     override fun getTotalAmount(): String {
-        return etInsertMedicineTotalAmount.text.toString()
+        return etInsertMedicationTotalAmount.text.toString()
     }
 
     override fun showInfoMessage(message: String) {
@@ -101,10 +101,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun openKeyboard() {
-        etInsertMedicineName.requestFocus()
+        etInsertMedicationName.requestFocus()
 
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(etInsertMedicineName, InputMethodManager.SHOW_IMPLICIT)
+        imm.showSoftInput(etInsertMedicationName, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun initToolbar(view: View) {
@@ -123,10 +123,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
             activity.onBackPressed()
         }
 
-        etInsertMedicineName.setOnKeyListener(object : View.OnKeyListener {
+        etInsertMedicationName.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(view: View?, keyCode: Int, keyEvent: KeyEvent?): Boolean {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    UIHelper.hideKeyboard(activity, etInsertMedicineName)
+                    UIHelper.hideKeyboard(activity, etInsertMedicationName)
                     return true
                 }
                 return false

@@ -36,7 +36,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
 
     override fun bindCallbacks() {
         itemView.setOnClickListener {
-            callback.onClickMedicine(adapterPosition)
+            callback.onClickMed(adapterPosition)
         }
     }
 
@@ -46,7 +46,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
 
 
     interface Callback {
-        fun onClickMedicine(position: Int)
+        fun onClickMed(position: Int)
     }
 
 }

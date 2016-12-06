@@ -28,7 +28,7 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
 
     override fun onDoInBackground() {
         cancelAndDeleteAlarms()
-        saveOrUpdateMedicine()
+        saveOrUpdateMed()
         saveAlarms()
     }
 
@@ -40,19 +40,19 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
         callback.onFail(e)
     }
 
-    private fun saveOrUpdateMedicine() {
-        if (isMedicineNew()) {
-            saveNewMedicine()
+    private fun saveOrUpdateMed() {
+        if (isMedNew()) {
+            saveNewMed()
         } else {
-            updateMedicine()
+            updateMed()
         }
     }
 
-    private fun updateMedicine() {
+    private fun updateMed() {
         MedicationSQLite(context).update(medication)
     }
 
-    private fun saveNewMedicine() {
+    private fun saveNewMed() {
         val id = MedicationSQLite(context).saveAndGetId(medication)
         medication.id = id
     }
@@ -67,9 +67,9 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
 
     private fun cancelAndDeleteAlarms() {
 
-        if (isMedicineNotNew()) {
+        if (isMedNotNew()) {
             val alarmSQLite = AlarmSQLite(context)
-            var alarmss = alarmSQLite.getAlarmsByMedicine(medication.id)
+            var alarmss = alarmSQLite.getAlarmsByMed(medication.id)
 
             for (alarm in alarmss) {
                 AlarmManagerHelper.cancelAlarm(context, alarm.id)
@@ -80,12 +80,12 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
 
     }
 
-    fun isMedicineNew(): Boolean {
+    fun isMedNew(): Boolean {
         return medication.id == -1L
     }
 
-    fun isMedicineNotNew(): Boolean {
-        return !isMedicineNew()
+    fun isMedNotNew(): Boolean {
+        return !isMedNew()
     }
 
 }

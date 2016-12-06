@@ -13,15 +13,15 @@ class InsertMedicationActivity : BaseActivitySingleFragment<InsertMedicationFrag
             start(fromFragment, null, requestCode)
         }
 
-        fun start(fromFragment: Fragment, medicineId: Long?, requestCode: Int) {
+        fun start(fromFragment: Fragment, medId: Long?, requestCode: Int) {
             val starter = Intent(fromFragment.activity, InsertMedicationActivity::class.java)
-            addMedicineIdToIntent(medicineId, starter)
+            addMedIdToIntent(medId, starter)
             fromFragment.startActivityForResult(starter, requestCode)
         }
 
-        private fun addMedicineIdToIntent(medicineId: Long?, starter: Intent) {
-            medicineId?.let {
-                ExtrasHelper.putMedicationId(medicineId, starter)
+        private fun addMedIdToIntent(medId: Long?, starter: Intent) {
+            medId?.let {
+                ExtrasHelper.putMedicationId(medId, starter)
             }
         }
 

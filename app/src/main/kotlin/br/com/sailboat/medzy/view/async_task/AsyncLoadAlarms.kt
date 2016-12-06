@@ -16,14 +16,14 @@ class AsyncLoadAlarms private constructor(context: Context, medId: Long, callbac
 
     companion object {
 
-        fun load(context: Context, medicineId: Long, callback: OnSuccessWithResult<MutableList<Alarm>>) {
-            AsyncLoadAlarms(context, medicineId, callback).execute()
+        fun load(context: Context, medId: Long, callback: OnSuccessWithResult<MutableList<Alarm>>) {
+            AsyncLoadAlarms(context, medId, callback).execute()
         }
 
     }
 
     override fun onDoInBackground() {
-        list = AlarmSQLite(context).getAlarmsByMedicine(medId)
+        list = AlarmSQLite(context).getAlarmsByMed(medId)
     }
 
     override fun onSuccess() {
