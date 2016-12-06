@@ -22,12 +22,23 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
 
         itemView.tvHolderMedicationName.text = item.medName
         itemView.tvHolderMedicationAlarmTime.text = formatTime(item.alarmTime)
+        initAlarmTimeColor(item)
+    }
 
-        if (DateHelper.isBeforeNow(item.alarmTime)) {
+    private fun initAlarmTimeColor(item: MedicationRecyclerItem) {
+        if (isMedWithoutStock(item)) {
+            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.red_500))
+
+        } else if (DateHelper.isBeforeNow(item.alarmTime)) {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
+
         } else {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.light_blue_500))
         }
+    }
+
+    private fun isMedWithoutStock(item: MedicationRecyclerItem): Boolean {
+        return item.totalAmount <= 0
     }
 
     private fun getColorFromResource(colorId: Int): Int {

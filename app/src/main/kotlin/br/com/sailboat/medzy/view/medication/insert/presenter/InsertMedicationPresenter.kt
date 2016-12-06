@@ -99,6 +99,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             override fun onSuccess(med: Medication) {
                 viewModel.medication = med
                 updateMedNameView()
+                updateMedTotalAmountView()
             }
 
             override fun onFail(e: Exception?) {
@@ -106,6 +107,10 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             }
 
         })
+    }
+
+    private fun updateMedTotalAmountView() {
+        view.setMedTotalAmount(viewModel.medication?.totalAmount ?: 0.0)
     }
 
     private fun loadAlarms() {
@@ -168,7 +173,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
                 view.closeActivityResultOk()
             }
 
-            override fun onFail(e: Exception?) {
+            override fun onFail(e: Exception) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
         })
@@ -182,6 +187,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun getMedName(): String
         fun getTotalAmount(): String
         fun setMedName(name: String)
+        fun setMedTotalAmount(totalAmount: Double)
         fun setAlarm(time: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)

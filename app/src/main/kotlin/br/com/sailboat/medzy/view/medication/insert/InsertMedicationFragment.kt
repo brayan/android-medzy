@@ -60,6 +60,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         etInsertMedicationName.setSelection(etInsertMedicationName.length())
     }
 
+    override fun setMedTotalAmount(totalAmount: Double) {
+        etInsertMedicationTotalAmount.setText(totalAmount.toString())
+    }
+
     override fun setAlarm(time: String) {
         tvAlarmTime.setText(time)
     }
