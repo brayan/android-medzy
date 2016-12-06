@@ -1,12 +1,12 @@
 package br.com.sailboat.medzy.view.async_task
 
 import android.content.Context
-import br.com.sailboat.canoe.async.AsyncSuccess
+import br.com.sailboat.canoe.async.BaseAsync
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
-class AsyncLoadMedication private constructor(context: Context, medId: Long, callback: OnSuccessWithResult<Medication>) : AsyncSuccess(context) {
+class AsyncLoadMedication private constructor(context: Context, medId: Long, callback: OnSuccessWithResult<Medication>) : BaseAsync() {
 
     private val context = context
     private val callback = callback
@@ -27,6 +27,10 @@ class AsyncLoadMedication private constructor(context: Context, medId: Long, cal
 
     override fun onSuccess() {
         callback.onSuccess(medication)
+    }
+
+    override fun onFail(e: Exception?) {
+        callback.onFail(e)
     }
 
 }

@@ -1,13 +1,13 @@
 package br.com.sailboat.medzy.view.async_task
 
 import android.content.Context
-import br.com.sailboat.canoe.async.AsyncSuccess
+import br.com.sailboat.canoe.async.BaseAsync
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
-class AsyncDeleteMedication private constructor(context: Context, medId: Long, callback: OnSuccess) : AsyncSuccess(context) {
+class AsyncDeleteMedication private constructor(context: Context, medId: Long, callback: OnSuccess) : BaseAsync() {
 
     private val callback = callback
     private val context = context
@@ -28,6 +28,10 @@ class AsyncDeleteMedication private constructor(context: Context, medId: Long, c
 
     override fun onSuccess() {
         callback.onSuccess()
+    }
+
+    override fun onFail(e: Exception?) {
+        callback.onFail(e)
     }
 
     private fun cancelAlarms() {

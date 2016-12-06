@@ -6,6 +6,7 @@ import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.DateHelper
+import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
@@ -57,6 +58,11 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             override fun onSuccess(med: Medication) {
                 viewModel.medication = med
                 view.setMedicationName(med.name)
+                view.setTotalAmount(med.totalAmount)
+            }
+
+            override fun onFail(e: Exception) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
 
         })
@@ -72,12 +78,24 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
                 updateMedicationAlarmView()
             }
 
+            override fun onFail(e: Exception) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+            }
+
         })
     }
 
     private fun deleteWorkout() {
-        AsyncDeleteMedication.delete(view.getContext(), viewModel.medId!!, OnSuccess {
-            view.closeActivityResultOk()
+        AsyncDeleteMedication.delete(view.getContext(), viewModel.medId!!, object : OnSuccess {
+
+            override fun onSuccess() {
+                view.closeActivityResultOk()
+            }
+
+            override fun onFail(e: Exception) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+            }
+
         })
     }
 
@@ -95,6 +113,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
         // TODO: JUST FOR TESTS
         view.setAlarmDate(DateHelper.getSimpleDayName(view.getContext(), viewModel.alarms[0].time))
         view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+        view.setAlarmAmount(viewModel.alarms[0].amount)
     }
 
 
@@ -102,8 +121,10 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
         fun getContext() : Context
         fun showToast(message: String)
         fun setMedicationName(name: String)
+        fun setTotalAmount(total: Double)
         fun setAlarmDate(date: String)
         fun setAlarmTime(time: String)
+        fun setAlarmAmount(amount: Double)
         fun closeActivityResultOk()
         fun startInsertMedicationActivity(medicationId: Long)
     }

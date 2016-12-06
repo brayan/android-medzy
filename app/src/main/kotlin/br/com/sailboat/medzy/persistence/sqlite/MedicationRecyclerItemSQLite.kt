@@ -7,14 +7,16 @@ import br.com.sailboat.medzy.persistence.DatabaseOpenHelper
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import java.util.*
 
-class MedicationViewHolderSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
+class MedicationRecyclerItemSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(context)) {
 
     fun getAll(): MutableList<MedicationRecyclerItem> {
         val sb = StringBuilder()
         sb.append(" SELECT Medication.id AS medId, ")
         sb.append(" Medication.name AS medName, ")
+        sb.append(" Medication.totalAmount AS totalAmount, ")
         sb.append(" Alarm.id AS alarmId, ")
-        sb.append(" Alarm.time AS alarmTime ")
+        sb.append(" Alarm.time AS alarmTime, ")
+        sb.append(" Alarm.amount AS amount ")
         sb.append(" FROM Medication ")
         sb.append(" LEFT JOIN Alarm ON Medication.id = Alarm.medicationId ")
         sb.append(" ORDER BY alarmTime ")
@@ -41,8 +43,10 @@ class MedicationViewHolderSQLite(context: Context) : BaseSQLite(DatabaseOpenHelp
         val name = getString(cursor, "medName")
         val alarmId = getLong(cursor, "alarmId")
         val alarm = getCalendar(cursor, "alarmTime")
+        val totalAmount = getDouble(cursor, "totalAmount")
+        val amount = getDouble(cursor, "amount")
 
-        return MedicationRecyclerItem(medicationId, alarmId, name, alarm)
+        return MedicationRecyclerItem(medicationId, alarmId, name, alarm, totalAmount, amount)
     }
 
 }

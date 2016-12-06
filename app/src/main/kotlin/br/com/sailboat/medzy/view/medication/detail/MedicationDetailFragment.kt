@@ -16,6 +16,7 @@ import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
 import kotlinx.android.synthetic.main.alarm_detail.*
+import kotlinx.android.synthetic.main.frag_medication_detail.*
 
 
 class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), MedicationDetailPresenter.View {
@@ -71,12 +72,20 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
         toolbar.setTitle(name)
     }
 
+    override fun setTotalAmount(total: Double) {
+        tvDetailTotalAmount.text = total.toString()
+    }
+
     override fun setAlarmDate(date: String) {
         tvAlarmDetailDate.setText(date)
     }
 
     override fun setAlarmTime(time: String) {
         tvAlarmDetailTime.setText(time)
+    }
+
+    override fun setAlarmAmount(amount: Double) {
+        tvAlarmDetailAmount.text = amount.toString()
     }
 
     override fun closeActivityResultOk() {

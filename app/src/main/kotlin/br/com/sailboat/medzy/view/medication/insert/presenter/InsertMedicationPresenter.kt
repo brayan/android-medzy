@@ -101,6 +101,10 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
                 updateMedicineNameView()
             }
 
+            override fun onFail(e: Exception?) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+            }
+
         })
     }
 
@@ -114,6 +118,10 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
                 view.setAlarmsView(viewModel.alarms)
 
                 updateMedicineAlarmView()
+            }
+
+            override fun onFail(e: Exception?) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
 
         })
@@ -135,7 +143,17 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun collectDataFromFieldsAndBindToMedicine() {
-        viewModel.medication!!.name = view.getMedicineNameFromView()
+        viewModel.medication!!.name = view.getMedicineName()
+        collectTotalAmount()
+    }
+
+    private fun collectTotalAmount() {
+        try {
+            viewModel.medication!!.totalAmount = view.getTotalAmount().toDouble()
+        } catch (e: Exception) {
+            viewModel.medication!!.totalAmount = 0.0
+        }
+
     }
 
     private fun checkRequiredFields() {
@@ -144,8 +162,15 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     private fun save() {
 
-        AsyncSaveMedicationAndAlarms.save(view.getContext(), viewModel.medication!!, alarms, OnSuccess {
-            view.closeActivityResultOk()
+        AsyncSaveMedicationAndAlarms.save(view.getContext(), viewModel.medication!!, alarms, object : OnSuccess {
+
+            override fun onSuccess() {
+                view.closeActivityResultOk()
+            }
+
+            override fun onFail(e: Exception?) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+            }
         })
 
     }
@@ -154,7 +179,8 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     interface View {
         fun getContext(): Context
         fun closeActivityResultOk()
-        fun getMedicineNameFromView(): String
+        fun getMedicineName(): String
+        fun getTotalAmount(): String
         fun setMedicineName(name: String)
         fun setAlarm(time: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)

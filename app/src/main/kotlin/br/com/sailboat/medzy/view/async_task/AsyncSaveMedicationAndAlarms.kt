@@ -1,7 +1,7 @@
 package br.com.sailboat.medzy.view.async_task
 
 import android.content.Context
-import br.com.sailboat.canoe.async.AsyncSuccess
+import br.com.sailboat.canoe.async.BaseAsync
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.model.Alarm
@@ -11,7 +11,7 @@ import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 
 
 class AsyncSaveMedicationAndAlarms private constructor(context: Context, medication: Medication, alarms: MutableList<Alarm>, callback: OnSuccess)
-    : AsyncSuccess(context) {
+    : BaseAsync() {
 
     private val context = context
     private val medication = medication
@@ -34,6 +34,10 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
 
     override fun onSuccess() {
         callback.onSuccess()
+    }
+
+    override fun onFail(e: Exception?) {
+        callback.onFail(e)
     }
 
     private fun saveOrUpdateMedicine() {

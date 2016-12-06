@@ -68,8 +68,12 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         // TODO: GENERATE ALARM VIEWS
     }
 
-    override fun getMedicineNameFromView(): String {
+    override fun getMedicineName(): String {
         return etInsertMedicineName.text.toString()
+    }
+
+    override fun getTotalAmount(): String {
+        return etInsertMedicineTotalAmount.text.toString()
     }
 
     override fun showInfoMessage(message: String) {

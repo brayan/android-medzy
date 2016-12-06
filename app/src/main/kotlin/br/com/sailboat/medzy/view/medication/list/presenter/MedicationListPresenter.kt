@@ -4,9 +4,12 @@ import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
+import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicationViewHolder
@@ -43,20 +46,42 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
     fun onSwipedMedication(position: Int) {
         val med = meds[position] as MedicationRecyclerItem
-        meds.removeAt(position)
-        view.updateMedicationRemoved(position)
+        val alarm = AlarmSQLite(view.getContext()).getAlarmById(med.alarmId)
 
-        Thread.sleep(300)
-
-        val alarmSqlite = AlarmSQLite(view.getContext())
-        val alarm = alarmSqlite.getAlarmById(med.alarmId)
-
-        AlarmHelper.incrementToNextValidDate(alarm.time, alarm.repeatType)
-
-        alarmSqlite.update(alarm)
-        AlarmManagerHelper.setAlarm(view.getContext(), alarm.id, alarm.time.timeInMillis)
+        incrementAlarm(alarm)
+        updateAlarm(alarm)
+        setAlarmManager(alarm)
+        updateTotalAmount(alarm, med)
+        updateMedication(med)
 
         loadMedicines()
+    }
+
+    private fun setAlarmManager(alarm: Alarm) {
+        AlarmManagerHelper.setAlarm(view.getContext(), alarm.id, alarm.time.timeInMillis)
+    }
+
+    private fun updateAlarm(alarm: Alarm) {
+        AlarmSQLite(view.getContext()).update(alarm)
+    }
+
+    private fun updateTotalAmount(alarm: Alarm, med: MedicationRecyclerItem) {
+        if (med.totalAmount > 0) {
+            med.totalAmount = med.totalAmount - alarm.amount
+        }
+    }
+
+    private fun incrementAlarm(alarm: Alarm) {
+        AlarmHelper.incrementToNextValidDate(alarm.time, alarm.repeatType)
+    }
+
+    private fun updateMedication(med: MedicationRecyclerItem) {
+        val medicationDao = MedicationSQLite(view.getContext())
+        val medication = medicationDao.getMedicationById(med.medId)
+
+        medication.totalAmount = med.totalAmount
+
+        medicationDao.update(medication)
     }
 
     private fun loadMedicines() {
@@ -65,6 +90,10 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
             override fun onSuccess(result: MutableList<MedicationRecyclerItem>) {
                 onSuccessLoadMedication(result)
+            }
+
+            override fun onFail(e: Exception?) {
+                SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
 
         })
