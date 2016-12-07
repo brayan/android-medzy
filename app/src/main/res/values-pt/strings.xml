@@ -9,5 +9,6 @@
     <string name="no_meds">Nenhum remédio foi adicionado</string>
     <string name="empty_meds_message">Adicione um novo remédio pressionando o botão +</string>
     <string name="app_name">Medzy</string>
+    <string name="out_of_stock">SEM ESTOQUE</string>
 
 </resources>

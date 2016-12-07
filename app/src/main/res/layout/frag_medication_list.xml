@@ -7,7 +7,7 @@
 
     <include layout="@layout/empty_meds" />
 
-    <include layout="@layout/appbar" />
+    <include layout="@layout/appbar_scroll" />
 
     <include layout="@layout/recycler_scroll" />
 

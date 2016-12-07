@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
+import br.com.sailboat.medzy.rules.MedRules;
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder;
 
 
@@ -83,9 +84,14 @@ public class SwipeLeftRightMedication extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (!isMedsViewHolder(viewHolder)) {
+        if (isNotMedsViewHolder(viewHolder)) {
             return 0;
         }
+
+        if (isMedicationOutOfStock(viewHolder)) {
+            return 0;
+        }
+
         return super.getSwipeDirs(recyclerView, viewHolder);
     }
 
@@ -104,6 +110,11 @@ public class SwipeLeftRightMedication extends ItemTouchHelper.SimpleCallback {
         return super.getSwipeVelocityThreshold(defaultValue * 2);
     }
 
+    private boolean isMedicationOutOfStock(RecyclerView.ViewHolder viewHolder) {
+        MedicationViewHolder holder = (MedicationViewHolder) viewHolder;
+        return MedRules.isOutOfStock(holder.getItem().getTotalAmount(), holder.getItem().getAmount());
+    }
+
     public Context getContext() {
         return context;
     }
@@ -114,6 +125,10 @@ public class SwipeLeftRightMedication extends ItemTouchHelper.SimpleCallback {
 
     private boolean isSwipeDireita(float dX) {
         return dX > 0;
+    }
+
+    private boolean isNotMedsViewHolder(RecyclerView.ViewHolder viewHolder) {
+        return !isMedsViewHolder(viewHolder);
     }
 
     private boolean isMedsViewHolder(RecyclerView.ViewHolder viewHolder) {

@@ -7,4 +7,5 @@
     <string name="check_enter_name">You must enter a name for the medication</string>
     <string name="no_meds">No meds</string>
     <string name="empty_meds_message">Add a new medication by tapping the + button</string>
+    <string name="out_of_stock">OUT OF STOCK</string>
 </resources>

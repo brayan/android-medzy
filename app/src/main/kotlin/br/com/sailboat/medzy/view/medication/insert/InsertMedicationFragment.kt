@@ -12,6 +12,7 @@ import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
+import br.com.sailboat.canoe.dialog.InputDoubleDialog
 import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
 import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medication.*
@@ -68,6 +69,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         tvAlarmTime.setText(time)
     }
 
+    override fun setAlarmAmount(amount: String) {
+        tvAlarmAmount.setText(amount)
+    }
+
     override fun setAlarmsView(alarms: MutableList<Alarm>) {
         // TODO: GENERATE ALARM VIEWS
     }
@@ -104,6 +109,17 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         })
     }
 
+    override fun showAmountInputDialog(position: Int, amount: Double) {
+        InputDoubleDialog.show(fragmentManager, amount, object : InputDoubleDialog.Callback{
+
+            override fun onClickOk(input: Double) {
+                presenter.onClickOkAmountInputDialog(position, input)
+            }
+
+
+        })
+    }
+
     override fun openKeyboard() {
         etInsertMedicationName.requestFocus()
 
@@ -121,6 +137,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     private fun bindListeners() {
         frameAlarmTime.setOnClickListener {
             presenter.onClickTime()
+        }
+
+        frameAlarmAmount.setOnClickListener {
+            presenter.onClickAmount()
         }
 
         toolbar.setNavigationOnClickListener {

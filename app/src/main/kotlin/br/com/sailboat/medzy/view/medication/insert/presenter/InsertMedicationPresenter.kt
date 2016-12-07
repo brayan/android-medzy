@@ -55,6 +55,13 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         view.startAlarmChooserDialog(alarm.time)
     }
 
+    fun onClickAmount() {
+        var alarm = viewModel.alarms.get(0)
+
+        val position = 0
+        view.showAmountInputDialog(position, alarm.amount)
+    }
+
     fun onClickSave() {
 
         SafeOperation.withDialog(view.getContext()) {
@@ -91,6 +98,13 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private fun loadInfo() {
         loadMeds()
         loadAlarms()
+    }
+
+    fun onClickOkAmountInputDialog(position: Int, input: Double) {
+        val alarm = alarms[position]
+        alarm.amount = input
+
+        updateMedAlarmView()
     }
 
     private fun loadMeds() {
@@ -135,6 +149,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private fun updateMedAlarmView() {
         // TODO: JUST FOR TESTS
         view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+        view.setAlarmAmount(viewModel.alarms[0].amount.toString())
     }
 
     private fun updateMedNameView() {
@@ -189,10 +204,12 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun setMedName(name: String)
         fun setMedTotalAmount(totalAmount: Double)
         fun setAlarm(time: String)
+        fun setAlarmAmount(amount: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)
         fun showErrorMessage(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
+        fun showAmountInputDialog(position: Int, amount: Double)
         fun openKeyboard()
         fun putCursorAtTheEnd()
     }

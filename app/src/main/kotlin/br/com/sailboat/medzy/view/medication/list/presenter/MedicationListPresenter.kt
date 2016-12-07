@@ -45,16 +45,27 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
     }
 
     fun onSwipedMedication(position: Int) {
-        val med = meds[position] as MedicationRecyclerItem
-        val alarm = AlarmSQLite(view.getContext()).getAlarmById(med.alarmId)
+        SafeOperation.withDialog(view.getContext(), object : SafeOperation.Callback {
+            override fun perform() {
 
-        incrementAlarm(alarm)
-        updateAlarm(alarm)
-        setAlarmManager(alarm)
-        updateTotalAmount(alarm, med)
-        updateMedication(med)
 
-        loadMeds()
+                val med = meds[position] as MedicationRecyclerItem
+                val alarm = AlarmSQLite(view.getContext()).getAlarmById(med.alarmId)
+
+                if (med.totalAmount <= 0 || (med.totalAmount - alarm.amount < 0)) {
+                    throw Exception("")
+                }
+
+                incrementAlarm(alarm)
+                updateAlarm(alarm)
+                setAlarmManager(alarm)
+                updateTotalAmount(alarm, med)
+                updateMedication(med)
+
+                loadMeds()
+            }
+        })
+
     }
 
     private fun setAlarmManager(alarm: Alarm) {
