@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
+import br.com.sailboat.canoe.dialog.InputDoubleDialog
 import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
-import br.com.sailboat.canoe.dialog.InputDoubleDialog
 import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
 import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medication.*
@@ -110,7 +110,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun showAmountInputDialog(position: Int, amount: Double) {
-        InputDoubleDialog.show(fragmentManager, amount, object : InputDoubleDialog.Callback{
+        InputDoubleDialog.show(fragmentManager, getString(R.string.amount), amount, object : InputDoubleDialog.Callback{
 
             override fun onClickOk(input: Double) {
                 presenter.onClickOkAmountInputDialog(position, input)
