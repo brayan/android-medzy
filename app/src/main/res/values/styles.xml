@@ -30,4 +30,20 @@
         <item name="colorControlActivated">@android:color/white</item>
     </style>
 
+    <style name="MedTextViewLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MedTextViewContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/teal_300</item>
+        <item name="android:text">-</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

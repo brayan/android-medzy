@@ -111,7 +111,6 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     private fun updateMedicationAlarmView() {
 //        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medication!!.alarm.time, context))
         // TODO: JUST FOR TESTS
-        view.setAlarmDate(DateHelper.getSimpleDayName(view.getContext(), viewModel.alarms[0].time))
         view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
         view.setAlarmAmount(viewModel.alarms[0].amount)
     }
@@ -122,7 +121,6 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
         fun showToast(message: String)
         fun setMedicationName(name: String)
         fun setTotalAmount(total: Double)
-        fun setAlarmDate(date: String)
         fun setAlarmTime(time: String)
         fun setAlarmAmount(amount: Double)
         fun closeActivityResultOk()

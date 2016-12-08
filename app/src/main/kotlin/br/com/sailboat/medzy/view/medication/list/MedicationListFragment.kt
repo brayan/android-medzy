@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.View
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.helper.DialogHelper
@@ -34,16 +33,6 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
 
     override fun newPresenterInstance(): MedicationListPresenter {
         return MedicationListPresenter(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e("TEST", "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("TEST", "onPause")
     }
 
     override fun initViews(view: View) {

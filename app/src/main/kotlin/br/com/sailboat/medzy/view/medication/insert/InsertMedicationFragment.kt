@@ -14,8 +14,8 @@ import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
 import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
-import kotlinx.android.synthetic.main.alarm.*
 import kotlinx.android.synthetic.main.frag_insert_medication.*
+import kotlinx.android.synthetic.main.med_content.*
 import java.util.*
 
 class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), InsertMedicationPresenter.View {
@@ -62,15 +62,15 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun setMedTotalAmount(totalAmount: Double) {
-        etInsertMedicationTotalAmount.setText(totalAmount.toString())
+        tvMedContentTotalAmount.setText(totalAmount.toString())
     }
 
     override fun setAlarm(time: String) {
-        tvAlarmTime.setText(time)
+        tvMedContentAlarmTime.setText(time)
     }
 
     override fun setAlarmAmount(amount: String) {
-        tvAlarmAmount.setText(amount)
+        tvMedContentAlarmAmount.setText(amount)
     }
 
     override fun setAlarmsView(alarms: MutableList<Alarm>) {
@@ -82,7 +82,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun getTotalAmount(): String {
-        return etInsertMedicationTotalAmount.text.toString()
+        return tvMedContentTotalAmount.text.toString()
     }
 
     override fun showInfoMessage(message: String) {
@@ -115,8 +115,15 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
             override fun onClickOk(input: Double) {
                 presenter.onClickOkAmountInputDialog(position, input)
             }
+        })
+    }
 
+    override fun showTotalAmountInputDialog(totalAmount: Double) {
+        InputDoubleDialog.show(fragmentManager, getString(R.string.amount), totalAmount, object : InputDoubleDialog.Callback{
 
+            override fun onClickOk(input: Double) {
+                presenter.onClickOkTotalAmountInputDialog(input)
+            }
         })
     }
 
@@ -135,6 +142,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     private fun bindListeners() {
+        frameTotalAmount.setOnClickListener {
+            presenter.onClickTotalAmount()
+        }
+
         frameAlarmTime.setOnClickListener {
             presenter.onClickTime()
         }

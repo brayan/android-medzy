@@ -62,6 +62,10 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         view.showAmountInputDialog(position, alarm.amount)
     }
 
+    fun onClickTotalAmount() {
+        view.showTotalAmountInputDialog(viewModel.medication!!.totalAmount)
+    }
+
     fun onClickSave() {
 
         SafeOperation.withDialog(view.getContext()) {
@@ -106,6 +110,13 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
         updateMedAlarmView()
     }
+
+    fun onClickOkTotalAmountInputDialog(totalAmount: Double) {
+        viewModel.medication!!.totalAmount = totalAmount
+        updateMedTotalAmountView()
+    }
+
+
 
     private fun loadMeds() {
         AsyncLoadMedication.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<Medication> {
@@ -210,6 +221,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun showErrorMessage(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
         fun showAmountInputDialog(position: Int, amount: Double)
+        fun showTotalAmountInputDialog(totalAmount: Double)
         fun openKeyboard()
         fun putCursorAtTheEnd()
     }

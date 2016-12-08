@@ -15,8 +15,7 @@ import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
-import kotlinx.android.synthetic.main.alarm_detail.*
-import kotlinx.android.synthetic.main.frag_medication_detail.*
+import kotlinx.android.synthetic.main.med_content.*
 
 
 class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), MedicationDetailPresenter.View {
@@ -73,19 +72,15 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun setTotalAmount(total: Double) {
-        tvDetailTotalAmount.text = total.toString()
-    }
-
-    override fun setAlarmDate(date: String) {
-        tvAlarmDetailDate.setText(date)
+        tvMedContentTotalAmount.text = total.toString()
     }
 
     override fun setAlarmTime(time: String) {
-        tvAlarmDetailTime.setText(time)
+        tvMedContentAlarmTime.setText(time)
     }
 
     override fun setAlarmAmount(amount: Double) {
-        tvAlarmDetailAmount.text = amount.toString()
+        tvMedContentAlarmAmount.text = amount.toString()
     }
 
     override fun closeActivityResultOk() {
