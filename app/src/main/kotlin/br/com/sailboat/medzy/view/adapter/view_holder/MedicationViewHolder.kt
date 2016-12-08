@@ -2,6 +2,7 @@ package br.com.sailboat.medzy.view.adapter.view_holder
 
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.view.ViewGroup
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
@@ -16,7 +17,11 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     lateinit var item: MedicationRecyclerItem
 
     companion object {
-        val LAYOUT_ID = R.layout.holder_medication
+
+        fun newInstance(parent: ViewGroup, callback: MedicationViewHolder.Callback) : MedicationViewHolder {
+            val view = inflateLayout(parent, R.layout.holder_medication)
+            return MedicationViewHolder(view, callback)
+        }
     }
 
     override fun <T : Any?> onBindViewHolder(item: T) {

@@ -16,19 +16,15 @@ class MedicationListAdapter(callback: Callback) : RecyclerView.Adapter<BaseViewH
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         when (viewType) {
             ViewType.MEDICATION -> {
-                val view = BaseViewHolder.inflateLayout(parent, MedicationViewHolder.LAYOUT_ID)
-                return MedicationViewHolder(view, callback)
+                return MedicationViewHolder.newInstance(parent, callback)
             }
             ViewType.PADDING -> {
-                val view = BaseViewHolder.inflateLayout(parent, PaddingViewHolder.LAYOUT_ID)
-                return PaddingViewHolder(view)
+                return PaddingViewHolder.newInstance(parent)
             }
             else -> {
-                val view = BaseViewHolder.inflateLayout(parent, SubheaderViewHolder.LAYOUT_ID)
-                return SubheaderViewHolder(view)
+                return SubheaderViewHolder.newInstance(parent)
             }
         }
-
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
