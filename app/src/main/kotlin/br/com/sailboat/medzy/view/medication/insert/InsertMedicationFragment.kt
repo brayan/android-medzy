@@ -8,12 +8,13 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.dialog.InputDoubleDialog
+import br.com.sailboat.canoe.dialog.TimePickerCanoeDialog
 import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.DialogHelper
+import br.com.sailboat.canoe.helper.InputFilterDecimalDigits
 import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
-import br.com.sailboat.medzy.view.dialog.AlarmPickerDialog
 import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
 import kotlinx.android.synthetic.main.frag_insert_medication.*
 import kotlinx.android.synthetic.main.med_content.*
@@ -107,7 +108,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
 
     override fun startAlarmChooserDialog(alarm: Calendar) {
 
-        AlarmPickerDialog.show(fragmentManager, alarm, object : AlarmPickerDialog.Callback {
+        TimePickerCanoeDialog.show(fragmentManager, alarm, object : TimePickerCanoeDialog.Callback {
 
             override fun onClickOk(hourOfDay: Int, minute: Int) {
                 presenter.onClickOkAlarmChooserDialog(-1L, hourOfDay, minute)
@@ -117,16 +118,25 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun showAmountInputDialog(position: Int, amount: Double) {
-        InputDoubleDialog.show(fragmentManager, getString(R.string.amount), amount, object : InputDoubleDialog.Callback{
+        val dialog = InputDoubleDialog()
+        dialog.appendTitle(getString(R.string.amount))
+        dialog.appendValue(amount)
+        dialog.appendInputFilter(InputFilterDecimalDigits(6, 2))
+        dialog.build(fragmentManager, object : InputDoubleDialog.Callback{
 
             override fun onClickOk(input: Double) {
                 presenter.onClickOkAmountInputDialog(position, input)
             }
         })
+
     }
 
     override fun showTotalAmountInputDialog(totalAmount: Double) {
-        InputDoubleDialog.show(fragmentManager, getString(R.string.amount), totalAmount, object : InputDoubleDialog.Callback{
+        val dialog = InputDoubleDialog()
+        dialog.appendTitle(getString(R.string.amount))
+        dialog.appendValue(totalAmount)
+        dialog.appendInputFilter(InputFilterDecimalDigits(6, 2))
+        dialog.build(fragmentManager, object : InputDoubleDialog.Callback{
 
             override fun onClickOk(input: Double) {
                 presenter.onClickOkTotalAmountInputDialog(input)
