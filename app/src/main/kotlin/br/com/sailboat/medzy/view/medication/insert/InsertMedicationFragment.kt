@@ -8,6 +8,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.dialog.InputDoubleDialog
+import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
@@ -17,6 +18,8 @@ import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPr
 import kotlinx.android.synthetic.main.frag_insert_medication.*
 import kotlinx.android.synthetic.main.med_content.*
 import java.util.*
+
+
 
 class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), InsertMedicationPresenter.View {
 
@@ -61,16 +64,20 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         etInsertMedicationName.setSelection(etInsertMedicationName.length())
     }
 
+    override fun hideKeyboard() {
+        UIHelper.hideKeyboard(activity)
+    }
+
     override fun setMedTotalAmount(totalAmount: Double) {
-        tvMedContentTotalAmount.setText(totalAmount.toString())
+        tvMedContentTotalAmount.setText(DecimalHelper.formatWithTwoDecimals(totalAmount))
     }
 
     override fun setAlarm(time: String) {
         tvMedContentAlarmTime.setText(time)
     }
 
-    override fun setAlarmAmount(amount: String) {
-        tvMedContentAlarmAmount.setText(amount)
+    override fun setAlarmAmount(amount: Double) {
+        tvMedContentAlarmAmount.setText(DecimalHelper.formatWithTwoDecimals(amount))
     }
 
     override fun setAlarmsView(alarms: MutableList<Alarm>) {
@@ -161,7 +168,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         etInsertMedicationName.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(view: View?, keyCode: Int, keyEvent: KeyEvent?): Boolean {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    UIHelper.hideKeyboard(activity, etInsertMedicationName)
+                    UIHelper.hideKeyboard(activity)
                     return true
                 }
                 return false

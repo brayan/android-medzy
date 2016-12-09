@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import br.com.sailboat.canoe.base.BaseFragment
+import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
@@ -72,7 +73,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun setTotalAmount(total: Double) {
-        tvMedContentTotalAmount.text = total.toString()
+        tvMedContentTotalAmount.text = DecimalHelper.formatWithTwoDecimals(total)
     }
 
     override fun setAlarmTime(time: String) {
@@ -80,7 +81,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun setAlarmAmount(amount: Double) {
-        tvMedContentAlarmAmount.text = amount.toString()
+        tvMedContentAlarmAmount.text = DecimalHelper.formatWithTwoDecimals(amount)
     }
 
     override fun closeActivityResultOk() {

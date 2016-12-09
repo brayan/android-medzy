@@ -7,6 +7,7 @@ import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.DateHelper
+import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
@@ -38,6 +39,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY, 1.0))
             view.openKeyboard()
             updateMedAlarmView()
+            updateMedTotalAmountView()
 
         } else {
             loadInfo()
@@ -51,6 +53,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     fun onClickTime() {
         // TODO: JUST FOR TESTS
+        view.hideKeyboard();
         var alarm = viewModel.alarms.get(0)
         view.startAlarmChooserDialog(alarm.time)
     }
@@ -106,13 +109,13 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     fun onClickOkAmountInputDialog(position: Int, input: Double) {
         val alarm = alarms[position]
-        alarm.amount = input
+        alarm.amount = DecimalHelper.roundUpWithTwoDecimals(input)
 
         updateMedAlarmView()
     }
 
     fun onClickOkTotalAmountInputDialog(totalAmount: Double) {
-        viewModel.medication!!.totalAmount = totalAmount
+        viewModel.medication!!.totalAmount = DecimalHelper.roundUpWithTwoDecimals(totalAmount)
         updateMedTotalAmountView()
     }
 
@@ -160,7 +163,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private fun updateMedAlarmView() {
         // TODO: JUST FOR TESTS
         view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
-        view.setAlarmAmount(viewModel.alarms[0].amount.toString())
+        view.setAlarmAmount(viewModel.alarms[0].amount)
     }
 
     private fun updateMedNameView() {
@@ -215,11 +218,12 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun setMedName(name: String)
         fun setMedTotalAmount(totalAmount: Double)
         fun setAlarm(time: String)
-        fun setAlarmAmount(amount: String)
+        fun setAlarmAmount(amount: Double)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)
         fun showErrorMessage(message: String)
         fun startAlarmChooserDialog(alarm: Calendar)
+        fun hideKeyboard()
         fun showAmountInputDialog(position: Int, amount: Double)
         fun showTotalAmountInputDialog(totalAmount: Double)
         fun openKeyboard()
