@@ -119,9 +119,9 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
 
     override fun showAmountInputDialog(position: Int, amount: Double) {
         val dialog = InputDoubleDialog()
-        dialog.appendTitle(getString(R.string.amount))
-        dialog.appendValue(amount)
-        dialog.appendInputFilter(InputFilterDecimalDigits(6, 2))
+        dialog.title = getString(R.string.amount)
+        dialog.value = amount
+        dialog.setInputFilter(InputFilterDecimalDigits(6, 2))
         dialog.build(fragmentManager, object : InputDoubleDialog.Callback{
 
             override fun onClickOk(input: Double) {
@@ -133,9 +133,9 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
 
     override fun showTotalAmountInputDialog(totalAmount: Double) {
         val dialog = InputDoubleDialog()
-        dialog.appendTitle(getString(R.string.amount))
-        dialog.appendValue(totalAmount)
-        dialog.appendInputFilter(InputFilterDecimalDigits(6, 2))
+        dialog.title = getString(R.string.amount)
+        dialog.value = totalAmount
+        dialog.setInputFilter(InputFilterDecimalDigits(6, 2))
         dialog.build(fragmentManager, object : InputDoubleDialog.Callback{
 
             override fun onClickOk(input: Double) {

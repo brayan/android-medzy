@@ -31,8 +31,31 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
 
         itemView.tvHolderMedicationName.text = item.medName
         itemView.tvHolderMedicationAlarmTime.text = formatTime(item.alarmTime)
+
+        initDate(item)
         initMessage()
-        initAlarmTimeColor()
+        initDateTimeColor()
+        initDateTimeVisibility()
+    }
+
+    private fun initDate(item: MedicationRecyclerItem) {
+        if (DateHelper.isBeforeToday(item.alarmTime) || DateHelper.isAfterTomorrow(item.alarmTime)) {
+            itemView.tvHolderMedicationAlarmDate.text = DateHelper.getDayMonth(itemView.context, item.alarmTime)
+
+        } else {
+            itemView.tvHolderMedicationAlarmDate.text = DateHelper.getShortDate(itemView.context, item.alarmTime)
+        }
+    }
+
+    private fun initDateTimeVisibility() {
+        if (DateHelper.isBeforeToday(item.alarmTime) || DateHelper.isAfterTomorrow(item.alarmTime)) {
+            itemView.tvHolderMedicationAlarmTime.visibility = View.GONE
+            itemView.tvHolderMedicationAlarmDate.visibility = View.VISIBLE
+
+        } else {
+            itemView.tvHolderMedicationAlarmTime.visibility = View.VISIBLE
+            itemView.tvHolderMedicationAlarmDate.visibility = View.GONE
+        }
     }
 
     private fun initMessage() {
@@ -45,15 +68,18 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
         }
     }
 
-    private fun initAlarmTimeColor() {
+    private fun initDateTimeColor() {
         if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.red_500))
+            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.red_500))
 
         } else if (DateHelper.isBeforeNow(item.alarmTime)) {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
+            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.grey_500))
 
         } else {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.light_blue_500))
+            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.light_blue_500))
         }
     }
 

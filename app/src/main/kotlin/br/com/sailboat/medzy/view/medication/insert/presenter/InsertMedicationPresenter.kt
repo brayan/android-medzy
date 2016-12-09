@@ -3,19 +3,17 @@ package br.com.sailboat.medzy.view.medication.insert.presenter
 import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.RepeatType
-import br.com.sailboat.canoe.async.AsyncHelper
-import br.com.sailboat.canoe.async.callback.OnSuccess
-import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.helper.model.AlarmModelHelper
+import br.com.sailboat.medzy.helper.model.MedicationModelHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
-import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
-import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicationAndAlarms
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 import br.com.sailboat.medzy.view.medication.insert.presenter.checker.InsertMedicationChecker
 import br.com.sailboat.medzy.view.medication.insert.view_model.InsertMedicationViewModel
 import java.util.*
@@ -72,13 +70,15 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     fun onClickSave() {
 
-        SafeOperation.withDialog(view.getContext()) {
+        try {
             collectDataFromFieldsAndBindToMed()
             prepareAlarms()
             checkRequiredFields()
             save()
-        }
 
+        } catch (e: Exception) {
+            SafeOperation.showDialog(view.getContext(), e)
+        }
     }
 
     private fun prepareAlarms() {
@@ -104,7 +104,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun loadInfo() {
-        loadMeds()
+        loadMed()
         loadAlarms()
     }
 
@@ -122,11 +122,17 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
 
 
-    private fun loadMeds() {
-        AsyncLoadMedication.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<Medication> {
+    private fun loadMed() {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun onSuccess(med: Medication) {
-                viewModel.medication = med
+            lateinit var medication: Medication
+
+            override fun performBackgroundTask() {
+                medication = MedicationSQLite(view.getContext()).getMedicationById(viewModel.medicationId!!)
+            }
+
+            override fun onSuccess() {
+                viewModel.medication = medication
                 updateMedNameView()
                 updateMedTotalAmountView()
             }
@@ -134,7 +140,6 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
     }
 
@@ -148,7 +153,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             lateinit var alarms: MutableList<Alarm>
 
             override fun performBackgroundTask() {
-                alarms = AlarmModelHelper.getAlarmsByMed(view.getContext(), viewModel.medicationId!!)
+                alarms = AlarmModelHelper.getAlarms(view.getContext(), viewModel.medicationId!!)
             }
 
             override fun onSuccess() {
@@ -202,17 +207,39 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun save() {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-        AsyncSaveMedicationAndAlarms.save(view.getContext(), viewModel.medication!!, alarms, object : OnSuccess {
+            override fun performBackgroundTask() {
+                cancelAndDeleteAlarms()
+                saveOrUpdateMed()
+                saveAlarms()
+            }
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
             }
 
-            override fun onFail(e: Exception) {
+            override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
         })
+
+    }
+
+    private fun saveOrUpdateMed() {
+        MedicationModelHelper.saveOrUpdateMed(view.getContext(), viewModel.medication!!)
+    }
+
+    private fun saveAlarms() {
+        AlarmModelHelper.saveAndSetAlarms(view.getContext(), viewModel.medication!!.id, alarms)
+    }
+
+    private fun cancelAndDeleteAlarms() {
+
+        if (MedicationModelHelper.isMedNotNew(viewModel.medication)) {
+            AlarmModelHelper.cancelAlarms(view.getContext(), viewModel.medication!!.id)
+            AlarmModelHelper.deleteAlarms(view.getContext(), viewModel.medication!!.id)
+        }
 
     }
 

@@ -2,17 +2,17 @@ package br.com.sailboat.medzy.view.medication.list.presenter
 
 import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
-import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationRecyclerItemSQLite
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
-import br.com.sailboat.medzy.view.async_task.AsyncLoadMedicationViewHolder
 import br.com.sailboat.medzy.view.medication.list.view_model.MedicationListViewModel
 
 
@@ -45,26 +45,25 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
     }
 
     fun onSwipedMedication(position: Int) {
-        SafeOperation.withDialog(view.getContext(), object : SafeOperation.Callback {
-            override fun perform() {
+        try {
+            val med = meds[position] as MedicationRecyclerItem
+            val alarm = AlarmSQLite(view.getContext()).getAlarmById(med.alarmId)
 
-
-                val med = meds[position] as MedicationRecyclerItem
-                val alarm = AlarmSQLite(view.getContext()).getAlarmById(med.alarmId)
-
-                if (med.totalAmount <= 0 || (med.totalAmount - alarm.amount < 0)) {
-                    throw Exception("")
-                }
-
-                incrementAlarm(alarm)
-                updateAlarm(alarm)
-                setAlarmManager(alarm)
-                updateTotalAmount(alarm, med)
-                updateMedication(med)
-
-                loadMeds()
+            if (med.totalAmount <= 0 || (med.totalAmount - alarm.amount < 0)) {
+                throw Exception("")
             }
-        })
+
+            incrementAlarm(alarm)
+            updateAlarm(alarm)
+            setAlarmManager(alarm)
+            updateTotalAmount(alarm, med)
+            updateMedication(med)
+
+            loadMeds()
+
+        } catch (e: Exception) {
+            SafeOperation.showDialog(view.getContext(), e)
+        }
 
     }
 
@@ -97,16 +96,21 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
     private fun loadMeds() {
 
-        AsyncLoadMedicationViewHolder.load(view.getContext(), object : OnSuccessWithResult<MutableList<MedicationRecyclerItem>> {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun onSuccess(result: MutableList<MedicationRecyclerItem>) {
-                onSuccessLoadMedication(result)
+            lateinit var meds: MutableList<MedicationRecyclerItem>
+
+            override fun performBackgroundTask() {
+                meds = MedicationRecyclerItemSQLite(view.getContext()).getAll()
+            }
+
+            override fun onSuccess() {
+                onSuccessLoadMedication(meds)
             }
 
             override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
 
     }

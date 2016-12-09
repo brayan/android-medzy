@@ -15,8 +15,7 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        SafeOperation.withLog {
+        try {
             val alarmId = ExtrasHelper.getAlarmId(intent)!!
             val alarm = AlarmSQLite(context).getAlarmById(alarmId)
             val alarmTime = alarm.time
@@ -29,6 +28,9 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
             AlarmManagerHelper.setAlarm(context, alarmId, alarmTime.timeInMillis)
             AlarmSQLite(context).update(alarm)
             NotificationHelper.closeNotifications(context, 0)
+
+        } catch (e: Exception) {
+            SafeOperation.printLogException(e)
         }
 
     }

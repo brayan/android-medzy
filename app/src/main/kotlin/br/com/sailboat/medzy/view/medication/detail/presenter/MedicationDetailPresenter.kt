@@ -2,18 +2,17 @@ package br.com.sailboat.medzy.view.medication.detail.presenter
 
 import android.content.Context
 import android.os.Bundle
-import br.com.sailboat.canoe.async.AsyncHelper
-import br.com.sailboat.canoe.async.callback.OnSuccess
-import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
+import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.helper.model.AlarmModelHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
-import br.com.sailboat.medzy.view.async_task.AsyncDeleteMedication
-import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
+import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
+import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 import br.com.sailboat.medzy.view.medication.detail.view_model.MedicationDetailViewModel
 
 
@@ -54,18 +53,23 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     }
 
     private fun loadMedication() {
-        AsyncLoadMedication.load(view.getContext(), viewModel.medId!!, object : OnSuccessWithResult<Medication> {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun onSuccess(med: Medication) {
-                viewModel.medication = med
-                view.setMedicationName(med.name)
-                view.setTotalAmount(med.totalAmount)
+            lateinit var medication: Medication
+
+            override fun performBackgroundTask() {
+                medication = MedicationSQLite(view.getContext()).getMedicationById(viewModel.medId!!)
             }
 
-            override fun onFail(e: Exception) {
+            override fun onSuccess() {
+                viewModel.medication = medication
+                view.setMedicationName(medication.name)
+                view.setTotalAmount(medication.totalAmount)
+            }
+
+            override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
     }
 
@@ -75,13 +79,13 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             lateinit var alarms: MutableList<Alarm>
 
             override fun performBackgroundTask() {
-                alarms = AlarmModelHelper.getAlarmsByMed(view.getContext(), viewModel.medId!!)
+                alarms = AlarmModelHelper.getAlarms(view.getContext(), viewModel.medId!!)
             }
 
             override fun onSuccess() {
                 viewModel.alarms.clear()
                 viewModel.alarms.addAll(alarms)
-//
+
                 updateMedicationAlarmView()
             }
 
@@ -93,17 +97,35 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     }
 
     private fun deleteWorkout() {
-        AsyncDeleteMedication.delete(view.getContext(), viewModel.medId!!, object : OnSuccess {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
+
+            override fun performBackgroundTask() {
+                cancelAlarms()
+                deleteMedication()
+                deleteAlarms()
+            }
 
             override fun onSuccess() {
                 view.closeActivityResultOk()
             }
 
-            override fun onFail(e: Exception) {
+            override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
+    }
+
+    private fun cancelAlarms() {
+        val alarms = AlarmSQLite(view.getContext()).getAlarmsByMed(viewModel.medId!!)
+        AlarmManagerHelper.cancelAlarms(view.getContext(), alarms)
+    }
+
+    private fun deleteMedication() {
+        MedicationSQLite(view.getContext()).delete(viewModel.medId!!)
+    }
+
+    private fun deleteAlarms() {
+        AlarmSQLite(view.getContext()).deleteAllByMed(viewModel.medId!!)
     }
 
     private fun updateContentViews() {

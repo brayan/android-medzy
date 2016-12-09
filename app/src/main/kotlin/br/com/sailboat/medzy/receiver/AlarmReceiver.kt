@@ -13,12 +13,13 @@ import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        SafeOperation.withLog {
+        try {
             val alarmId = getAlarmId(intent)
             val medication = getMedicationFromAlarmId(context, alarmId)
 
             AlarmNotificationHelper(context).throwNotification(alarmId, medication)
+        } catch (e: Exception) {
+            SafeOperation.printLogException(e)
         }
 
     }
