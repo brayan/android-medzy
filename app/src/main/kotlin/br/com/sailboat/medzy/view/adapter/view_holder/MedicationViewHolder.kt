@@ -18,7 +18,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
 
     companion object {
 
-        fun newInstance(parent: ViewGroup, callback: MedicationViewHolder.Callback) : MedicationViewHolder {
+        fun newInstance(parent: ViewGroup, callback: MedicationViewHolder.Callback): MedicationViewHolder {
             val view = inflateLayout(parent, R.layout.holder_medication)
             return MedicationViewHolder(view, callback)
         }
@@ -39,12 +39,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initDate(item: MedicationRecyclerItem) {
-        if (DateHelper.isBeforeToday(item.alarmTime) || DateHelper.isAfterTomorrow(item.alarmTime)) {
-            itemView.tvHolderMedicationAlarmDate.text = DateHelper.getDayMonth(itemView.context, item.alarmTime)
-
-        } else {
-            itemView.tvHolderMedicationAlarmDate.text = DateHelper.getShortDate(itemView.context, item.alarmTime)
-        }
+        itemView.tvHolderMedicationAlarmDate.text = MedicationModelHelper.getDateMedicationHolder(itemView.context, item.alarmTime)
     }
 
     private fun initDateTimeVisibility() {
@@ -62,33 +57,16 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
         if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationMsg.visibility = View.VISIBLE
             itemView.tvHolderMedicationMsg.setText((R.string.out_of_stock))
-            itemView.tvHolderMedicationMsg.setTextColor(getColorFromResource(R.color.red_500))
+            itemView.tvHolderMedicationMsg.setTextColor(ContextCompat.getColor(itemView.context, R.color.red_500))
         } else {
             itemView.tvHolderMedicationMsg.visibility = View.GONE
         }
     }
 
     private fun initDateTimeColor() {
-        if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
-            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.red_500))
-            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.red_500))
-
-        } else if (DateHelper.isBeforeNow(item.alarmTime)) {
-            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.grey_500))
-            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.grey_500))
-
-        } else {
-            itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.light_blue_500))
-            itemView.tvHolderMedicationAlarmDate.setTextColor(getColorFromResource(R.color.light_blue_500))
-        }
-    }
-
-    private fun isMedWithoutStock(item: MedicationRecyclerItem): Boolean {
-        return item.totalAmount <= 0
-    }
-
-    private fun getColorFromResource(colorId: Int): Int {
-        return ContextCompat.getColor(itemView.context, colorId)
+        val color = MedicationModelHelper.getDateTimeMedHolderColor(itemView.context, item.alarmTime, item.totalAmount, item.amount)
+        itemView.tvHolderMedicationAlarmTime.setTextColor(color)
+        itemView.tvHolderMedicationAlarmDate.setTextColor(color)
     }
 
     override fun bindCallbacks() {

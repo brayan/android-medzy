@@ -1,13 +1,39 @@
 package br.com.sailboat.medzy.helper.model;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
+import java.util.Calendar;
+
+import br.com.sailboat.canoe.helper.DateHelper;
+import br.com.sailboat.medzy.R;
 import br.com.sailboat.medzy.model.Medication;
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite;
 
 public class MedicationModelHelper {
 
     public static int NEW_MED_ID = -1;
+
+    public static String getDateMedicationHolder(Context context, Calendar calendar) {
+        if (DateHelper.isBeforeToday(calendar) || DateHelper.isAfterTomorrow(calendar)) {
+            return DateHelper.getDayMonth(context, calendar);
+
+        } else {
+            return DateHelper.getShortDate(context, calendar);
+        }
+    }
+
+    public static int getDateTimeMedHolderColor(Context context, Calendar calendar, double totalAmount, double amount) {
+        if (MedicationModelHelper.isOutOfStock(totalAmount, amount)) {
+            return ContextCompat.getColor(context, R.color.red_500);
+
+        } else if (DateHelper.isBeforeNow(calendar)) {
+            return ContextCompat.getColor(context, R.color.grey_500);
+
+        } else {
+            return ContextCompat.getColor(context, R.color.light_blue_500);
+        }
+    }
 
     public static void saveOrUpdateMed(Context ctx, Medication medication) {
         if (isMedNew(medication)) {

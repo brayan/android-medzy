@@ -57,7 +57,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
 
             lateinit var medication: Medication
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 medication = MedicationSQLite(view.getContext()).getMedicationById(viewModel.medId!!)
             }
 
@@ -78,7 +78,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
 
             lateinit var alarms: MutableList<Alarm>
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 alarms = AlarmModelHelper.getAlarms(view.getContext(), viewModel.medId!!)
             }
 
@@ -99,7 +99,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     private fun deleteWorkout() {
         AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 cancelAlarms()
                 deleteMedication()
                 deleteAlarms()

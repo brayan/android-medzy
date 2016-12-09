@@ -127,7 +127,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
             lateinit var medication: Medication
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 medication = MedicationSQLite(view.getContext()).getMedicationById(viewModel.medicationId!!)
             }
 
@@ -152,7 +152,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
             lateinit var alarms: MutableList<Alarm>
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 alarms = AlarmModelHelper.getAlarms(view.getContext(), viewModel.medicationId!!)
             }
 
@@ -209,7 +209,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private fun save() {
         AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 cancelAndDeleteAlarms()
                 saveOrUpdateMed()
                 saveAlarms()

@@ -100,7 +100,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
             lateinit var meds: MutableList<MedicationRecyclerItem>
 
-            override fun performBackgroundTask() {
+            override fun doInBackground() {
                 meds = MedicationRecyclerItemSQLite(view.getContext()).getAll()
             }
 
