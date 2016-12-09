@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
-import br.com.sailboat.medzy.rules.MedRules
+import br.com.sailboat.medzy.helper.model.MedicationModelHelper
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import kotlinx.android.synthetic.main.holder_medication.view.*
 import java.util.*
@@ -36,7 +36,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initMessage() {
-        if (MedRules.isOutOfStock(item.totalAmount, item.amount)) {
+        if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationMsg.visibility = View.VISIBLE
             itemView.tvHolderMedicationMsg.setText((R.string.out_of_stock))
             itemView.tvHolderMedicationMsg.setTextColor(getColorFromResource(R.color.red_500))
@@ -46,7 +46,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initAlarmTimeColor() {
-        if (MedRules.isOutOfStock(item.totalAmount, item.amount)) {
+        if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationAlarmTime.setTextColor(getColorFromResource(R.color.red_500))
 
         } else if (DateHelper.isBeforeNow(item.alarmTime)) {

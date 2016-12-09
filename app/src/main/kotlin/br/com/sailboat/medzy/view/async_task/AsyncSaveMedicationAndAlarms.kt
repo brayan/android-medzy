@@ -26,7 +26,7 @@ class AsyncSaveMedicationAndAlarms private constructor(context: Context, medicat
 
     }
 
-    override fun onDoInBackground() {
+    override fun performBackgroundTask() {
         cancelAndDeleteAlarms()
         saveOrUpdateMed()
         saveAlarms()

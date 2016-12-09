@@ -20,7 +20,7 @@ class AsyncDeleteMedication private constructor(context: Context, medId: Long, c
         }
     }
 
-    override fun onDoInBackground() {
+    override fun performBackgroundTask() {
         cancelAlarms()
         deleteMedication()
         deleteAlarms()

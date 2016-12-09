@@ -2,16 +2,17 @@ package br.com.sailboat.medzy.view.medication.detail.presenter
 
 import android.content.Context
 import android.os.Bundle
+import br.com.sailboat.canoe.async.AsyncHelper
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
+import br.com.sailboat.medzy.helper.model.AlarmModelHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.view.async_task.AsyncDeleteMedication
-import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
 import br.com.sailboat.medzy.view.medication.detail.view_model.MedicationDetailViewModel
 
@@ -69,20 +70,26 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     }
 
     private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medId!!, object : OnSuccessWithResult<MutableList<Alarm>> {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun onSuccess(list: MutableList<Alarm>) {
+            lateinit var alarms: MutableList<Alarm>
+
+            override fun performBackgroundTask() {
+                alarms = AlarmModelHelper.getAlarmsByMed(view.getContext(), viewModel.medId!!)
+            }
+
+            override fun onSuccess() {
                 viewModel.alarms.clear()
-                viewModel.alarms.addAll(list)
+                viewModel.alarms.addAll(alarms)
 //
                 updateMedicationAlarmView()
             }
 
-            override fun onFail(e: Exception) {
+            override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
+
     }
 
     private fun deleteWorkout() {

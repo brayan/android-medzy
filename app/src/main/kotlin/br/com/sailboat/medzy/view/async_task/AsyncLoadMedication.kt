@@ -21,7 +21,7 @@ class AsyncLoadMedication private constructor(context: Context, medId: Long, cal
 
     }
 
-    override fun onDoInBackground() {
+    override fun performBackgroundTask() {
         medication = MedicationSQLite(context).getMedicationById(medId)
     }
 

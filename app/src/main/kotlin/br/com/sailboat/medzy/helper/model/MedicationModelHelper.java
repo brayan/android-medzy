@@ -1,6 +1,9 @@
-package br.com.sailboat.medzy.rules;
+package br.com.sailboat.medzy.helper.model;
 
-public class MedRules {
+public class MedicationModelHelper {
+
+
+
 
     public static boolean isOutOfStock(double totalAmount) {
         if (totalAmount == 0) {

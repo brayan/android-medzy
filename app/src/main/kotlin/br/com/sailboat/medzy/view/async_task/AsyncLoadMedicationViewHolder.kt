@@ -20,7 +20,7 @@ class AsyncLoadMedicationViewHolder private constructor(context: Context, callba
 
     }
 
-    override fun onDoInBackground() {
+    override fun performBackgroundTask() {
         meds = MedicationRecyclerItemSQLite(context).getAll()
     }
 

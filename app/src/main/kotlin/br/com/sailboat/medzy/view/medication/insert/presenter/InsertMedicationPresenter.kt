@@ -3,6 +3,7 @@ package br.com.sailboat.medzy.view.medication.insert.presenter
 import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.RepeatType
+import br.com.sailboat.canoe.async.AsyncHelper
 import br.com.sailboat.canoe.async.callback.OnSuccess
 import br.com.sailboat.canoe.async.callback.OnSuccessWithResult
 import br.com.sailboat.canoe.base.BasePresenter
@@ -10,9 +11,9 @@ import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
+import br.com.sailboat.medzy.helper.model.AlarmModelHelper
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
-import br.com.sailboat.medzy.view.async_task.AsyncLoadAlarms
 import br.com.sailboat.medzy.view.async_task.AsyncLoadMedication
 import br.com.sailboat.medzy.view.async_task.AsyncSaveMedicationAndAlarms
 import br.com.sailboat.medzy.view.medication.insert.presenter.checker.InsertMedicationChecker
@@ -142,11 +143,17 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun loadAlarms() {
-        AsyncLoadAlarms.load(view.getContext(), viewModel.medicationId!!, object : OnSuccessWithResult<MutableList<Alarm>> {
+        AsyncHelper.perform(object : AsyncHelper.Callback {
 
-            override fun onSuccess(list: MutableList<Alarm>) {
+            lateinit var alarms: MutableList<Alarm>
+
+            override fun performBackgroundTask() {
+                alarms = AlarmModelHelper.getAlarmsByMed(view.getContext(), viewModel.medicationId!!)
+            }
+
+            override fun onSuccess() {
                 viewModel.alarms.clear()
-                viewModel.alarms.addAll(list)
+                viewModel.alarms.addAll(alarms)
 
                 view.setAlarmsView(viewModel.alarms)
 
@@ -156,8 +163,8 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             override fun onFail(e: Exception?) {
                 SafeOperation.printLogAndShowDialog(view.getContext(), e)
             }
-
         })
+
     }
 
     private fun updateMedAlarmView() {

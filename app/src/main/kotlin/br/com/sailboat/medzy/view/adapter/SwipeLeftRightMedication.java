@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import br.com.sailboat.medzy.rules.MedRules;
+import br.com.sailboat.medzy.helper.model.MedicationModelHelper;
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder;
 
 
@@ -112,7 +112,7 @@ public class SwipeLeftRightMedication extends ItemTouchHelper.SimpleCallback {
 
     private boolean isMedicationOutOfStock(RecyclerView.ViewHolder viewHolder) {
         MedicationViewHolder holder = (MedicationViewHolder) viewHolder;
-        return MedRules.isOutOfStock(holder.getItem().getTotalAmount(), holder.getItem().getAmount());
+        return MedicationModelHelper.isOutOfStock(holder.getItem().getTotalAmount(), holder.getItem().getAmount());
     }
 
     public Context getContext() {
