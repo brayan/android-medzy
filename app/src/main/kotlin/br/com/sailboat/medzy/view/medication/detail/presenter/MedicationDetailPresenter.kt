@@ -64,7 +64,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             override fun onSuccess() {
                 viewModel.medication = medication
                 view.setMedicationName(medication.name)
-                view.setTotalAmount(medication.totalAmount)
+                view.setTotalAmount(formatValue(medication.totalAmount, 2))
             }
 
             override fun onFail(e: Exception?) {
@@ -141,7 +141,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
 //        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medication!!.alarm.time, context))
         // TODO: JUST FOR TESTS
         view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
-        view.setAlarmAmount(viewModel.alarms[0].amount)
+        view.setAlarmAmount(formatValue(viewModel.alarms[0].amount, 2))
     }
 
 
@@ -149,9 +149,9 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
         fun getContext() : Context
         fun showToast(message: String)
         fun setMedicationName(name: String)
-        fun setTotalAmount(total: Double)
+        fun setTotalAmount(total: String)
         fun setAlarmTime(time: String)
-        fun setAlarmAmount(amount: Double)
+        fun setAlarmAmount(amount: String)
         fun closeActivityResultOk()
         fun startInsertMedicationActivity(medicationId: Long)
     }

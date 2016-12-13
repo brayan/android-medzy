@@ -6,7 +6,6 @@ import br.com.sailboat.canoe.alarm.RepeatType
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.helper.model.AlarmModelHelper
@@ -110,13 +109,13 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     fun onClickOkAmountInputDialog(position: Int, input: Double) {
         val alarm = alarms[position]
-        alarm.amount = DecimalHelper.roundUpWithTwoDecimals(input)
+        alarm.amount = roundValue(input, 2)
 
         updateMedAlarmView()
     }
 
     fun onClickOkTotalAmountInputDialog(totalAmount: Double) {
-        viewModel.medication!!.totalAmount = DecimalHelper.roundUpWithTwoDecimals(totalAmount)
+        viewModel.medication!!.totalAmount = roundValue(totalAmount, 2)
         updateMedTotalAmountView()
     }
 
@@ -144,7 +143,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun updateMedTotalAmountView() {
-        view.setMedTotalAmount(viewModel.medication?.totalAmount ?: 0.0)
+        view.setMedTotalAmount(formatValue(viewModel.medication?.totalAmount!!, 2) ?: "0")
     }
 
     private fun loadAlarms() {
@@ -175,7 +174,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     private fun updateMedAlarmView() {
         // TODO: JUST FOR TESTS
         view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
-        view.setAlarmAmount(viewModel.alarms[0].amount)
+        view.setAlarmAmount(formatValue(viewModel.alarms[0].amount, 2))
     }
 
     private fun updateMedNameView() {
@@ -250,9 +249,9 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         fun getMedName(): String
         fun getTotalAmount(): String
         fun setMedName(name: String)
-        fun setMedTotalAmount(totalAmount: Double)
+        fun setMedTotalAmount(totalAmount: String)
         fun setAlarm(time: String)
-        fun setAlarmAmount(amount: Double)
+        fun setAlarmAmount(amount: String)
         fun setAlarmsView(alarms: MutableList<Alarm>)
         fun showInfoMessage(message: String)
         fun showErrorMessage(message: String)

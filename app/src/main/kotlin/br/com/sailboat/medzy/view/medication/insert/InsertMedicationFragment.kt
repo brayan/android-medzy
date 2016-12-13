@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.dialog.InputDoubleDialog
 import br.com.sailboat.canoe.dialog.TimePickerCanoeDialog
-import br.com.sailboat.canoe.helper.DecimalHelper
 import br.com.sailboat.canoe.helper.DialogHelper
 import br.com.sailboat.canoe.helper.InputFilterDecimalDigits
 import br.com.sailboat.canoe.helper.UIHelper
@@ -69,16 +68,16 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
         UIHelper.hideKeyboard(activity)
     }
 
-    override fun setMedTotalAmount(totalAmount: Double) {
-        tvMedContentTotalAmount.setText(DecimalHelper.formatWithTwoDecimals(totalAmount))
+    override fun setMedTotalAmount(totalAmount: String) {
+        tvMedContentTotalAmount.setText(totalAmount)
     }
 
     override fun setAlarm(time: String) {
         tvMedContentAlarmTime.setText(time)
     }
 
-    override fun setAlarmAmount(amount: Double) {
-        tvMedContentAlarmAmount.setText(DecimalHelper.formatWithTwoDecimals(amount))
+    override fun setAlarmAmount(amount: String) {
+        tvMedContentAlarmAmount.setText(amount)
     }
 
     override fun setAlarmsView(alarms: MutableList<Alarm>) {
