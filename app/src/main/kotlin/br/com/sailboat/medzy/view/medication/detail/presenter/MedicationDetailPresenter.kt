@@ -8,11 +8,11 @@ import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.use_case.AlarmUseCase
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
+import br.com.sailboat.medzy.use_case.AlarmUseCase
 import br.com.sailboat.medzy.view.medication.detail.view_model.MedicationDetailViewModel
 
 
@@ -130,7 +130,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
 
     private fun updateContentViews() {
         updateMedNameView()
-        // TODO: UPDATE ALARMS
+        updateMedicationAlarmView()
     }
 
     private fun updateMedNameView() {
@@ -141,6 +141,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
 //        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medication!!.alarm.time, context))
         // TODO: JUST FOR TESTS
         view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+        view.setTotalAmount(formatValue(viewModel.medication!!.totalAmount, 2))
         view.setAlarmAmount(formatValue(viewModel.alarms[0].amount, 2))
     }
 
