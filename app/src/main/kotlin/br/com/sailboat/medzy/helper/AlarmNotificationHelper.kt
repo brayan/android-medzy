@@ -27,7 +27,7 @@ class AlarmNotificationHelper(context: Context) {
         val builder = NotificationCompat.Builder(context)
         builder.setSmallIcon(R.drawable.notification_template_icon_bg)
         builder.setCategory(NotificationCompat.CATEGORY_ALARM)
-        builder.priority = NotificationCompat.PRIORITY_HIGH
+        builder.priority = NotificationCompat.PRIORITY_MAX
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
         builder.color = ContextCompat.getColor(context, R.color.cyan_500)
@@ -43,7 +43,6 @@ class AlarmNotificationHelper(context: Context) {
 
     private fun setTextAndTitleFromList(medication: Medication, builder: NotificationCompat.Builder) {
         builder.setContentTitle(medication.name)
-//        builder.setContentText("1 capsula")
     }
 
     private fun addActions(builder: NotificationCompat.Builder, alarmId: Long) {

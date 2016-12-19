@@ -9,4 +9,8 @@
     <string name="empty_meds_message">Add a new medication by tapping the + button</string>
     <string name="out_of_stock">OUT OF STOCK</string>
     <string name="amount">Amount</string>
+    <string name="label_alarm">ALARM</string>
+    <string name="label_total_amount">TOTAL AMOUNT</string>
+    <string name="amount_per_alarm">AMOUNT PER ALARM</string>
+    <string name="medication">Medication</string>
 </resources>
