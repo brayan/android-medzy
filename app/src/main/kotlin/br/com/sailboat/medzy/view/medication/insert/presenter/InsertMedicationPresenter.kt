@@ -8,8 +8,8 @@ import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.helper.model.AlarmModelHelper
-import br.com.sailboat.medzy.helper.model.MedicationModelHelper
+import br.com.sailboat.medzy.use_case.AlarmUseCase
+import br.com.sailboat.medzy.use_case.MedicationUseCase
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
@@ -122,7 +122,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
 
     private fun loadMed() {
-        AsyncHelper.perform(object : AsyncHelper.Callback {
+        AsyncHelper.execute(object : AsyncHelper.Callback {
 
             lateinit var medication: Medication
 
@@ -147,12 +147,12 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun loadAlarms() {
-        AsyncHelper.perform(object : AsyncHelper.Callback {
+        AsyncHelper.execute(object : AsyncHelper.Callback {
 
             lateinit var alarms: MutableList<Alarm>
 
             override fun doInBackground() {
-                alarms = AlarmModelHelper.getAlarms(view.getContext(), viewModel.medicationId!!)
+                alarms = AlarmUseCase.getAlarms(view.getContext(), viewModel.medicationId!!)
             }
 
             override fun onSuccess() {
@@ -206,7 +206,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun save() {
-        AsyncHelper.perform(object : AsyncHelper.Callback {
+        AsyncHelper.execute(object : AsyncHelper.Callback {
 
             override fun doInBackground() {
                 cancelAndDeleteAlarms()
@@ -226,18 +226,18 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
     private fun saveOrUpdateMed() {
-        MedicationModelHelper.saveOrUpdateMed(view.getContext(), viewModel.medication!!)
+        MedicationUseCase.saveOrUpdateMed(view.getContext(), viewModel.medication!!)
     }
 
     private fun saveAlarms() {
-        AlarmModelHelper.saveAndSetAlarms(view.getContext(), viewModel.medication!!.id, alarms)
+        AlarmUseCase.saveAndSetAlarms(view.getContext(), viewModel.medication!!.id, alarms)
     }
 
     private fun cancelAndDeleteAlarms() {
 
-        if (MedicationModelHelper.isMedNotNew(viewModel.medication)) {
-            AlarmModelHelper.cancelAlarms(view.getContext(), viewModel.medication!!.id)
-            AlarmModelHelper.deleteAlarms(view.getContext(), viewModel.medication!!.id)
+        if (MedicationUseCase.isMedNotNew(viewModel.medication)) {
+            AlarmUseCase.cancelAlarms(view.getContext(), viewModel.medication!!.id)
+            AlarmUseCase.deleteAlarms(view.getContext(), viewModel.medication!!.id)
         }
 
     }

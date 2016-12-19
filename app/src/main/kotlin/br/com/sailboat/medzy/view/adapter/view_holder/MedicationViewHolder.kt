@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
-import br.com.sailboat.medzy.helper.model.MedicationModelHelper
+import br.com.sailboat.medzy.use_case.MedicationUseCase
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import kotlinx.android.synthetic.main.holder_medication.view.*
 import java.util.*
@@ -39,7 +39,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initDate(item: MedicationRecyclerItem) {
-        itemView.tvHolderMedicationAlarmDate.text = MedicationModelHelper.getDateMedicationHolder(itemView.context, item.alarmTime)
+        itemView.tvHolderMedicationAlarmDate.text = MedicationUseCase.getDateMedicationHolder(itemView.context, item.alarmTime)
     }
 
     private fun initDateTimeVisibility() {
@@ -54,7 +54,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initMessage() {
-        if (MedicationModelHelper.isOutOfStock(item.totalAmount, item.amount)) {
+        if (MedicationUseCase.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationMsg.visibility = View.VISIBLE
             itemView.tvHolderMedicationMsg.setText((R.string.out_of_stock))
             itemView.tvHolderMedicationMsg.setTextColor(ContextCompat.getColor(itemView.context, R.color.red_500))
@@ -64,7 +64,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initDateTimeColor() {
-        val color = MedicationModelHelper.getDateTimeMedHolderColor(itemView.context, item.alarmTime, item.totalAmount, item.amount)
+        val color = MedicationUseCase.getDateTimeMedHolderColor(itemView.context, item.alarmTime, item.totalAmount, item.amount)
         itemView.tvHolderMedicationAlarmTime.setTextColor(color)
         itemView.tvHolderMedicationAlarmDate.setTextColor(color)
     }

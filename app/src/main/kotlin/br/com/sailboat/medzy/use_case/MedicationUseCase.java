@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.helper.model;
+package br.com.sailboat.medzy.use_case;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -10,7 +10,7 @@ import br.com.sailboat.medzy.R;
 import br.com.sailboat.medzy.model.Medication;
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite;
 
-public class MedicationModelHelper {
+public class MedicationUseCase {
 
     public static int NEW_MED_ID = -1;
 
@@ -24,7 +24,7 @@ public class MedicationModelHelper {
     }
 
     public static int getDateTimeMedHolderColor(Context context, Calendar calendar, double totalAmount, double amount) {
-        if (MedicationModelHelper.isOutOfStock(totalAmount, amount)) {
+        if (MedicationUseCase.isOutOfStock(totalAmount, amount)) {
             return ContextCompat.getColor(context, R.color.red_500);
 
         } else if (DateHelper.isBeforeNow(calendar)) {

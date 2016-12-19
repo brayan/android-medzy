@@ -96,7 +96,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
 
     private fun loadMeds() {
 
-        AsyncHelper.perform(object : AsyncHelper.Callback {
+        AsyncHelper.execute(object : AsyncHelper.Callback {
 
             lateinit var meds: MutableList<MedicationRecyclerItem>
 

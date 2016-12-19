@@ -1,4 +1,4 @@
-package br.com.sailboat.medzy.helper.model;
+package br.com.sailboat.medzy.use_case;
 
 import android.content.Context;
 
@@ -11,7 +11,7 @@ import br.com.sailboat.medzy.helper.AlarmManagerHelper;
 import br.com.sailboat.medzy.model.Alarm;
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite;
 
-public class AlarmModelHelper {
+public class AlarmUseCase {
 
     public static List<Alarm> getAlarms(Context ctx, long medId) {
         return new AlarmSQLite(ctx).getAlarmsByMed(medId);
