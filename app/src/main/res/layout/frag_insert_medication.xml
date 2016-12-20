@@ -5,39 +5,73 @@
     android:layout_height="match_parent"
     android:background="@color/default_background">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <include layout="@layout/toolbar" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp">
-
-            <EditText
-                android:id="@+id/etInsertMedicationName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/medication"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="2"
-                android:textSize="28sp" />
-
-        </android.support.design.widget.TextInputLayout>
-
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/appbar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/med_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </android.support.v4.widget.NestedScrollView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="2dp">
 
-</android.support.design.widget.CoordinatorLayout>
+                <TextView
+                    style="@style/TextViewLabel"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/medication" />
+
+                <EditText
+                    android:id="@+id/etInsertMedicationName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/default_string"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="250"
+                    android:minHeight="48dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="24dp"
+                    android:textColor="@color/blue_grey_700"
+                    android:textColorHint="@color/blue_grey_300"
+                    android:textSize="18sp" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="2dp">
+
+                <include layout="@layout/med_content" />
+
+            </android.support.v7.widget.CardView>
+
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>

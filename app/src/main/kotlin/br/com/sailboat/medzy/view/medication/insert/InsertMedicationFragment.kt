@@ -153,7 +153,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     private fun initToolbar(view: View) {
         toolbar = view.findViewById(R.id.toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false);
     }
 
