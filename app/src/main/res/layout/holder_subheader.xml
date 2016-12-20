@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -13,8 +14,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:paddingLeft="16dp"
-        android:text="Subheader"
+        tools:text="Subheader"
+        android:text="---"
+        android:textAllCaps="true"
         android:textColor="?attr/colorAccent"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
 </LinearLayout>

@@ -30,7 +30,7 @@
                 android:padding="8dp">
 
                 <TextView
-                    style="@style/MedTextViewLabel"
+                    style="@style/TextViewLabel"
                     android:text="@string/label_alarm" />
 
                 <TextView
@@ -49,8 +49,8 @@
                 android:padding="8dp">
 
                 <TextView
-                    style="@style/MedTextViewLabel"
-                    android:text="@string/label_total_amount" />
+                    android:text="@string/label_total_amount"
+                    style="@style/TextViewLabel" />
 
                 <TextView
                     tools:text="100"
@@ -69,8 +69,8 @@
                 android:padding="8dp">
 
                 <TextView
-                    style="@style/MedTextViewLabel"
-                    android:text="@string/amount_per_alarm" />
+                    style="@style/TextViewLabel"
+                    android:text="@string/label_amount_per_alarm" />
 
                 <TextView
                     tools:text="1"

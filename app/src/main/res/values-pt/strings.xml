@@ -13,7 +13,7 @@
     <string name="amount">Quantidade</string>
     <string name="label_alarm">ALARME</string>
     <string name="label_total_amount">QUANTIDADE TOTAL</string>
-    <string name="amount_per_alarm">QUANTIDADE POR ALARME</string>
+    <string name="label_amount_per_alarm">QUANTIDADE POR ALARME</string>
     <string name="medication">Medicamento</string>
 
 </resources>
