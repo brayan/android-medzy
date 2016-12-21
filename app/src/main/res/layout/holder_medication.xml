@@ -44,7 +44,7 @@
                 android:maxLines="1"
                 android:text="---"
                 android:textColor="@color/light_blue_500"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 tools:text="15:30" />
 
         </FrameLayout>
@@ -65,7 +65,7 @@
                 android:paddingRight="8dp"
                 android:text="---"
                 android:textColor="@color/blue_grey_700"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="Dorflex" />
 
             <TextView

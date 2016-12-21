@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -12,15 +13,35 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvFragMedicationDetailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="20dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="24dp"
+                android:scrollbars="vertical"
+                tools:text="Dorflex"
+                android:text="@string/default_string"
+                android:textColor="@color/blue_grey_500"
+                android:textSize="22sp"/>
 
-            <include layout="@layout/med_content" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
-        </FrameLayout>
+                <include layout="@layout/med_content" />
 
+            </FrameLayout>
+
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/tvMedContentAlarmTime"
             style="@style/MedTextViewContent"
-            tools:text="Dorflex" />
+            tools:text="15:30" />
 
     </LinearLayout>
 

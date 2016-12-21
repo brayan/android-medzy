@@ -15,6 +15,7 @@ import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
+import kotlinx.android.synthetic.main.frag_medication_detail.*
 import kotlinx.android.synthetic.main.med_content.*
 
 
@@ -68,7 +69,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun setMedicationName(name: String) {
-        toolbar.setTitle(name)
+        tvFragMedicationDetailName.text = name
     }
 
     override fun setTotalAmount(total: String) {
@@ -113,6 +114,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
         toolbar = view.findViewById(R.id.toolbar) as Toolbar
         toolbar.setTitle(getString(R.string.med_detail))
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
 
         toolbar.setNavigationOnClickListener {

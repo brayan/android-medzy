@@ -13,4 +13,5 @@
     <string name="label_total_amount">TOTAL AMOUNT</string>
     <string name="label_amount_per_alarm">AMOUNT PER ALARM</string>
     <string name="medication">Medication</string>
+    <string name="enter_the_name_medication">Enter the name of the medication</string>
 </resources>
