@@ -16,7 +16,7 @@ public class MedicationUseCase {
 
     public static String getDateMedicationHolder(Context context, Calendar calendar) {
         if (DateHelper.isBeforeToday(calendar) || DateHelper.isAfterTomorrow(calendar)) {
-            return DateHelper.getDayMonth(context, calendar);
+            return DateHelper.getMonthAndDayLong(context, calendar);
 
         } else {
             return DateHelper.getShortDate(context, calendar);
@@ -25,13 +25,13 @@ public class MedicationUseCase {
 
     public static int getDateTimeMedHolderColor(Context context, Calendar calendar, double totalAmount, double amount) {
         if (MedicationUseCase.isOutOfStock(totalAmount, amount)) {
-            return ContextCompat.getColor(context, R.color.red_500);
+            return ContextCompat.getColor(context, R.color.md_red_500);
 
         } else if (DateHelper.isBeforeNow(calendar)) {
-            return ContextCompat.getColor(context, R.color.grey_500);
+            return ContextCompat.getColor(context, R.color.md_grey_500);
 
         } else {
-            return ContextCompat.getColor(context, R.color.light_blue_500);
+            return ContextCompat.getColor(context, R.color.md_light_blue_500);
         }
     }
 

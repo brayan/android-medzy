@@ -106,10 +106,6 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
         }
     }
 
-    override fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-    }
-
     private fun initToolbar(view: View) {
         toolbar = view.findViewById(R.id.toolbar) as Toolbar
         toolbar.setTitle(getString(R.string.med_detail))

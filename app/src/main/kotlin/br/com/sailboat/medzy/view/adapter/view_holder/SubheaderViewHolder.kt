@@ -17,8 +17,7 @@ class SubheaderViewHolder(itemView: View) : BaseViewHolder(itemView) {
         }
     }
 
-    override fun <T : Any?> onBindViewHolder(item: T) {
-        item as SubheaderRecyclerItem
+    fun onBindViewHolder(item: SubheaderRecyclerItem) {
         itemView.tvHolderSubheader.setText(item.subheaderText)
     }
 

@@ -1,11 +1,10 @@
 package br.com.sailboat.medzy.view.medication.detail.presenter
 
-import android.content.Context
 import android.os.Bundle
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.canoe.helper.SafeOperation
+import br.com.sailboat.canoe.helper.DecimalHelper.formatValue
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.helper.ExtrasHelper
 import br.com.sailboat.medzy.model.Alarm
@@ -16,9 +15,8 @@ import br.com.sailboat.medzy.use_case.AlarmUseCase
 import br.com.sailboat.medzy.view.medication.detail.view_model.MedicationDetailViewModel
 
 
-class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePresenter() {
+class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePresenter<MedicationDetailPresenter.View>(view) {
 
-    private val view = view
     private val viewModel = MedicationDetailViewModel()
 
     override fun extractExtrasFromArguments(arguments: Bundle?) {
@@ -68,7 +66,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
     }
@@ -90,7 +88,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
 
@@ -110,7 +108,7 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
     }
@@ -140,15 +138,14 @@ class MedicationDetailPresenter(view: MedicationDetailPresenter.View) : BasePres
     private fun updateMedicationAlarmView() {
 //        view.setAlarm(AlarmHelper.formatTimeWithAndroidFormat(medication!!.alarm.time, context))
         // TODO: JUST FOR TESTS
-        view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+        val alarm = DateHelper.parseStringWithDatabaseFormatToCalendar(viewModel.alarms[0].time)
+        view.setAlarmTime(DateHelper.formatTimeWithAndroidFormat(view.getContext(), alarm))
         view.setTotalAmount(formatValue(viewModel.medication!!.totalAmount, 2))
         view.setAlarmAmount(formatValue(viewModel.alarms[0].amount, 2))
     }
 
 
-    interface View {
-        fun getContext() : Context
-        fun showToast(message: String)
+    interface View : BasePresenter.View {
         fun setMedicationName(name: String)
         fun setTotalAmount(total: String)
         fun setAlarmTime(time: String)

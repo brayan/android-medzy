@@ -42,7 +42,7 @@ class MedicationRecyclerItemSQLite(context: Context) : BaseSQLite(DatabaseOpenHe
         val medicationId = getLong(cursor, "medId")
         val name = getString(cursor, "medName")
         val alarmId = getLong(cursor, "alarmId")
-        val alarm = getCalendar(cursor, "alarmTime")
+        val alarm = getString(cursor, "alarmTime")
         val totalAmount = getDouble(cursor, "totalAmount")
         val amount = getDouble(cursor, "amount")
 

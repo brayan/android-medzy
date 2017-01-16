@@ -4,6 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import br.com.sailboat.canoe.base.BaseViewHolder
 import br.com.sailboat.canoe.recycler.RecyclerItem
+import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
+import br.com.sailboat.medzy.view.adapter.recycler_item.PaddingRecyclerItem
+import br.com.sailboat.medzy.view.adapter.recycler_item.SubheaderRecyclerItem
 import br.com.sailboat.medzy.view.adapter.view_holder.MedicationViewHolder
 import br.com.sailboat.medzy.view.adapter.view_holder.PaddingViewHolder
 import br.com.sailboat.medzy.view.adapter.view_holder.SubheaderViewHolder
@@ -21,15 +24,37 @@ class MedicationListAdapter(callback: Callback) : RecyclerView.Adapter<BaseViewH
             ViewType.PADDING -> {
                 return PaddingViewHolder.newInstance(parent)
             }
-            else -> {
+            ViewType.SUBHEADER -> {
                 return SubheaderViewHolder.newInstance(parent)
+            }
+            else -> {
+                throw RuntimeException("ViewHolder not found")
             }
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = callback.meds.get(position)
-        holder.onBindViewHolder(item)
+
+        when (item.viewType) {
+            ViewType.MEDICATION -> {
+                holder as MedicationViewHolder
+                holder.onBindViewHolder(item as MedicationRecyclerItem)
+            }
+            ViewType.PADDING -> {
+                holder as PaddingViewHolder
+                holder.onBindViewHolder(item as PaddingRecyclerItem)
+            }
+            ViewType.SUBHEADER -> {
+                holder as SubheaderViewHolder
+                holder.onBindViewHolder(item as SubheaderRecyclerItem)
+            }
+            else -> {
+                throw RuntimeException("ViewHolder not found")
+            }
+        }
+
+
     }
 
     override fun getItemCount(): Int {

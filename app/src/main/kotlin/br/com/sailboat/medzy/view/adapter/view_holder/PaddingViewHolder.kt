@@ -16,8 +16,7 @@ class PaddingViewHolder(itemView: View) : BaseViewHolder(itemView) {
         }
     }
 
-    override fun <T : Any?> onBindViewHolder(item: T) {
-        item as PaddingRecyclerItem
+    fun onBindViewHolder(item: PaddingRecyclerItem) {
         itemView.getLayoutParams().height = item.height
     }
 

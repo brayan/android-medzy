@@ -25,7 +25,7 @@
     <style name="MedTextViewContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/teal_300</item>
+        <item name="android:textColor">@color/md_teal_300</item>
         <item name="android:text">-</item>
         <item name="android:textSize">22sp</item>
     </style>

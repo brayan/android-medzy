@@ -1,2 +1,2 @@
-include ':app', ':canoe'
+include ':app' ,':canoe'
 project(':canoe').projectDir = new File(settingsDir, '../canoe/canoe')

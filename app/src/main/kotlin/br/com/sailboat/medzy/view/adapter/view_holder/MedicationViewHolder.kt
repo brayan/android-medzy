@@ -16,6 +16,7 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     private val callback = callback
     lateinit var item: MedicationRecyclerItem
 
+
     companion object {
 
         fun newInstance(parent: ViewGroup, callback: MedicationViewHolder.Callback): MedicationViewHolder {
@@ -24,9 +25,8 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
         }
     }
 
-    override fun <T : Any?> onBindViewHolder(item: T) {
-        item as MedicationRecyclerItem
 
+    fun onBindViewHolder(item: MedicationRecyclerItem) {
         this.item = item
 
         itemView.tvHolderMedicationName.text = item.medName
@@ -39,11 +39,11 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     }
 
     private fun initDate(item: MedicationRecyclerItem) {
-        itemView.tvHolderMedicationAlarmDate.text = MedicationUseCase.getDateMedicationHolder(itemView.context, item.alarmTime)
+        itemView.tvHolderMedicationAlarmDate.text = MedicationUseCase.getDateMedicationHolder(itemView.context, getCalendar(item.alarmTime))
     }
 
     private fun initDateTimeVisibility() {
-        if (DateHelper.isBeforeToday(item.alarmTime) || DateHelper.isAfterTomorrow(item.alarmTime)) {
+        if (DateHelper.isBeforeToday(getCalendar(item.alarmTime)) || DateHelper.isAfterTomorrow(getCalendar(item.alarmTime))) {
             itemView.tvHolderMedicationAlarmTime.visibility = View.GONE
             itemView.tvHolderMedicationAlarmDate.visibility = View.VISIBLE
 
@@ -57,26 +57,31 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
         if (MedicationUseCase.isOutOfStock(item.totalAmount, item.amount)) {
             itemView.tvHolderMedicationMsg.visibility = View.VISIBLE
             itemView.tvHolderMedicationMsg.setText((R.string.out_of_stock))
-            itemView.tvHolderMedicationMsg.setTextColor(ContextCompat.getColor(itemView.context, R.color.red_500))
+            itemView.tvHolderMedicationMsg.setTextColor(ContextCompat.getColor(itemView.context, R.color.md_red_500))
         } else {
             itemView.tvHolderMedicationMsg.visibility = View.GONE
         }
     }
 
     private fun initDateTimeColor() {
-        val color = MedicationUseCase.getDateTimeMedHolderColor(itemView.context, item.alarmTime, item.totalAmount, item.amount)
+        val color = MedicationUseCase.getDateTimeMedHolderColor(itemView.context, getCalendar(item.alarmTime), item.totalAmount, item.amount)
         itemView.tvHolderMedicationAlarmTime.setTextColor(color)
         itemView.tvHolderMedicationAlarmDate.setTextColor(color)
     }
 
-    override fun bindCallbacks() {
+    fun bindCallbacks() {
         itemView.setOnClickListener {
             callback.onClickMed(adapterPosition)
         }
     }
 
-    private fun formatTime(time: Calendar): String {
-        return DateHelper.formatTimeWithAndroidFormat(itemView.context, time)
+    private fun formatTime(time: String): String {
+        val c = DateHelper.parseStringWithDatabaseFormatToCalendar(time)
+        return DateHelper.formatTimeWithAndroidFormat(itemView.context, c)
+    }
+
+    private fun getCalendar(dateTime: String) : Calendar {
+        return DateHelper.parseStringWithDatabaseFormatToCalendar(dateTime)
     }
 
 

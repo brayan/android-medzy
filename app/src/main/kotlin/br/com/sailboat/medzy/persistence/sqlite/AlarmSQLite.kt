@@ -44,7 +44,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
 
         val statement = compileStatement(sb.toString())
         statement.bindLong(1, alarm.medId)
-        statement.bindString(2, parseCalendarToString(alarm.time))
+        statement.bindString(2, alarm.time)
         statement.bindLong(3, alarm.repeatType.toLong())
         statement.bindDouble(4, alarm.amount)
 
@@ -62,7 +62,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
         sb.append(" WHERE id = ? ")
 
         val statement = compileStatement(sb.toString())
-        statement.bindString(1, parseCalendarToString(alarm.time))
+        statement.bindString(1, alarm.time)
         statement.bindLong(2, alarm.repeatType.toLong())
         statement.bindDouble(3, alarm.amount)
         statement.bindLong(4, alarm.id)
@@ -103,7 +103,7 @@ class AlarmSQLite(context: Context) : BaseSQLite(DatabaseOpenHelper.getInstance(
     private fun getAlarmFromCursor(cursor: Cursor): Alarm {
         val id = getLong(cursor, "id")
         val medId = getLong(cursor, "medicationId")
-        val time = getCalendar(cursor, "time")
+        val time = getString(cursor, "time")
         val repeatType = getInt(cursor, "repeatType")
         val amount = getDouble(cursor, "amount")
 

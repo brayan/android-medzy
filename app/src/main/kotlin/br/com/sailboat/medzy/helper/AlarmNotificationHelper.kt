@@ -30,7 +30,7 @@ class AlarmNotificationHelper(context: Context) {
         builder.priority = NotificationCompat.PRIORITY_MAX
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
-        builder.color = ContextCompat.getColor(context, R.color.cyan_500)
+        builder.color = ContextCompat.getColor(context, R.color.md_cyan_500)
         builder.setOngoing(true)
         setTextAndTitleFromList(medication, builder)
         initVibrate(builder)

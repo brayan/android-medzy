@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.AlarmHelper
+import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.helper.NotificationHelper
 import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
@@ -18,7 +19,7 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
         try {
             val alarmId = ExtrasHelper.getAlarmId(intent)!!
             val alarm = AlarmSQLite(context).getAlarmById(alarmId)
-            val alarmTime = alarm.time
+            val alarmTime = DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.time)
 
             val currentTime = Calendar.getInstance()
             currentTime.set(Calendar.SECOND, 0)
@@ -26,6 +27,8 @@ class AlarmDatabaseUpdateReceiver : BroadcastReceiver() {
 
             AlarmHelper.incrementToNextValidDate(alarmTime, alarm.repeatType)
             AlarmManagerHelper.setAlarm(context, alarmId, alarmTime.timeInMillis)
+            alarm.time = DateHelper.parseCalendarWithDatabaseFormatToString(alarmTime)
+
             AlarmSQLite(context).update(alarm)
             NotificationHelper.closeNotifications(context, 0)
 

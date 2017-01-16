@@ -18,7 +18,7 @@ import br.com.sailboat.medzy.view.medication.insert.view_model.InsertMedicationV
 import java.util.*
 
 
-class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePresenter() {
+class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePresenter<InsertMedicationPresenter.View>(view) {
 
     private val view = view
     private val viewModel = InsertMedicationViewModel()
@@ -34,7 +34,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         if (isInsertingMed()) {
             viewModel.medication = Medication(-1, "", 0.0)
             // TODO: JUST FOR TESTS
-            viewModel.alarms.add(Alarm(-1, -1, DateHelper.getInitialDateTime(), RepeatType.DAY, 1.0))
+            viewModel.alarms.add(Alarm(-1, -1, DateHelper.parseCalendarWithDatabaseFormatToString(DateHelper.getInitialDateTime()), RepeatType.DAY, 1.0))
             view.openKeyboard()
             updateMedAlarmView()
             updateMedTotalAmountView()
@@ -53,7 +53,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
         // TODO: JUST FOR TESTS
         view.hideKeyboard();
         var alarm = viewModel.alarms.get(0)
-        view.startAlarmChooserDialog(alarm.time)
+        view.startAlarmChooserDialog(DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.time))
     }
 
     fun onClickAmount() {
@@ -76,7 +76,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             save()
 
         } catch (e: Exception) {
-            SafeOperation.showDialog(view.getContext(), e)
+            showMessage(e)
         }
     }
 
@@ -243,8 +243,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
 
-    interface View {
-        fun getContext(): Context
+    interface View : BasePresenter.View {
         fun closeActivityResultOk()
         fun getMedName(): String
         fun getTotalAmount(): String
