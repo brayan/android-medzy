@@ -15,7 +15,7 @@ import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.medication.detail.presenter.MedicationDetailPresenter
 import br.com.sailboat.medzy.view.medication.insert.InsertMedicationActivity
-import kotlinx.android.synthetic.main.frag_medication_detail.*
+import kotlinx.android.synthetic.main.frg_medication_detail.*
 import kotlinx.android.synthetic.main.med_content.*
 
 
@@ -39,7 +39,7 @@ class MedicationDetailFragment : BaseFragment<MedicationDetailPresenter>(), Medi
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_medication_detail
+        return R.layout.frg_medication_detail
     }
 
     override fun newPresenterInstance(): MedicationDetailPresenter {

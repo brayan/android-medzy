@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/default_background">
 
+    <include layout="@layout/margin_detail" />
+
     <include layout="@layout/empty_meds" />
 
     <include layout="@layout/appbar_scroll" />

@@ -15,7 +15,7 @@ import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.view.medication.insert.presenter.InsertMedicationPresenter
-import kotlinx.android.synthetic.main.frag_insert_medication.*
+import kotlinx.android.synthetic.main.frg_insert_medication.*
 import kotlinx.android.synthetic.main.med_content.*
 import java.util.*
 
@@ -26,7 +26,7 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_insert_medication
+        return R.layout.frg_insert_medication
     }
 
     override fun newPresenterInstance(): InsertMedicationPresenter {

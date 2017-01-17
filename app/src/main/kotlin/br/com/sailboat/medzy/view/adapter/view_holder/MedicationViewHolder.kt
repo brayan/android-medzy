@@ -8,7 +8,7 @@ import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.use_case.MedicationUseCase
 import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
-import kotlinx.android.synthetic.main.holder_medication.view.*
+import kotlinx.android.synthetic.main.vh_medication.view.*
 import java.util.*
 
 class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callback) : BaseViewHolder(itemView) {
@@ -20,9 +20,13 @@ class MedicationViewHolder(itemView: View, callback: MedicationViewHolder.Callba
     companion object {
 
         fun newInstance(parent: ViewGroup, callback: MedicationViewHolder.Callback): MedicationViewHolder {
-            val view = inflateLayout(parent, R.layout.holder_medication)
+            val view = inflateLayout(parent, R.layout.vh_medication)
             return MedicationViewHolder(view, callback)
         }
+    }
+
+    init {
+        bindCallbacks()
     }
 
 

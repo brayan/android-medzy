@@ -31,7 +31,6 @@ class AlarmNotificationHelper(context: Context) {
         builder.setContentIntent(resultPendingIntent)
         builder.setAutoCancel(true)
         builder.color = ContextCompat.getColor(context, R.color.md_cyan_500)
-        builder.setOngoing(true)
         setTextAndTitleFromList(medication, builder)
         initVibrate(builder)
         initSound(builder)

@@ -16,7 +16,7 @@ public class MedicationUseCase {
 
     public static String getDateMedicationHolder(Context context, Calendar calendar) {
         if (DateHelper.isBeforeToday(calendar) || DateHelper.isAfterTomorrow(calendar)) {
-            return DateHelper.getMonthAndDayLong(context, calendar);
+            return DateHelper.getMonthAndDayShort(context, calendar);
 
         } else {
             return DateHelper.getShortDate(context, calendar);

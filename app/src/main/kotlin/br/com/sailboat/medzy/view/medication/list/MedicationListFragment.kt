@@ -28,7 +28,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     private lateinit var toolbar: Toolbar
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_medication_list
+        return R.layout.frg_medication_list
     }
 
     override fun newPresenterInstance(): MedicationListPresenter {

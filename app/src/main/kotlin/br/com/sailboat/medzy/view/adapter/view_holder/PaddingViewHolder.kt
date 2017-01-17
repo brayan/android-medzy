@@ -11,7 +11,7 @@ class PaddingViewHolder(itemView: View) : BaseViewHolder(itemView) {
     companion object {
 
         fun newInstance(parent: ViewGroup) : PaddingViewHolder {
-            val view = inflateLayout(parent, R.layout.holder_padding)
+            val view = inflateLayout(parent, R.layout.vh_padding)
             return PaddingViewHolder(view)
         }
     }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:showIn="@layout/frag_insert_medication">
+    tools:showIn="@layout/frg_insert_medication">
 
     <LinearLayout
         android:id="@+id/frameAlarmTime"
