@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import br.com.sailboat.canoe.base.BaseFragment
-import br.com.sailboat.canoe.helper.DialogHelper
+import br.com.sailboat.canoe.dialog.MessageDialog
 import br.com.sailboat.medzy.R
 import br.com.sailboat.medzy.view.adapter.MedicationListAdapter
 import br.com.sailboat.medzy.view.adapter.SwipeLeftRightMedication
@@ -47,7 +47,7 @@ class MedicationListFragment : BaseFragment<MedicationListPresenter>(), Medicati
     }
 
     override fun showDialog(message: String) {
-        DialogHelper.showMessage(activity, message, null)
+        MessageDialog.showMessage(fragmentManager, message, null)
     }
 
     override fun startInsertMedicationActivity() {

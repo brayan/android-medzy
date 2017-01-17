@@ -1,10 +1,9 @@
 package br.com.sailboat.medzy.view.medication.list.presenter
 
-import android.content.Context
 import br.com.sailboat.canoe.alarm.AlarmHelper
 import br.com.sailboat.canoe.base.BasePresenter
 import br.com.sailboat.canoe.helper.AsyncHelper
-import br.com.sailboat.canoe.helper.SafeOperation
+import br.com.sailboat.canoe.helper.DateHelper
 import br.com.sailboat.canoe.recycler.RecyclerItem
 import br.com.sailboat.medzy.helper.AlarmManagerHelper
 import br.com.sailboat.medzy.model.Alarm
@@ -16,7 +15,7 @@ import br.com.sailboat.medzy.view.adapter.recycler_item.MedicationRecyclerItem
 import br.com.sailboat.medzy.view.medication.list.view_model.MedicationListViewModel
 
 
-class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresenter(), MedicationListAdapter.Callback {
+class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresenter<MedicationListPresenter.View>(view), MedicationListAdapter.Callback {
 
     private val view = view
     private val viewModel = MedicationListViewModel()
@@ -62,13 +61,14 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
             loadMeds()
 
         } catch (e: Exception) {
-            SafeOperation.showDialog(view.getContext(), e)
+            printLogAndShowDialog(e)
         }
 
     }
 
     private fun setAlarmManager(alarm: Alarm) {
-        AlarmManagerHelper.setAlarm(view.getContext(), alarm.id, alarm.time.timeInMillis)
+        val calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.time)
+        AlarmManagerHelper.setAlarm(view.getContext(), alarm.id, calendar.timeInMillis)
     }
 
     private fun updateAlarm(alarm: Alarm) {
@@ -82,7 +82,10 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
     }
 
     private fun incrementAlarm(alarm: Alarm) {
-        AlarmHelper.incrementToNextValidDate(alarm.time, alarm.repeatType)
+        val calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.time)
+        AlarmHelper.incrementToNextValidDate(calendar, alarm.repeatType)
+
+        alarm.time = DateHelper.parseCalendarWithDatabaseFormatToString(calendar)
     }
 
     private fun updateMedication(med: MedicationRecyclerItem) {
@@ -109,7 +112,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
 
@@ -142,8 +145,7 @@ class MedicationListPresenter(view: MedicationListPresenter.View) : BasePresente
     }
 
 
-    interface View {
-        fun getContext(): Context
+    interface View : BasePresenter.View {
         fun updateMeds()
         fun showDialog(message: String)
         fun startInsertMedicationActivity()

@@ -5,8 +5,10 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
+import br.com.sailboat.canoe.helper.DateHelper;
 import br.com.sailboat.medzy.helper.AlarmManagerHelper;
 import br.com.sailboat.medzy.model.Alarm;
 import br.com.sailboat.medzy.persistence.sqlite.AlarmSQLite;
@@ -38,7 +40,8 @@ public class AlarmUseCase {
             alarm.setMedId(medId);
             long alarmId = new AlarmSQLite(ctx).saveAndGetId(alarm);
             alarm.setId(alarmId);
-            AlarmManagerHelper.setAlarm(ctx, alarm.getId(), alarm.getTime().getTimeInMillis());
+            Calendar calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.getTime());
+            AlarmManagerHelper.setAlarm(ctx, alarm.getId(), calendar.getTimeInMillis());
         }
     }
 }

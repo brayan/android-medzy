@@ -1,18 +1,17 @@
 package br.com.sailboat.medzy.view.medication.insert.presenter
 
-import android.content.Context
 import android.content.Intent
 import br.com.sailboat.canoe.alarm.RepeatType
 import br.com.sailboat.canoe.base.BasePresenter
+import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException
 import br.com.sailboat.canoe.helper.AsyncHelper
 import br.com.sailboat.canoe.helper.DateHelper
-import br.com.sailboat.canoe.helper.SafeOperation
 import br.com.sailboat.medzy.helper.ExtrasHelper
-import br.com.sailboat.medzy.use_case.AlarmUseCase
-import br.com.sailboat.medzy.use_case.MedicationUseCase
 import br.com.sailboat.medzy.model.Alarm
 import br.com.sailboat.medzy.model.Medication
 import br.com.sailboat.medzy.persistence.sqlite.MedicationSQLite
+import br.com.sailboat.medzy.use_case.AlarmUseCase
+import br.com.sailboat.medzy.use_case.MedicationUseCase
 import br.com.sailboat.medzy.view.medication.insert.presenter.checker.InsertMedicationChecker
 import br.com.sailboat.medzy.view.medication.insert.view_model.InsertMedicationViewModel
 import java.util.*
@@ -75,29 +74,36 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             checkRequiredFields()
             save()
 
+        } catch (e: RequiredFieldNotFilledException) {
+            showMessage(e.message)
+
         } catch (e: Exception) {
-            showMessage(e)
+            printLogAndShowDialog(e)
         }
     }
 
     private fun prepareAlarms() {
         for (alarm in alarms) {
-            if (DateHelper.isBeforeNow(alarm.time)) {
-                alarm.time.add(Calendar.DAY_OF_MONTH, 1)
+            val calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(alarm.time)
+
+            if (DateHelper.isBeforeNow(calendar)) {
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                alarm.time = DateHelper.parseCalendarWithDatabaseFormatToString(calendar)
             }
         }
     }
 
-    fun onClickOkAlarmChooserDialog(alarmId: Long, hourOfDay: Int, minute: Int) {
+    fun onClickOkAlarmChooserDialog(hourOfDay: Int, minute: Int) {
         // TODO: JUST FOR TESTS
         val currentTime = Calendar.getInstance()
         currentTime.set(Calendar.SECOND, 0)
         currentTime.set(Calendar.MILLISECOND, 0)
+        currentTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        currentTime.set(Calendar.MINUTE, minute)
+
 
         val alarm = viewModel.alarms[0]
-        alarm.time.time = currentTime.time
-        alarm.time.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        alarm.time.set(Calendar.MINUTE, minute)
+        alarm.time = DateHelper.parseCalendarWithDatabaseFormatToString(currentTime)
 
         updateMedAlarmView()
     }
@@ -120,7 +126,6 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
     }
 
 
-
     private fun loadMed() {
         AsyncHelper.execute(object : AsyncHelper.Callback {
 
@@ -137,7 +142,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
     }
@@ -165,7 +170,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
 
@@ -173,7 +178,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
 
     private fun updateMedAlarmView() {
         // TODO: JUST FOR TESTS
-        view.setAlarm(DateHelper.formatTimeWithAndroidFormat(view.getContext(), viewModel.alarms[0].time))
+        view.setAlarm(DateHelper.formatTimeWithAndroidFormat(getContext(), DateHelper.parseStringWithDatabaseFormatToCalendar(viewModel.alarms[0].time)))
         view.setAlarmAmount(formatValue(viewModel.alarms[0].amount, 2))
     }
 
@@ -219,7 +224,7 @@ class InsertMedicationPresenter(view: InsertMedicationPresenter.View) : BasePres
             }
 
             override fun onFail(e: Exception?) {
-                SafeOperation.printLogAndShowDialog(view.getContext(), e)
+                printLogAndShowDialog(e)
             }
         })
 

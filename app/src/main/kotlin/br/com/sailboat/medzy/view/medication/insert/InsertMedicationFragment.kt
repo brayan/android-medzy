@@ -8,8 +8,8 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import br.com.sailboat.canoe.base.BaseFragment
 import br.com.sailboat.canoe.dialog.InputDoubleDialog
-import br.com.sailboat.canoe.dialog.TimePickerCanoeDialog
-import br.com.sailboat.canoe.helper.DialogHelper
+import br.com.sailboat.canoe.dialog.MessageDialog
+import br.com.sailboat.canoe.dialog.TimeSelectorDialog
 import br.com.sailboat.canoe.helper.InputFilterDecimalDigits
 import br.com.sailboat.canoe.helper.UIHelper
 import br.com.sailboat.medzy.R
@@ -93,11 +93,11 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
     }
 
     override fun showInfoMessage(message: String) {
-        DialogHelper.showMessage(activity, message, null)
+        MessageDialog.showMessage(fragmentManager, message, null)
     }
 
     override fun showErrorMessage(message: String) {
-        DialogHelper.showMessage(activity, message, null)
+        MessageDialog.showMessage(fragmentManager, message, null)
     }
 
     override fun closeActivityResultOk() {
@@ -107,10 +107,10 @@ class InsertMedicationFragment : BaseFragment<InsertMedicationPresenter>(), Inse
 
     override fun startAlarmChooserDialog(alarm: Calendar) {
 
-        TimePickerCanoeDialog.show(fragmentManager, alarm, object : TimePickerCanoeDialog.Callback {
+        TimeSelectorDialog.show(fragmentManager, alarm, object : TimeSelectorDialog.Callback {
 
-            override fun onClickOk(hourOfDay: Int, minute: Int) {
-                presenter.onClickOkAlarmChooserDialog(-1L, hourOfDay, minute)
+            override fun onTimeSet(hourOfDay: Int, minute: Int) {
+                presenter.onClickOkAlarmChooserDialog(hourOfDay, minute)
             }
 
         })

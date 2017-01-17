@@ -12,7 +12,7 @@ class MedsListBuilder private constructor(meds: List<MedicationRecyclerItem>) {
 
     private val meds = meds
 
-    private val beforeTodayMeds = ArrayList<RecyclerItem>()
+    private val previousDaysMeds = ArrayList<RecyclerItem>()
     private val todayMeds = ArrayList<RecyclerItem>()
     private val tomorrowMeds = ArrayList<RecyclerItem>()
     private val nextDaysMeds = ArrayList<RecyclerItem>()
@@ -38,13 +38,15 @@ class MedsListBuilder private constructor(meds: List<MedicationRecyclerItem>) {
     private fun bindMedsToCategories() {
         for (med in meds) {
 
-            if (DateHelper.isBeforeToday(med.alarmTime)) {
-                beforeTodayMeds.add(med)
+            val calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(med.alarmTime)
 
-            } else if (DateHelper.isToday(med.alarmTime)) {
+            if (DateHelper.isBeforeToday(calendar)) {
+                previousDaysMeds.add(med)
+
+            } else if (DateHelper.isToday(calendar)) {
                 todayMeds.add(med)
 
-            } else if (DateHelper.isTomorrow(med.alarmTime)) {
+            } else if (DateHelper.isTomorrow(calendar)) {
                 tomorrowMeds.add(med)
 
             } else {
@@ -55,8 +57,8 @@ class MedsListBuilder private constructor(meds: List<MedicationRecyclerItem>) {
     }
 
     private fun bindSubheader() {
-        if (beforeTodayMeds.isNotEmpty()) {
-            beforeTodayMeds.add(0, SubheaderRecyclerItem(R.string.before_today))
+        if (previousDaysMeds.isNotEmpty()) {
+            previousDaysMeds.add(0, SubheaderRecyclerItem(R.string.previous_days))
         }
 
         if (todayMeds.isNotEmpty()) {
@@ -80,7 +82,7 @@ class MedsListBuilder private constructor(meds: List<MedicationRecyclerItem>) {
 
     private fun bindAllListsTogether(): ArrayList<RecyclerItem> {
         val medsList = ArrayList<RecyclerItem>()
-        medsList.addAll(beforeTodayMeds)
+        medsList.addAll(previousDaysMeds)
         medsList.addAll(todayMeds)
         medsList.addAll(tomorrowMeds)
         medsList.addAll(nextDaysMeds)
